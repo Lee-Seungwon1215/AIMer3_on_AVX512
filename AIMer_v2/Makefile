@@ -24,7 +24,7 @@ INCS := -I./$(INC)
 
 # ==== Default target ====
 .PHONY: all clean distclean
-all: $(BUILD)/lib/liboqs-internal.a $(BUILD)/lib/liboqs.a $(BUILD)/tests/kat_sig $(BUILD)/tests/bench_sig $(BUILD)/tests/bench_full
+all: $(BUILD)/lib/liboqs-internal.a $(BUILD)/lib/liboqs.a $(BUILD)/tests/kat_sig $(BUILD)/tests/bench_sig $(BUILD)/tests/bench_full $(BUILD)/tests/bench_full_paper
 
 # ==== Directories ====
 DIRS := \
@@ -156,6 +156,9 @@ $(BUILD)/tests/bench_sig: $(DIRS) $(BUILD)/tests/bench_sig.o $(BUILD)/tests/aime
 $(BUILD)/tests/bench_full: $(DIRS) $(BUILD)/tests/bench_full.o $(BUILD)/tests/aimer_keccak_select.o $(PUBLIB) $(INTLIB)
 	$(CC) -Wl,-z,noexecstack $(BUILD)/tests/bench_full.o $(BUILD)/tests/aimer_keccak_select.o -o $@ $(PUBLIB) $(INTLIB) -lm
 
+$(BUILD)/tests/bench_full_paper: $(DIRS) $(BUILD)/tests/bench_full_paper.o $(BUILD)/tests/aimer_keccak_select.o $(PUBLIB) $(INTLIB)
+	$(CC) -Wl,-z,noexecstack $(BUILD)/tests/bench_full_paper.o $(BUILD)/tests/aimer_keccak_select.o -o $@ $(PUBLIB) $(INTLIB) -lm
+
 # ==== Compile rules ====
 
 # --- keccak xkcp low ---
@@ -247,6 +250,11 @@ $(BUILD)/tests/bench_sig.o: tests/bench_sig.c | $(BUILD)/tests
 $(BUILD)/tests/bench_full.o: bench/bench_full.c | $(BUILD)/tests
 	$(CC) -DOQS_COMPILE_OPTIONS="\"[-O3;-fomit-frame-pointer]\"" \
 	      $(INCS) -I./$(SRC) -I./tests -O3 $(DEPFLAGS) -o $@ -c $<
+
+$(BUILD)/tests/bench_full_paper.o: bench/bench_full_paper.c | $(BUILD)/tests
+	$(CC) -DOQS_COMPILE_OPTIONS="\"[-O3;-fomit-frame-pointer]\"" \
+	      $(INCS) -I./$(SRC) -I./tests -O3 -Wall -Wextra -fomit-frame-pointer \
+	      $(DEPFLAGS) -o $@ -c $<
 
 $(BUILD)/tests/test_helpers.o: tests/test_helpers.c | $(BUILD)/tests
 	$(CC) -DOQS_COMPILE_OPTIONS="\"[-Wa,--noexecstack;-O3;-fomit-frame-pointer;-fdata-sections;-ffunction-sections;-Wl,--gc-sections;-Wbad-function-cast]\"" \

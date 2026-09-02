@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: MIT
+#ifndef AIMER_V3_OQS_KAT_COMPAT_256F_H
+#define AIMER_V3_OQS_KAT_COMPAT_256F_H
+
+#include <oqs/oqs.h>
+
+#undef OQS_SIG_alg_aimer_v3_192f
+#undef OQS_SIG_aimer_v3_192f_length_public_key
+#undef OQS_SIG_aimer_v3_192f_length_secret_key
+#undef OQS_SIG_aimer_v3_192f_length_signature
+#define OQS_SIG_alg_aimer_v3_192f OQS_SIG_alg_aimer_v3_256f
+#define OQS_SIG_aimer_v3_192f_length_public_key OQS_SIG_aimer_v3_256f_length_public_key
+#define OQS_SIG_aimer_v3_192f_length_secret_key OQS_SIG_aimer_v3_256f_length_secret_key
+#define OQS_SIG_aimer_v3_192f_length_signature OQS_SIG_aimer_v3_256f_length_signature
+#define CRYPTO_ALGNAME "aimer-256f"
+#include "kat_compat_192f.h"
+
+#endif // AIMER_V3_OQS_KAT_COMPAT_256F_H

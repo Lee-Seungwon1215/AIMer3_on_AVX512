@@ -1,0 +1,61 @@
+\section{Introduction}
+\label{sec:introduction}
+
+AIMer is a post-quantum signature scheme based on a symmetric one-way function
+and an MPC-in-the-Head (MPCitH) proof.  Its third specification replaces AIM2
+with the new AIM3 primitive.  AIM3 introduces an IV-dependent input affine
+layer, enhanced Mersenne S-boxes, an output affine layer, and zero-input
+rejection during key generation~\cite{cho2026aimer3}.  These changes respond to
+new algebraic analyses of AIM2, including the Magic Pot
+attack~\cite{biryukov2026magic} and subsequent studies of weak AIM2 parameter
+choices~\cite{sun2025high}.
+
+The transition is substantial from a cryptographic-design perspective, but it
+does not remove the implementation-level parallelism of AIMer.  Signing and
+verification still simulate many independent MPC parties.  Each party performs
+the same operations over $\gftwo{128}$, $\gftwo{192}$, or $\gftwo{256}$, and
+commitment and tape generation still invoke many independent SHAKE instances.
+These common properties suggest that the \emph{optimization principles} used
+for AIMer v2 can be transferred even though its algorithm-specific code cannot
+be reused unchanged.
+
+This distinction is important.  Reusing AIM2 constants, exponentiation chains,
+or MPC equations would produce a different algorithm and invalidate the AIMer
+v3 test vectors.  Our approach instead preserves the AIM3 computation and
+changes only its evaluation schedule and register layout.  We implement AVX2
+and AVX-512 over the same high-level scope so that their performance can be
+compared directly.
+
+The contributions of this paper are as follows.
+
+\begin{enumerate}[label=\arabic*.,leftmargin=*]
+\item We present matched-scope AVX2 and AVX-512 implementations of all six
+AIMer v3 parameter sets and expose them through a self-contained
+OQS-compatible library with run-time dispatch.
+
+\item We transfer four implementation principles from earlier AIMer work:
+four-way SHAKE, party-parallel field arithmetic, branch-free binary
+matrix--vector multiplication, and operation-wise MPC batching.  We describe
+the concrete register layouts and instruction choices for both instruction
+sets.
+
+\item We establish implementation equivalence through 1,800 byte-exact KAT
+responses, differential tests of scalar and batched field operations, API and
+tamper tests, and sanitizer builds.
+
+\item We evaluate key generation, signing, and verification under a fixed and
+pinned single-core environment.  AVX-512 is $1.43$--$1.52\times$ faster than
+AVX2 for signing and verification while both substantially outperform the
+portable reference implementation.
+\end{enumerate}
+
+To the best of our knowledge, as of September 2026 no prior publication
+reports a matched AVX2/AVX-512 implementation and end-to-end evaluation of
+AIMer v3.  We do not claim the first SIMD implementation of AIMer, binary-field
+arithmetic, or Keccak; our contribution is their careful transfer to the new
+AIM3 computation and a controlled comparison over an identical scope.
+
+The remainder of this paper is organized as follows.  Section~\ref{sec:bg}
+summarizes AIMer v3 and related work.  Section~\ref{sec:impl} describes the
+implementation.  Section~\ref{sec:eval} presents correctness and performance
+results, and Section~\ref{sec:conc} concludes the paper.

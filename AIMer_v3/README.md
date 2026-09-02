@@ -1,63 +1,91 @@
-# AIMer v3 reference and optimized implementations
+# AIMer v3: reference, AVX2, and AVX-512
 
-This directory is a standalone AIMer v3 development project. It keeps the
-official release intact and separates the local reference and optimized
-implementations for correctness testing and performance work.
+This directory is a self-contained AIMer v3/liboqs-compatible research project.
+It builds and runs without AIMer_v2 source files or build settings. Optimization
+code derived from the AIMer v2 artifact is vendored inside this directory and
+adapted to AIMer v3 constants, field arithmetic, MPC equations, and serialization.
+
+The project provides all six parameter sets: `128f`, `128s`, `192f`, `192s`,
+`256f`, and `256s`. Each is registered as one `OQS_SIG` algorithm with runtime
+dispatch among reference, AVX2, and AVX-512 backends.
 
 ## Layout
 
 ```text
 AIMer_v3/
-├── Reference_Implementation/       official AIMer v3 source snapshot
-├── KAT/                            official known-answer tests
+├── Reference_Implementation/        official AIMer v3 source snapshot
+├── KAT/                             official known-answer responses
+├── include/oqs/                     minimal public OQS-compatible API
 ├── src/
-│   ├── common/                     AES, SHAKE, and deterministic KAT RNG
-│   └── sig/aimer/
-│       ├── aimer-128f_ref/
-│       ├── aimer-128f_opt/
-│       ├── ...
-│       ├── aimer-256s_ref/
-│       └── aimer-256s_opt/
-├── tests/                          shared sign/verify and KAT drivers
-├── benchmarks/                     future benchmark programs and results
-└── Makefile
+│   ├── common/                      AES, portable SHAKE, and KAT RNG
+│   ├── oqs/                         OQS glue plus SIMD SHAKE/GF/MPC kernels
+│   └── sig/
+│       ├── aimer/
+│       │   ├── reference/aimer-*    six reference namespaces
+│       │   ├── avx2/aimer-*         six AVX2 namespaces
+│       │   └── avx512/aimer-*       six AVX-512 namespaces
+│       └── aimer_v3/                OQS wrappers and runtime dispatch
+├── tests/                           KAT, GF differential, and OQS API tests
+├── Makefile                         canonical project entry point
+└── Makefile.liboqs.multi            complete three-backend build rules
 ```
 
-There are six parameter sets: `128f`, `128s`, `192f`, `192s`, `256f`, and
-`256s`. Each has a `_ref` and `_opt` implementation. The optimized directories
-currently form a clean AIM3 correctness baseline; AVX-512 kernels will be
-migrated into them incrementally.
+This is a minimal OQS-compatible library, not yet a patch against the complete
+upstream liboqs repository.
 
-The detailed AVX-512 handoff and implementation checklist is in
-[`PORTING_PLAN_AVX512.md`](PORTING_PLAN_AVX512.md).
+## Optimization scope
 
-## Build
+| Backend | SHAKE/Keccak | GF and MPC batching |
+|---|---|---|
+| reference | portable scalar x1 | scalar reference equations |
+| AVX2 | AVX2 x1 plus four-way SIMD256 SHAKE | PCLMUL scalar GF; XMM/YMM party batching; four-way commitments/tapes |
+| AVX-512 | AVX-512VL x1/x4 SHAKE | PCLMUL/VPCLMUL GF; ZMM party batching; ternary-logic matrix accumulation; four-way commitments/tapes |
+
+The AVX2 port follows the same algorithmic boundary as the current AVX-512
+port. Tree traversal remains sequential, while its individual hash calls use the
+selected x1 SHAKE backend. The optimized backends change representation and
+parallel scheduling only; they do not change AIMer v3 constants or equations.
+
+## Build and test
 
 ```sh
-make -C AIMer_v3 all
-```
-
-Executables are written below `AIMer_v3/build/aimer-<parameter>/<implementation>/`.
-
-Useful targets:
-
-```sh
-make -C AIMer_v3 ref
-make -C AIMer_v3 opt
-make -C AIMer_v3 test
-make -C AIMer_v3 kat PARAM=128f IMPL=ref
-make -C AIMer_v3 kat PARAM=128f IMPL=opt
+make -C AIMer_v3
+make -C AIMer_v3 oqs-test
+make -C AIMer_v3 oqs-kat
 make -C AIMer_v3 check
+make -C AIMer_v3 bench
+make -C AIMer_v3 bench-run
 ```
 
-`make kat` regenerates a response file and compares it byte for byte with the
-official AIMer v3 KAT. Run it after every SHAKE, GF, or MPC optimization change.
+`make` creates `AIMer_v3/build/lib/liboqs.a`. `make oqs-kat` compares all
+6 parameter sets x 3 backends x 100 official vectors, or 1,800 byte-exact KAT
+responses. `make oqs-test` also runs direct scalar/batch GF differential tests
+and OQS registry, context, sign/verify, and tamper tests.
 
-## Optimization rule
+`make bench` builds the AIMer_v2-style CSV benchmark. `make bench-run` verifies
+KATs, pins measurement to one CPU, measures keypair/sign/verify for all six sets
+and three backends, stores environment metadata, and prints speedup tables. See
+[`benchmarks/README.md`](benchmarks/README.md) before producing paper results.
+For independent repeated end-to-end and kernel measurements, use `make bench-paper`; see [`benchmarks/PAPER_BENCHMARK.md`](benchmarks/PAPER_BENCHMARK.md).
 
-Only implementation details may change. SHAKE call order, domain separation,
-field representation, serialization, random-byte consumption, and AIM3's
-zero-input handling must remain compatible with the official implementation.
+A single parameter can be checked with:
 
-The original source is from the AIMer project and complies with the Korean
-Industrial Standards specification. See <https://aimer-signature.org>.
+```sh
+make -C AIMer_v3 kat PARAM=128f
+```
+
+For testing on a CPU that supports the requested instruction set, force dispatch
+with `AIMER_V3_IMPL=ref`, `AIMER_V3_IMPL=avx2`, or
+`AIMER_V3_IMPL=avx512`. Automatic dispatch prefers AVX-512, then AVX2, then
+reference. AVX2 requires AES, AVX2, BMI2, PCLMULQDQ, and POPCNT; AVX-512
+also requires AVX512F/VL and VPCLMULQDQ.
+
+## Correctness boundary
+
+SHAKE rate, padding, domain separation, absorb/finalize/squeeze order, field
+moduli and little-endian word layout, affine matrices, MPC equations,
+serialization, random-byte consumption, and AIMer v3 zero-input handling must
+remain unchanged. Any official KAT difference is a stop condition for this port.
+
+See `PORTING_PLAN_AVX512.md`, `PORTING_STATUS_AVX512.md`, and
+`MATHEMATICAL_EQUIVALENCE_AVX512.md` for the design record and proof boundary.

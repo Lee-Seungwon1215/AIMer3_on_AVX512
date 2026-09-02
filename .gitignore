@@ -2,8 +2,9 @@
 build/
 out/
 
-# Locally generated benchmark results
+# Locally generated benchmark runs
 bench/results/
+benchmarks/results/
 
 # Compiler, linker, and coverage outputs
 *.o
@@ -32,3 +33,4 @@ compile_commands.json
 .pytest_cache/
 __pycache__/
 *.py[cod]
+*.orig

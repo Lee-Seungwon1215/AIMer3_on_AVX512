@@ -1,0 +1,34 @@
+# Build outputs
+build/
+out/
+
+# Locally generated benchmark results
+bench/results/
+
+# Compiler, linker, and coverage outputs
+*.o
+*.a
+*.d
+*.so
+*.log
+*.gcda
+*.gcno
+*.profraw
+*.profdata
+core
+core.*
+
+# Optional generated build metadata
+CMakeFiles/
+CMakeCache.txt
+compile_commands.json
+
+# OS, editor, and tool caches
+.DS_Store
+.idea/
+.vscode/
+.cache/
+.clangd/
+.pytest_cache/
+__pycache__/
+*.py[cod]

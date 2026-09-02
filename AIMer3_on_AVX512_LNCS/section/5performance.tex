@@ -1,0 +1,160 @@
+\section{Evaluation}
+\label{sec:eval}
+
+\subsection{Correctness Validation}
+
+The same $-O3$ binaries used for end-to-end timing passed all official KATs:
+six parameter sets, three backends, and 100 responses per combination, for a
+total of 1,800 byte-exact responses.  Differential tests compared field
+multiplication, squaring, inversion, matrix multiplication, and their party
+batches against the reference backend.  Forced-backend and automatic-dispatch
+API tests, context signing, tamper rejection, and size metadata also passed.  A
+separate AddressSanitizer/UndefinedBehaviorSanitizer build passed the same KAT
+and differential tests without a diagnostic.  These tests support
+implementation equivalence; they are not a new proof of AIM3 security or of
+side-channel resistance.
+
+\subsection{Measurement Method}
+
+Measurements were performed on one physical core of an Intel Core i7-1165G7.
+The governor and energy preference were set to \code{performance}, Turbo Boost
+was disabled, and the selected core was fixed at 2.8~GHz.  Each end-to-end cell
+contains seven independent runs with 50 timed samples and 10 warm-ups per run.
+Backend order was rotated, and parameter order was reversed every other run.
+No sample or run was removed, and no post-measurement tuning was performed.
+We report the median of the run medians.  Speedup intervals use a deterministic
+10,000-resample paired bootstrap.  The maximum end-to-end run-median
+coefficient of variation was 3.65\%.
+
+\begin{table}[t]
+\centering
+\caption{End-to-end measurement environment.}
+\label{tab:environment}
+\small
+\begin{tabular}{ll}
+\toprule
+CPU & Intel Core i7-1165G7 (Tiger Lake)\\
+Frequency & fixed 2.8~GHz; Turbo disabled\\
+OS/compiler & Ubuntu 24.04; GCC 13.3.0\\
+Flags & \code{-O3 -fomit-frame-pointer}\\
+Affinity & one pinned logical CPU\\
+Runs/samples & 7 independent runs; 50 samples/run\\
+Warm-up & 10 operations/run\\
+Statistic & median run value; paired-bootstrap 95\% CI\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Cycle intervals use serialized RDTSC/RDTSCP and therefore represent invariant
+TSC reference cycles, not retired core cycles.  Same-machine speedup ratios are
+the primary comparison.
+
+\subsection{End-to-End Results}
+
+Table~\ref{tab:signverify} reports signing and verification.  AVX2 improves
+signing by $3.21$--$4.32\times$ and verification by $3.14$--$4.41\times$ over
+reference.  AVX-512 improves the same operations by $4.63$--$6.41\times$ and
+$4.59$--$6.55\times$.  Relative to the matched AVX2 backend, AVX-512 is
+$1.44$--$1.51\times$ faster for signing and $1.43$--$1.52\times$ faster for
+verification.  All paired 95\% intervals for these comparisons exclude 1.0.
+
+\begin{table}[t]
+\centering
+\caption{Signing and verification in median TSC cycles.  R/A2 and R/A5 are
+reference-relative speedups; A2/A5 is the AVX-512 speedup over AVX2.}
+\label{tab:signverify}
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{llrrrrrr}
+\toprule
+Set & Op. & Reference & AVX2 & AVX-512 & R/A2 & R/A5 & A2/A5\\
+\midrule
+128f & Sign   & 6.661M & 2.070M & 1.437M & 3.22 & 4.63 & 1.44\\
+     & Verify & 6.203M & 1.973M & 1.350M & 3.14 & 4.59 & 1.46\\
+128s & Sign   & 51.178M & 15.950M & 10.857M & 3.21 & 4.72 & 1.47\\
+     & Verify & 51.550M & 15.854M & 10.863M & 3.25 & 4.75 & 1.46\\
+192f & Sign   & 20.021M & 5.308M & 3.674M & 3.77 & 5.45 & 1.45\\
+     & Verify & 18.541M & 5.174M & 3.561M & 3.58 & 5.21 & 1.45\\
+192s & Sign   & 154.040M & 39.528M & 27.493M & 3.88 & 5.61 & 1.45\\
+     & Verify & 154.063M & 39.322M & 27.462M & 3.90 & 5.59 & 1.43\\
+256f & Sign   & 42.658M & 10.392M & 6.905M & 4.10 & 6.18 & 1.51\\
+     & Verify & 39.109M & 10.113M & 6.634M & 3.87 & 5.90 & 1.52\\
+256s & Sign   & 317.747M & 73.607M & 49.547M & 4.32 & 6.41 & 1.48\\
+     & Verify & 318.911M & 72.277M & 48.687M & 4.41 & 6.55 & 1.48\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:keypair} shows key generation.  Unlike signing and verification,
+key generation has no large party dimension.  Therefore, it benefits mainly
+from scalar field arithmetic and SHAKE x1, not from four-party batching.  This
+explains the smaller $1.09$--$1.11\times$ AVX-512-over-AVX2 gain in the 128-bit
+sets.  The 192- and 256-bit sets have more expensive field and affine-layer
+work and show gains of $1.46$--$1.48\times$.
+
+\begin{table}[t]
+\centering
+\caption{Key-generation performance in median TSC cycles.}
+\label{tab:keypair}
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lrrrrrr}
+\toprule
+Set & Reference & AVX2 & AVX-512 & R/A2 & R/A5 & A2/A5\\
+\midrule
+128f & 534.7k & 216.9k & 198.6k & 2.45 & 2.68 & 1.09\\
+128s & 561.1k & 234.7k & 209.8k & 2.42 & 2.67 & 1.11\\
+192f & 1.381M & 627.8k & 430.7k & 2.21 & 3.21 & 1.46\\
+192s & 1.430M & 648.3k & 446.3k & 2.20 & 3.15 & 1.48\\
+256f & 3.740M & 1.712M & 1.170M & 2.19 & 3.20 & 1.46\\
+256s & 3.827M & 1.756M & 1.205M & 2.18 & 3.17 & 1.46\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The 192-bit sets do not exhibit an anomalous end-to-end loss.  Their padded
+field representation still incurs packing overhead, but AIM3 changes the
+relative weight of the linear, S-box, and proof computations.  The aggregate
+profile therefore masks the isolated padding cost.  We do not interpret this
+as removal of the 192-bit representation overhead.
+
+\subsection{Kernel Characterization}
+\label{sec:kernels}
+
+Table~\ref{tab:kernels} summarizes the AVX-512-over-AVX2 ratio of the optimized
+scope.  It uses an adaptive harness with 15 independent runs, 75 samples, and a
+common inner count selected to exceed 2.8 million TSC cycles for the fastest
+backend in each cell.  SHAKE x4 gains approximately $2.55$--$2.61\times$ from
+the AVX-512VL register file and instructions.  Matrix batches consistently gain
+about $1.38$--$1.41\times$.  GF batch gains depend on field width and party
+count; notably, the 256s multiply-accumulate batch is $0.93\times$, and we keep
+this regression without post-hoc tuning.
+
+\begin{table}[t]
+\centering
+\caption{Preliminary AVX-512-over-AVX2 kernel ratios.  These values support the
+implementation analysis but are not used for the headline speedup claim; see
+the limitation below.}
+\label{tab:kernels}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrrr}
+\toprule
+Kernel & 128f & 128s & 192f & 192s & 256f & 256s\\
+\midrule
+SHAKE commit+tape x4 & 2.57 & 2.55 & 2.59 & 2.60 & 2.60 & 2.61\\
+GF square batch       & 1.68 & 1.66 & 1.11 & 1.01 & 1.35 & 1.10\\
+GF mul-add batch      & 1.85 & 1.83 & 1.05 & 1.07 & 1.27 & 0.93\\
+GF matrix batch       & 1.39 & 1.39 & 1.41 & 1.41 & 1.39 & 1.39\\
+AIM3 MPC batch        & 1.33 & 1.31 & 1.18 & 1.20 & 1.33 & 1.26\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The current adaptive kernel data narrowly misses our predeclared publication
+gate: one reference cell has a 5.03\% run-median coefficient of variation
+against a 5\% threshold, and 32 device interrupts were observed across 2,970
+timed cells.  No result was deleted.  Consequently, Table~\ref{tab:kernels} is
+explicitly preliminary and must be repeated or moved to an artifact appendix
+before final submission.  The end-to-end tables passed their separate
+publication gate and are unaffected by this qualification.

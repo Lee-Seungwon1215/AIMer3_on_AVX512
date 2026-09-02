@@ -1,0 +1,21 @@
+# SPDX-License-Identifier: MIT
+# Legacy compatibility entry point; use Makefile.liboqs.multi directly.
+
+.PHONY: all oqs oqs-kat oqs-test oqs-check clean
+
+all: oqs
+
+oqs:
+	$(MAKE) -f Makefile.liboqs.multi oqs
+
+oqs-kat:
+	$(MAKE) -f Makefile.liboqs.multi oqs-kat
+
+oqs-test:
+	$(MAKE) -f Makefile.liboqs.multi oqs-test
+
+oqs-check:
+	$(MAKE) -f Makefile.liboqs.multi oqs-check
+
+clean:
+	$(MAKE) -f Makefile.liboqs.multi clean

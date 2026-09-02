@@ -1,0 +1,641 @@
+# SPDX-License-Identifier: MIT
+# All six AIM3 parameter sets: OQS build with reference, AVX2, and AVX-512
+# SHAKE/GF/MPC implementations in separate namespaces.
+
+CC       ?= cc
+AR       ?= ar
+CPPFLAGS ?=
+CFLAGS   ?= -O3 -Wall -Wextra -fomit-frame-pointer -std=c11
+LDFLAGS  ?=
+LDLIBS   ?=
+
+BUILD       := build/liboqs
+LIB_DIR     := build/lib
+INCLUDE_DIR := include
+SRC_ROOT    := src
+
+REF_128F_DIR := $(SRC_ROOT)/sig/aimer/reference/aimer-128f
+AVX2_128F_DIR := $(SRC_ROOT)/sig/aimer/avx2/aimer-128f
+OPT_128F_DIR := $(SRC_ROOT)/sig/aimer/avx512/aimer-128f
+REF_128S_DIR := $(SRC_ROOT)/sig/aimer/reference/aimer-128s
+AVX2_128S_DIR := $(SRC_ROOT)/sig/aimer/avx2/aimer-128s
+OPT_128S_DIR := $(SRC_ROOT)/sig/aimer/avx512/aimer-128s
+
+INCLUDES := -I$(INCLUDE_DIR) -I$(SRC_ROOT)
+REF_128F_INCLUDES := -I$(SRC_ROOT)/oqs/include_override -I$(REF_128F_DIR) $(INCLUDES)
+AVX2_128F_INCLUDES := -I$(SRC_ROOT)/oqs/avx2_override \
+                      -I$(SRC_ROOT)/oqs/include_override -I$(AVX2_128F_DIR) $(INCLUDES)
+OPT_128F_INCLUDES := -I$(SRC_ROOT)/oqs/avx512_override \
+                     -I$(SRC_ROOT)/oqs/include_override -I$(OPT_128F_DIR) $(INCLUDES)
+REF_128S_INCLUDES := -I$(SRC_ROOT)/oqs/include_override -I$(REF_128S_DIR) $(INCLUDES)
+AVX2_128S_INCLUDES := -I$(SRC_ROOT)/oqs/avx2_override \
+                      -I$(SRC_ROOT)/oqs/include_override -I$(AVX2_128S_DIR) $(INCLUDES)
+OPT_128S_INCLUDES := -I$(SRC_ROOT)/oqs/avx512_override \
+                     -I$(SRC_ROOT)/oqs/include_override -I$(OPT_128S_DIR) $(INCLUDES)
+
+AVX2_FLAGS := -mavx2 -mpclmul -mbmi2 -mpopcnt -maes
+AVX512_FLAGS := -mavx2 -mpclmul -mavx512f -mavx512vl -mavx512bw \
+                -mavx512dq -mvpclmulqdq -mbmi2 -mpopcnt -maes
+CORE_NAMES := aim3.c hash.c sign.c tree.c
+AVX2_CORE_NAMES := aim3.c hash.c tree.c
+OPT_CORE_NAMES := aim3.c hash.c tree.c
+AVX2_128_KERNEL_NAMES := avx2_sign_x4_128f.c avx2_field128.c \
+                         avx2_field128_batch.c avx2_mpc.c
+OPT_KERNEL_NAMES := avx512_sign_x4_128f.c avx512_field128.c \
+                    avx512_field128_batch_multi.c avx512_mpc.c
+
+REF_128F_OBJS := \
+  $(addprefix $(BUILD)/128f/ref/, $(CORE_NAMES:.c=.o)) \
+  $(BUILD)/128f/ref/field_common.o \
+  $(BUILD)/128f/ref/field128.o
+
+REF_128S_OBJS := \
+  $(addprefix $(BUILD)/128s/ref/, $(CORE_NAMES:.c=.o)) \
+  $(BUILD)/128s/ref/field_common.o \
+  $(BUILD)/128s/ref/field128.o
+
+AVX2_128F_OBJS := \
+  $(addprefix $(BUILD)/128f/avx2/, $(AVX2_CORE_NAMES:.c=.o)) \
+  $(addprefix $(BUILD)/128f/avx2/, $(AVX2_128_KERNEL_NAMES:.c=.o))
+
+AVX2_128S_OBJS := \
+  $(addprefix $(BUILD)/128s/avx2/, $(AVX2_CORE_NAMES:.c=.o)) \
+  $(addprefix $(BUILD)/128s/avx2/, $(AVX2_128_KERNEL_NAMES:.c=.o))
+
+OPT_128F_OBJS := \
+  $(addprefix $(BUILD)/128f/avx512/, $(OPT_CORE_NAMES:.c=.o)) \
+  $(addprefix $(BUILD)/128f/avx512/, $(OPT_KERNEL_NAMES:.c=.o))
+
+OPT_128S_OBJS := \
+  $(addprefix $(BUILD)/128s/avx512/, $(OPT_CORE_NAMES:.c=.o)) \
+  $(addprefix $(BUILD)/128s/avx512/, $(OPT_KERNEL_NAMES:.c=.o))
+
+REF_192F_DIR := $(SRC_ROOT)/sig/aimer/reference/aimer-192f
+AVX2_192F_DIR := $(SRC_ROOT)/sig/aimer/avx2/aimer-192f
+OPT_192F_DIR := $(SRC_ROOT)/sig/aimer/avx512/aimer-192f
+REF_192S_DIR := $(SRC_ROOT)/sig/aimer/reference/aimer-192s
+AVX2_192S_DIR := $(SRC_ROOT)/sig/aimer/avx2/aimer-192s
+OPT_192S_DIR := $(SRC_ROOT)/sig/aimer/avx512/aimer-192s
+REF_192F_INCLUDES := -I$(SRC_ROOT)/oqs/include_override -I$(REF_192F_DIR) $(INCLUDES)
+AVX2_192F_INCLUDES := -I$(SRC_ROOT)/oqs/avx2_override -I$(SRC_ROOT)/oqs/include_override -I$(AVX2_192F_DIR) $(INCLUDES)
+OPT_192F_INCLUDES := -I$(SRC_ROOT)/oqs/avx512_override -I$(SRC_ROOT)/oqs/include_override -I$(OPT_192F_DIR) $(INCLUDES)
+REF_192S_INCLUDES := -I$(SRC_ROOT)/oqs/include_override -I$(REF_192S_DIR) $(INCLUDES)
+AVX2_192S_INCLUDES := -I$(SRC_ROOT)/oqs/avx2_override -I$(SRC_ROOT)/oqs/include_override -I$(AVX2_192S_DIR) $(INCLUDES)
+OPT_192S_INCLUDES := -I$(SRC_ROOT)/oqs/avx512_override -I$(SRC_ROOT)/oqs/include_override -I$(OPT_192S_DIR) $(INCLUDES)
+AVX2_192_KERNEL_NAMES := avx2_sign_x4_192.c avx2_field192.c avx2_field192_batch.c avx2_mpc.c
+OPT_192F_KERNEL_NAMES := avx512_sign_x4_192.c avx512_field192.c avx512_field192_batch.c avx512_mpc.c
+OPT_192S_KERNEL_NAMES := $(OPT_192F_KERNEL_NAMES)
+REF_192F_OBJS := $(addprefix $(BUILD)/192f/ref/, $(CORE_NAMES:.c=.o)) $(BUILD)/192f/ref/field_common.o $(BUILD)/192f/ref/field192.o
+AVX2_192F_OBJS := $(addprefix $(BUILD)/192f/avx2/, $(AVX2_CORE_NAMES:.c=.o)) $(addprefix $(BUILD)/192f/avx2/, $(AVX2_192_KERNEL_NAMES:.c=.o))
+OPT_192F_OBJS := $(addprefix $(BUILD)/192f/avx512/, $(OPT_CORE_NAMES:.c=.o)) $(addprefix $(BUILD)/192f/avx512/, $(OPT_192F_KERNEL_NAMES:.c=.o))
+REF_192S_OBJS := $(addprefix $(BUILD)/192s/ref/, $(CORE_NAMES:.c=.o)) $(BUILD)/192s/ref/field_common.o $(BUILD)/192s/ref/field192.o
+AVX2_192S_OBJS := $(addprefix $(BUILD)/192s/avx2/, $(AVX2_CORE_NAMES:.c=.o)) $(addprefix $(BUILD)/192s/avx2/, $(AVX2_192_KERNEL_NAMES:.c=.o))
+OPT_192S_OBJS := $(addprefix $(BUILD)/192s/avx512/, $(OPT_CORE_NAMES:.c=.o)) $(addprefix $(BUILD)/192s/avx512/, $(OPT_192S_KERNEL_NAMES:.c=.o))
+
+REF_256F_DIR := $(SRC_ROOT)/sig/aimer/reference/aimer-256f
+AVX2_256F_DIR := $(SRC_ROOT)/sig/aimer/avx2/aimer-256f
+OPT_256F_DIR := $(SRC_ROOT)/sig/aimer/avx512/aimer-256f
+REF_256S_DIR := $(SRC_ROOT)/sig/aimer/reference/aimer-256s
+AVX2_256S_DIR := $(SRC_ROOT)/sig/aimer/avx2/aimer-256s
+OPT_256S_DIR := $(SRC_ROOT)/sig/aimer/avx512/aimer-256s
+REF_256F_INCLUDES := -I$(SRC_ROOT)/oqs/include_override -I$(REF_256F_DIR) $(INCLUDES)
+AVX2_256F_INCLUDES := -I$(SRC_ROOT)/oqs/avx2_override -I$(SRC_ROOT)/oqs/include_override -I$(AVX2_256F_DIR) $(INCLUDES)
+OPT_256F_INCLUDES := -I$(SRC_ROOT)/oqs/avx512_override -I$(SRC_ROOT)/oqs/include_override -I$(OPT_256F_DIR) $(INCLUDES)
+REF_256S_INCLUDES := -I$(SRC_ROOT)/oqs/include_override -I$(REF_256S_DIR) $(INCLUDES)
+AVX2_256S_INCLUDES := -I$(SRC_ROOT)/oqs/avx2_override -I$(SRC_ROOT)/oqs/include_override -I$(AVX2_256S_DIR) $(INCLUDES)
+OPT_256S_INCLUDES := -I$(SRC_ROOT)/oqs/avx512_override -I$(SRC_ROOT)/oqs/include_override -I$(OPT_256S_DIR) $(INCLUDES)
+AVX2_256_KERNEL_NAMES := avx2_sign_x4_192.c avx2_field256.c avx2_field256_batch.c avx2_mpc.c
+OPT_256_KERNEL_NAMES := avx512_sign_x4_192.c avx512_field256.c avx512_field256_batch.c avx512_mpc.c
+REF_256F_OBJS := $(addprefix $(BUILD)/256f/ref/, $(CORE_NAMES:.c=.o)) $(BUILD)/256f/ref/field_common.o $(BUILD)/256f/ref/field256.o
+AVX2_256F_OBJS := $(addprefix $(BUILD)/256f/avx2/, $(AVX2_CORE_NAMES:.c=.o)) $(addprefix $(BUILD)/256f/avx2/, $(AVX2_256_KERNEL_NAMES:.c=.o))
+OPT_256F_OBJS := $(addprefix $(BUILD)/256f/avx512/, $(OPT_CORE_NAMES:.c=.o)) $(addprefix $(BUILD)/256f/avx512/, $(OPT_256_KERNEL_NAMES:.c=.o))
+REF_256S_OBJS := $(addprefix $(BUILD)/256s/ref/, $(CORE_NAMES:.c=.o)) $(BUILD)/256s/ref/field_common.o $(BUILD)/256s/ref/field256.o
+AVX2_256S_OBJS := $(addprefix $(BUILD)/256s/avx2/, $(AVX2_CORE_NAMES:.c=.o)) $(addprefix $(BUILD)/256s/avx2/, $(AVX2_256_KERNEL_NAMES:.c=.o))
+OPT_256S_OBJS := $(addprefix $(BUILD)/256s/avx512/, $(OPT_CORE_NAMES:.c=.o)) $(addprefix $(BUILD)/256s/avx512/, $(OPT_256_KERNEL_NAMES:.c=.o))
+
+OQS_GLUE_OBJS := \
+  $(BUILD)/glue/common.o \
+  $(BUILD)/glue/rand.o \
+  $(BUILD)/glue/rand_nist.o \
+  $(BUILD)/glue/sig_multi.o \
+  $(BUILD)/glue/sig_aimer_v3_128f_dispatch.o \
+  $(BUILD)/glue/sig_aimer_v3_128s_dispatch.o \
+  $(BUILD)/glue/sig_aimer_v3_192f_dispatch.o \
+  $(BUILD)/glue/sig_aimer_v3_192s_dispatch.o \
+  $(BUILD)/glue/sig_aimer_v3_256f_dispatch.o \
+  $(BUILD)/glue/sig_aimer_v3_256s_dispatch.o
+
+COMMON_OBJS := \
+  $(BUILD)/common/aes.o \
+  $(BUILD)/common/fips202.o \
+  $(BUILD)/common/rng.o
+
+AVX2_SHAKE_OBJS := $(BUILD)/avx2-shake/avx2_shake.o $(BUILD)/avx2-shake/avx2_shake_x4.o $(BUILD)/avx2-shake/KeccakP-1600-AVX2.o $(BUILD)/avx2-shake/KeccakP-1600-times4-SIMD256.o
+
+AVX512_SHAKE_OBJS := $(BUILD)/avx512-shake/avx512_shake.o $(BUILD)/avx512-shake/avx512_shake_x4.o $(BUILD)/avx512-shake/avx512_shake256.o $(BUILD)/avx512-shake/avx512_shake256_x4.o $(BUILD)/avx512-shake/KeccakP-1600-AVX512VL.o $(BUILD)/avx512-shake/SHA3-AVX512VL.o $(BUILD)/avx512-shake/KeccakP-1600-times4-AVX512VL.o $(BUILD)/avx512-shake/SHA3-times4-AVX512VL.o
+
+OQS_OBJS := $(OQS_GLUE_OBJS) $(COMMON_OBJS) \
+            $(REF_128F_OBJS) $(AVX2_128F_OBJS) $(OPT_128F_OBJS) \
+            $(REF_128S_OBJS) $(AVX2_128S_OBJS) $(OPT_128S_OBJS) \
+            $(REF_192F_OBJS) $(AVX2_192F_OBJS) $(OPT_192F_OBJS) \
+            $(REF_192S_OBJS) $(AVX2_192S_OBJS) $(OPT_192S_OBJS) \
+            $(REF_256F_OBJS) $(AVX2_256F_OBJS) $(OPT_256F_OBJS) \
+            $(REF_256S_OBJS) $(AVX2_256S_OBJS) $(OPT_256S_OBJS) \
+            $(AVX2_SHAKE_OBJS) $(AVX512_SHAKE_OBJS)
+OQS_LIB := $(LIB_DIR)/liboqs.a
+KAT_128F_BIN := $(BUILD)/tests/128f/kat_sig
+KAT_128S_BIN := $(BUILD)/tests/128s/kat_sig
+KAT_192F_BIN := $(BUILD)/tests/192f/kat_sig
+KAT_192S_BIN := $(BUILD)/tests/192s/kat_sig
+KAT_256F_BIN := $(BUILD)/tests/256f/kat_sig
+KAT_256S_BIN := $(BUILD)/tests/256s/kat_sig
+REGISTRY_BIN := $(BUILD)/tests/test_oqs_sig_registry
+GF_EQ_BIN := $(BUILD)/tests/test_gf_equivalence
+BENCH_BIN := $(BUILD)/bench/bench_full
+
+.PHONY: all oqs oqs-bench oqs-kat oqs-kat-128f oqs-kat-128s oqs-kat-192f oqs-kat-192s oqs-kat-256f oqs-kat-256s oqs-test oqs-check clean
+
+all: oqs
+oqs: $(OQS_LIB) $(KAT_128F_BIN) $(KAT_128S_BIN) $(KAT_192F_BIN) $(KAT_192S_BIN) $(KAT_256F_BIN) $(KAT_256S_BIN) $(REGISTRY_BIN) $(GF_EQ_BIN)
+
+$(BUILD)/glue/common.o: $(SRC_ROOT)/oqs/common.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/glue/rand.o: $(SRC_ROOT)/oqs/rand.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/glue/rand_nist.o: $(SRC_ROOT)/oqs/rand_nist.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/glue/sig_multi.o: $(SRC_ROOT)/oqs/sig_multi.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/glue/sig_aimer_v3_128f_dispatch.o: \
+    $(SRC_ROOT)/sig/aimer_v3/sig_aimer_v3_128f_dispatch.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/glue/sig_aimer_v3_128s_dispatch.o: \
+    $(SRC_ROOT)/sig/aimer_v3/sig_aimer_v3_128s_dispatch.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/glue/sig_aimer_v3_192f_dispatch.o: \
+    $(SRC_ROOT)/sig/aimer_v3/sig_aimer_v3_192f_dispatch.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/glue/sig_aimer_v3_192s_dispatch.o: \
+    $(SRC_ROOT)/sig/aimer_v3/sig_aimer_v3_192s_dispatch.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/glue/sig_aimer_v3_256f_dispatch.o: \
+    $(SRC_ROOT)/sig/aimer_v3/sig_aimer_v3_256f_dispatch.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/glue/sig_aimer_v3_256s_dispatch.o: \
+    $(SRC_ROOT)/sig/aimer_v3/sig_aimer_v3_256s_dispatch.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/common/%.o: $(SRC_ROOT)/common/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/128f/ref/%.o: $(REF_128F_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(REF_128F_INCLUDES) -DPARAMS=128f $(CFLAGS) \
+	      -MMD -MP -c $< -o $@
+
+$(BUILD)/128s/ref/%.o: $(REF_128S_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(REF_128S_INCLUDES) -DPARAMS=128s $(CFLAGS) \
+	      -MMD -MP -c $< -o $@
+
+$(BUILD)/192f/ref/%.o: $(REF_192F_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(REF_192F_INCLUDES) -DPARAMS=192f $(CFLAGS) \
+	      -MMD -MP -c $< -o $@
+
+$(BUILD)/192s/ref/%.o: $(REF_192S_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(REF_192S_INCLUDES) -DPARAMS=192s $(CFLAGS) \
+	      -MMD -MP -c $< -o $@
+
+$(BUILD)/256f/ref/%.o: $(REF_256F_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(REF_256F_INCLUDES) -DPARAMS=256f $(CFLAGS) \
+	      -MMD -MP -c $< -o $@
+
+$(BUILD)/256s/ref/%.o: $(REF_256S_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(REF_256S_INCLUDES) -DPARAMS=256s $(CFLAGS) \
+	      -MMD -MP -c $< -o $@
+
+$(BUILD)/128f/avx2/aim3.o $(BUILD)/128f/avx2/hash.o \
+$(BUILD)/128f/avx2/tree.o: $(BUILD)/128f/avx2/%.o: $(AVX2_128F_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(AVX2_128F_INCLUDES) -DPARAMS=128f $(AVX2_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/128s/avx2/aim3.o $(BUILD)/128s/avx2/hash.o \
+$(BUILD)/128s/avx2/tree.o: $(BUILD)/128s/avx2/%.o: $(AVX2_128S_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(AVX2_128S_INCLUDES) -DPARAMS=128s $(AVX2_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/192f/avx2/aim3.o $(BUILD)/192f/avx2/hash.o \
+$(BUILD)/192f/avx2/tree.o: $(BUILD)/192f/avx2/%.o: $(AVX2_192F_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(AVX2_192F_INCLUDES) -DPARAMS=192f $(AVX2_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/192s/avx2/aim3.o $(BUILD)/192s/avx2/hash.o \
+$(BUILD)/192s/avx2/tree.o: $(BUILD)/192s/avx2/%.o: $(AVX2_192S_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(AVX2_192S_INCLUDES) -DPARAMS=192s $(AVX2_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/256f/avx2/aim3.o $(BUILD)/256f/avx2/hash.o \
+$(BUILD)/256f/avx2/tree.o: $(BUILD)/256f/avx2/%.o: $(AVX2_256F_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(AVX2_256F_INCLUDES) -DPARAMS=256f $(AVX2_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/256s/avx2/aim3.o $(BUILD)/256s/avx2/hash.o \
+$(BUILD)/256s/avx2/tree.o: $(BUILD)/256s/avx2/%.o: $(AVX2_256S_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(AVX2_256S_INCLUDES) -DPARAMS=256s $(AVX2_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/128f/avx2/%.o: $(SRC_ROOT)/oqs/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(AVX2_128F_INCLUDES) -DPARAMS=128f $(AVX2_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/128s/avx2/%.o: $(SRC_ROOT)/oqs/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(AVX2_128S_INCLUDES) -DPARAMS=128s $(AVX2_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/192f/avx2/%.o: $(SRC_ROOT)/oqs/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(AVX2_192F_INCLUDES) -DPARAMS=192f $(AVX2_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/192s/avx2/%.o: $(SRC_ROOT)/oqs/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(AVX2_192S_INCLUDES) -DPARAMS=192s $(AVX2_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/256f/avx2/%.o: $(SRC_ROOT)/oqs/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(AVX2_256F_INCLUDES) -DPARAMS=256f $(AVX2_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/256s/avx2/%.o: $(SRC_ROOT)/oqs/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(AVX2_256S_INCLUDES) -DPARAMS=256s $(AVX2_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/128f/avx512/aim3.o $(BUILD)/128f/avx512/hash.o \
+$(BUILD)/128f/avx512/tree.o: $(BUILD)/128f/avx512/%.o: $(OPT_128F_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(OPT_128F_INCLUDES) -DPARAMS=128f $(AVX512_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/128s/avx512/aim3.o $(BUILD)/128s/avx512/hash.o \
+$(BUILD)/128s/avx512/tree.o: $(BUILD)/128s/avx512/%.o: $(OPT_128S_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(OPT_128S_INCLUDES) -DPARAMS=128s $(AVX512_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/192f/avx512/aim3.o $(BUILD)/192f/avx512/hash.o \
+$(BUILD)/192f/avx512/tree.o: $(BUILD)/192f/avx512/%.o: $(OPT_192F_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(OPT_192F_INCLUDES) -DPARAMS=192f $(AVX512_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/192s/avx512/aim3.o $(BUILD)/192s/avx512/hash.o \
+$(BUILD)/192s/avx512/tree.o: $(BUILD)/192s/avx512/%.o: $(OPT_192S_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(OPT_192S_INCLUDES) -DPARAMS=192s $(AVX512_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/256f/avx512/aim3.o $(BUILD)/256f/avx512/hash.o \
+$(BUILD)/256f/avx512/tree.o: $(BUILD)/256f/avx512/%.o: $(OPT_256F_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(OPT_256F_INCLUDES) -DPARAMS=256f $(AVX512_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/256s/avx512/aim3.o $(BUILD)/256s/avx512/hash.o \
+$(BUILD)/256s/avx512/tree.o: $(BUILD)/256s/avx512/%.o: $(OPT_256S_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(OPT_256S_INCLUDES) -DPARAMS=256s $(AVX512_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/128f/avx512/%.o: $(SRC_ROOT)/oqs/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(OPT_128F_INCLUDES) -DPARAMS=128f $(AVX512_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/128s/avx512/%.o: $(SRC_ROOT)/oqs/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(OPT_128S_INCLUDES) -DPARAMS=128s $(AVX512_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/192f/avx512/%.o: $(SRC_ROOT)/oqs/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(OPT_192F_INCLUDES) -DPARAMS=192f $(AVX512_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/192s/avx512/%.o: $(SRC_ROOT)/oqs/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(OPT_192S_INCLUDES) -DPARAMS=192s $(AVX512_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/256f/avx512/%.o: $(SRC_ROOT)/oqs/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(OPT_256F_INCLUDES) -DPARAMS=256f $(AVX512_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/256s/avx512/%.o: $(SRC_ROOT)/oqs/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(OPT_256S_INCLUDES) -DPARAMS=256s $(AVX512_FLAGS) \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/avx2-shake/avx2_shake.o \
+$(BUILD)/avx2-shake/avx2_shake_x4.o: \
+$(BUILD)/avx2-shake/%.o: $(SRC_ROOT)/oqs/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) -I$(SRC_ROOT) $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/avx2-shake/KeccakP-1600-AVX2.o: \
+    $(SRC_ROOT)/oqs/avx2_low/x1/KeccakP-1600-AVX2.S
+	@mkdir -p $(dir $@)
+	$(CC) -DADD_SYMBOL_SUFFIX -mavx2 -Wa,--noexecstack -c $< -o $@
+
+$(BUILD)/avx2-shake/KeccakP-1600-times4-SIMD256.o: \
+    $(SRC_ROOT)/oqs/avx2_low/x4/KeccakP-1600-times4-SIMD256.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) -DADD_SYMBOL_SUFFIX -mavx2 \
+	      -I$(SRC_ROOT)/oqs/avx2_low/x4 $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/avx512-shake/avx512_shake.o \
+$(BUILD)/avx512-shake/avx512_shake_x4.o: \
+$(BUILD)/avx512-shake/%.o: $(SRC_ROOT)/oqs/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) -I$(SRC_ROOT) $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/avx512-shake/avx512_shake256.o \
+$(BUILD)/avx512-shake/avx512_shake256_x4.o: \
+$(BUILD)/avx512-shake/%.o: $(SRC_ROOT)/oqs/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) -I$(SRC_ROOT) $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/avx512-shake/%.o: $(SRC_ROOT)/oqs/avx512vl_low/%.S
+	@mkdir -p $(dir $@)
+	$(CC) -Wa,--noexecstack -c $< -o $@
+
+$(OQS_LIB): $(OQS_OBJS)
+	@mkdir -p $(dir $@)
+	$(AR) rcs $@ $^
+
+$(BUILD)/tests/128f/PQCgenKAT_sign.o: tests/PQCgenKAT_sign.c \
+    $(SRC_ROOT)/oqs/kat_compat.h
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) -include $(SRC_ROOT)/oqs/kat_compat.h \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/tests/128s/PQCgenKAT_sign.o: tests/PQCgenKAT_sign.c \
+    $(SRC_ROOT)/oqs/kat_compat_128s.h
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) -include $(SRC_ROOT)/oqs/kat_compat_128s.h \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+
+$(BUILD)/tests/192f/PQCgenKAT_sign.o: tests/PQCgenKAT_sign.c \
+    $(SRC_ROOT)/oqs/kat_compat_192f.h
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) -include $(SRC_ROOT)/oqs/kat_compat_192f.h \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/tests/192s/PQCgenKAT_sign.o: tests/PQCgenKAT_sign.c \
+    $(SRC_ROOT)/oqs/kat_compat_192s.h
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) -include $(SRC_ROOT)/oqs/kat_compat_192s.h \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/tests/256f/PQCgenKAT_sign.o: tests/PQCgenKAT_sign.c \
+    $(SRC_ROOT)/oqs/kat_compat_256f.h
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) -include $(SRC_ROOT)/oqs/kat_compat_256f.h \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/tests/256s/PQCgenKAT_sign.o: tests/PQCgenKAT_sign.c \
+    $(SRC_ROOT)/oqs/kat_compat_256s.h
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) -include $(SRC_ROOT)/oqs/kat_compat_256s.h \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(KAT_128F_BIN): $(BUILD)/tests/128f/PQCgenKAT_sign.o $(OQS_LIB)
+	$(CC) $(LDFLAGS) $< $(OQS_LIB) $(LDLIBS) -o $@
+
+$(KAT_128S_BIN): $(BUILD)/tests/128s/PQCgenKAT_sign.o $(OQS_LIB)
+	$(CC) $(LDFLAGS) $< $(OQS_LIB) $(LDLIBS) -o $@
+
+$(KAT_192F_BIN): $(BUILD)/tests/192f/PQCgenKAT_sign.o $(OQS_LIB)
+	$(CC) $(LDFLAGS) $< $(OQS_LIB) $(LDLIBS) -o $@
+
+$(KAT_192S_BIN): $(BUILD)/tests/192s/PQCgenKAT_sign.o $(OQS_LIB)
+	$(CC) $(LDFLAGS) $< $(OQS_LIB) $(LDLIBS) -o $@
+
+$(KAT_256F_BIN): $(BUILD)/tests/256f/PQCgenKAT_sign.o $(OQS_LIB)
+	$(CC) $(LDFLAGS) $< $(OQS_LIB) $(LDLIBS) -o $@
+
+$(KAT_256S_BIN): $(BUILD)/tests/256s/PQCgenKAT_sign.o $(OQS_LIB)
+	$(CC) $(LDFLAGS) $< $(OQS_LIB) $(LDLIBS) -o $@
+
+$(REGISTRY_BIN): tests/test_oqs_sig_registry.c $(OQS_LIB)
+	@mkdir -p build/liboqs/tests
+	$(CC) $(CPPFLAGS) $(INCLUDES) $(CFLAGS) $(LDFLAGS) \
+	      $< $(OQS_LIB) $(LDLIBS) -o $@
+
+$(GF_EQ_BIN): tests/test_gf_equivalence.c $(OQS_LIB)
+	@mkdir -p build/liboqs/tests
+	$(CC) $(CPPFLAGS) $(INCLUDES) $(CFLAGS) $(LDFLAGS) \
+	      $< $(OQS_LIB) $(LDLIBS) -o $@
+
+$(BENCH_BIN): benchmarks/bench_full.c $(OQS_LIB)
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) $(CFLAGS) $(LDFLAGS) \
+	      $< $(OQS_LIB) $(LDLIBS) -lm -o $@
+
+oqs-bench: $(BENCH_BIN)
+
+oqs-test: $(REGISTRY_BIN) $(GF_EQ_BIN)
+	@$(GF_EQ_BIN)
+	@AIMER_V3_IMPL=ref $(REGISTRY_BIN)
+	@AIMER_V3_IMPL=avx2 $(REGISTRY_BIN)
+	@AIMER_V3_IMPL=avx512 $(REGISTRY_BIN)
+	@env -u AIMER_V3_IMPL $(REGISTRY_BIN)
+
+oqs-kat-128f: $(KAT_128F_BIN)
+	@cd $(BUILD)/tests/128f && AIMER_V3_IMPL=ref ./kat_sig >/dev/null
+	@if cmp -s KAT/aimer-128f/PQCsignKAT_48.rsp \
+	             $(BUILD)/tests/128f/PQCsignKAT_48.rsp; then \
+		echo "[PASS] AIMER-v3-128f OQS_SIG ref official KAT (100 vectors)"; \
+	else \
+		echo "[FAIL] AIMER-v3-128f OQS_SIG ref official KAT"; exit 1; \
+	fi
+	@cd $(BUILD)/tests/128f && AIMER_V3_IMPL=avx2 ./kat_sig >/dev/null
+	@if cmp -s KAT/aimer-128f/PQCsignKAT_48.rsp \
+	             $(BUILD)/tests/128f/PQCsignKAT_48.rsp; then \
+		echo "[PASS] AIMER-v3-128f OQS_SIG AVX2 official KAT (100 vectors)"; \
+	else \
+		echo "[FAIL] AIMER-v3-128f OQS_SIG AVX2 official KAT"; exit 1; \
+	fi
+	@cd $(BUILD)/tests/128f && AIMER_V3_IMPL=avx512 ./kat_sig >/dev/null
+	@if cmp -s KAT/aimer-128f/PQCsignKAT_48.rsp \
+	             $(BUILD)/tests/128f/PQCsignKAT_48.rsp; then \
+		echo "[PASS] AIMER-v3-128f OQS_SIG AVX-512 official KAT (100 vectors)"; \
+	else \
+		echo "[FAIL] AIMER-v3-128f OQS_SIG AVX-512 official KAT"; exit 1; \
+	fi
+
+oqs-kat-128s: $(KAT_128S_BIN)
+	@cd $(BUILD)/tests/128s && AIMER_V3_IMPL=ref ./kat_sig >/dev/null
+	@if cmp -s KAT/aimer-128s/PQCsignKAT_48.rsp \
+	             $(BUILD)/tests/128s/PQCsignKAT_48.rsp; then \
+		echo "[PASS] AIMER-v3-128s OQS_SIG ref official KAT (100 vectors)"; \
+	else \
+		echo "[FAIL] AIMER-v3-128s OQS_SIG ref official KAT"; exit 1; \
+	fi
+	@cd $(BUILD)/tests/128s && AIMER_V3_IMPL=avx2 ./kat_sig >/dev/null
+	@if cmp -s KAT/aimer-128s/PQCsignKAT_48.rsp \
+	             $(BUILD)/tests/128s/PQCsignKAT_48.rsp; then \
+		echo "[PASS] AIMER-v3-128s OQS_SIG AVX2 official KAT (100 vectors)"; \
+	else \
+		echo "[FAIL] AIMER-v3-128s OQS_SIG AVX2 official KAT"; exit 1; \
+	fi
+	@cd $(BUILD)/tests/128s && AIMER_V3_IMPL=avx512 ./kat_sig >/dev/null
+	@if cmp -s KAT/aimer-128s/PQCsignKAT_48.rsp \
+	             $(BUILD)/tests/128s/PQCsignKAT_48.rsp; then \
+		echo "[PASS] AIMER-v3-128s OQS_SIG AVX-512 official KAT (100 vectors)"; \
+	else \
+		echo "[FAIL] AIMER-v3-128s OQS_SIG AVX-512 official KAT"; exit 1; \
+	fi
+
+oqs-kat-192f: $(KAT_192F_BIN)
+	@cd $(BUILD)/tests/192f && AIMER_V3_IMPL=ref ./kat_sig >/dev/null
+	@if cmp -s KAT/aimer-192f/PQCsignKAT_72.rsp \
+	             $(BUILD)/tests/192f/PQCsignKAT_72.rsp; then \
+		echo "[PASS] AIMER-v3-192f OQS_SIG ref official KAT (100 vectors)"; \
+	else \
+		echo "[FAIL] AIMER-v3-192f OQS_SIG ref official KAT"; exit 1; \
+	fi
+	@cd $(BUILD)/tests/192f && AIMER_V3_IMPL=avx2 ./kat_sig >/dev/null
+	@if cmp -s KAT/aimer-192f/PQCsignKAT_72.rsp \
+	             $(BUILD)/tests/192f/PQCsignKAT_72.rsp; then \
+		echo "[PASS] AIMER-v3-192f OQS_SIG AVX2 official KAT (100 vectors)"; \
+	else \
+		echo "[FAIL] AIMER-v3-192f OQS_SIG AVX2 official KAT"; exit 1; \
+	fi
+	@cd $(BUILD)/tests/192f && AIMER_V3_IMPL=avx512 ./kat_sig >/dev/null
+	@if cmp -s KAT/aimer-192f/PQCsignKAT_72.rsp \
+	             $(BUILD)/tests/192f/PQCsignKAT_72.rsp; then \
+		echo "[PASS] AIMER-v3-192f OQS_SIG AVX-512 official KAT (100 vectors)"; \
+	else \
+		echo "[FAIL] AIMER-v3-192f OQS_SIG AVX-512 official KAT"; exit 1; \
+	fi
+
+oqs-kat-192s: $(KAT_192S_BIN)
+	@cd $(BUILD)/tests/192s && AIMER_V3_IMPL=ref ./kat_sig >/dev/null
+	@if cmp -s KAT/aimer-192s/PQCsignKAT_72.rsp \
+	             $(BUILD)/tests/192s/PQCsignKAT_72.rsp; then \
+		echo "[PASS] AIMER-v3-192s OQS_SIG ref official KAT (100 vectors)"; \
+	else \
+		echo "[FAIL] AIMER-v3-192s OQS_SIG ref official KAT"; exit 1; \
+	fi
+	@cd $(BUILD)/tests/192s && AIMER_V3_IMPL=avx2 ./kat_sig >/dev/null
+	@if cmp -s KAT/aimer-192s/PQCsignKAT_72.rsp \
+	             $(BUILD)/tests/192s/PQCsignKAT_72.rsp; then \
+		echo "[PASS] AIMER-v3-192s OQS_SIG AVX2 official KAT (100 vectors)"; \
+	else \
+		echo "[FAIL] AIMER-v3-192s OQS_SIG AVX2 official KAT"; exit 1; \
+	fi
+	@cd $(BUILD)/tests/192s && AIMER_V3_IMPL=avx512 ./kat_sig >/dev/null
+	@if cmp -s KAT/aimer-192s/PQCsignKAT_72.rsp \
+	             $(BUILD)/tests/192s/PQCsignKAT_72.rsp; then \
+		echo "[PASS] AIMER-v3-192s OQS_SIG AVX-512 official KAT (100 vectors)"; \
+	else \
+		echo "[FAIL] AIMER-v3-192s OQS_SIG AVX-512 official KAT"; exit 1; \
+	fi
+
+oqs-kat-256f: $(KAT_256F_BIN)
+	@cd $(BUILD)/tests/256f && AIMER_V3_IMPL=ref ./kat_sig >/dev/null
+	@if cmp -s KAT/aimer-256f/PQCsignKAT_96.rsp \
+	             $(BUILD)/tests/256f/PQCsignKAT_96.rsp; then \
+		echo "[PASS] AIMER-v3-256f OQS_SIG ref official KAT (100 vectors)"; \
+	else \
+		echo "[FAIL] AIMER-v3-256f OQS_SIG ref official KAT"; exit 1; \
+	fi
+	@cd $(BUILD)/tests/256f && AIMER_V3_IMPL=avx2 ./kat_sig >/dev/null
+	@if cmp -s KAT/aimer-256f/PQCsignKAT_96.rsp \
+	             $(BUILD)/tests/256f/PQCsignKAT_96.rsp; then \
+		echo "[PASS] AIMER-v3-256f OQS_SIG AVX2 official KAT (100 vectors)"; \
+	else \
+		echo "[FAIL] AIMER-v3-256f OQS_SIG AVX2 official KAT"; exit 1; \
+	fi
+	@cd $(BUILD)/tests/256f && AIMER_V3_IMPL=avx512 ./kat_sig >/dev/null
+	@if cmp -s KAT/aimer-256f/PQCsignKAT_96.rsp \
+	             $(BUILD)/tests/256f/PQCsignKAT_96.rsp; then \
+		echo "[PASS] AIMER-v3-256f OQS_SIG AVX-512 official KAT (100 vectors)"; \
+	else \
+		echo "[FAIL] AIMER-v3-256f OQS_SIG AVX-512 official KAT"; exit 1; \
+	fi
+
+oqs-kat-256s: $(KAT_256S_BIN)
+	@cd $(BUILD)/tests/256s && AIMER_V3_IMPL=ref ./kat_sig >/dev/null
+	@if cmp -s KAT/aimer-256s/PQCsignKAT_96.rsp \
+	             $(BUILD)/tests/256s/PQCsignKAT_96.rsp; then \
+		echo "[PASS] AIMER-v3-256s OQS_SIG ref official KAT (100 vectors)"; \
+	else \
+		echo "[FAIL] AIMER-v3-256s OQS_SIG ref official KAT"; exit 1; \
+	fi
+	@cd $(BUILD)/tests/256s && AIMER_V3_IMPL=avx2 ./kat_sig >/dev/null
+	@if cmp -s KAT/aimer-256s/PQCsignKAT_96.rsp \
+	             $(BUILD)/tests/256s/PQCsignKAT_96.rsp; then \
+		echo "[PASS] AIMER-v3-256s OQS_SIG AVX2 official KAT (100 vectors)"; \
+	else \
+		echo "[FAIL] AIMER-v3-256s OQS_SIG AVX2 official KAT"; exit 1; \
+	fi
+	@cd $(BUILD)/tests/256s && AIMER_V3_IMPL=avx512 ./kat_sig >/dev/null
+	@if cmp -s KAT/aimer-256s/PQCsignKAT_96.rsp \
+	             $(BUILD)/tests/256s/PQCsignKAT_96.rsp; then \
+		echo "[PASS] AIMER-v3-256s OQS_SIG AVX-512 official KAT (100 vectors)"; \
+	else \
+		echo "[FAIL] AIMER-v3-256s OQS_SIG AVX-512 official KAT"; exit 1; \
+	fi
+
+oqs-kat: oqs-kat-128f oqs-kat-128s oqs-kat-192f oqs-kat-192s oqs-kat-256f oqs-kat-256s
+oqs-check: oqs-kat oqs-test
+
+clean:
+	rm -rf $(BUILD) $(OQS_LIB)
+
+DEPS := $(OQS_OBJS:.o=.d) \
+        $(BUILD)/tests/128f/PQCgenKAT_sign.d \
+        $(BUILD)/tests/128s/PQCgenKAT_sign.d \
+        $(BUILD)/tests/192f/PQCgenKAT_sign.d \
+        $(BUILD)/tests/192s/PQCgenKAT_sign.d \
+        $(BUILD)/tests/256f/PQCgenKAT_sign.d \
+        $(BUILD)/tests/256s/PQCgenKAT_sign.d
+-include $(DEPS)
+include benchmarks/Makefile.kernels.inc

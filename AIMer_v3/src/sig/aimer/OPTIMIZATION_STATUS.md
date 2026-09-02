@@ -1,20 +1,33 @@
 # AIMer v3 optimization status
 
-The `_ref` directories are parameter-specific copies of the official AIMer v3
-reference implementation. They are the local correctness baseline.
+The implementation sources are separated by architecture and parameter set:
 
-The `_opt` directories currently contain a correctness-first AIMer v3 baseline.
-Their public symbols use an `_opt` namespace, but no AIM2 AVX-512 kernel has been
-connected yet. This is intentional: every optimization stage must continue to
-match the official AIMer v3 KAT byte for byte.
+```text
+src/sig/aimer/
+├── reference/aimer-{128f,128s,192f,192s,256f,256s}
+├── avx2/aimer-{128f,128s,192f,192s,256f,256s}
+└── avx512/aimer-{128f,128s,192f,192s,256f,256s}
+```
 
-Planned migration stages:
+The OQS integration under `src/oqs` and `src/sig/aimer_v3` provides runtime
+reference, AVX2, and AVX-512 dispatch for all six sets. Automatic selection is
+AVX-512, then AVX2, then reference; `AIMER_V3_IMPL` can force a backend during
+testing on compatible hardware.
 
-1. Replace scalar Keccak/SHAKE with the existing x4 and AVX-512VL backend.
-2. Replace scalar GF multiplication, squaring, and matrix-vector operations.
-3. Add AIM3-specific MPC-party batching and deferred reduction.
-4. Benchmark every parameter set and keep KAT checks enabled at each stage.
+AVX2 uses AVX2 Keccak x1, SIMD256 Keccak x4, PCLMUL scalar field operations,
+XMM/YMM party batching, and four-way commitment/tape processing. AVX-512 uses
+AVX-512VL Keccak x1/x4, PCLMUL/VPCLMUL field operations, ZMM party batching,
+VPTERNLOG matrix accumulation, and the same AIM3-aware four-way processing.
+Tree traversal remains sequential in both optimized paths.
 
+All 6 x 3 OQS paths match the official 100-vector KAT files: 1,800 byte-exact
+responses. Direct differential tests also compare scalar and batch GF operations
+among reference, AVX2, and AVX-512 for every parameter set.
+
+AIMer_v3 is self-contained: its build and source paths do not depend on
+`AIMer_v2`. AIM2 optimization code needed by the port is vendored locally.
+
+Next work is measurement and paper engineering: a fixed-machine benchmark
+protocol, SHAKE/GF/MPC ablations, statistical reporting, and reproducibility.
 Do not copy AIM2 constants, inverse-Mersenne exponent chains, or AIM2 MPC
-equations into these directories. AIM3 needs its own affine matrices, exponent
-maps, proof layout, and zero-input handling.
+equations into AIM3 code.
