@@ -639,3 +639,4 @@ DEPS := $(OQS_OBJS:.o=.d) \
         $(BUILD)/tests/256s/PQCgenKAT_sign.d
 -include $(DEPS)
 include benchmarks/Makefile.kernels.inc
+include benchmarks/Makefile.causes.inc

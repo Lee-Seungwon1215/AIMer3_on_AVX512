@@ -62,3 +62,20 @@ should use a fixed performance governor, a quiet pinned core, adequate warm-up,
 multiple independent runs, and a predeclared aggregation policy.
 For repeated end-to-end measurements and the separate adaptive 15-run final
 kernel protocol, see [`PAPER_BENCHMARK.md`](PAPER_BENCHMARK.md).
+
+## AVX-512 causal decomposition
+
+[`AVX512_CAUSE_ANALYSIS.md`](AVX512_CAUSE_ANALYSIS.md) records the decomposition
+that can be established from the checked-in E2E medians and static work counts.
+For the missing component cycles, build the separate diagnostic and run it on
+an AVX-512 Linux host:
+
+```bash
+make -C AIMer_v3 bench-causes
+CORE=2 VERIFY=1 AIMer_v3/benchmarks/run_avx512_causes.sh
+```
+
+The diagnostic splits MPC into setup/affine and Frobenius regions, measures the
+scalar kernels used outside MPC, and emits a count-based keypair/sign/verify
+model with an explicit residual. It does not alter the production AVX-512
+objects or the official paper benchmark's predeclared kernel list.

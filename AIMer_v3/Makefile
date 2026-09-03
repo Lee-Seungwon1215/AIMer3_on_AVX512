@@ -13,7 +13,7 @@ BENCH_CORE ?=
 BENCH_RESULT_DIR ?=
 BENCH_VERIFY_KAT ?= 1
 
-.PHONY: test kat check check-all bench bench-run help
+.PHONY: test kat check check-all bench bench-run bench-causes help
 
 test: oqs-test
 
@@ -29,6 +29,8 @@ check-all: oqs-check
 
 bench: oqs-bench
 
+bench-causes: oqs-cause-bench
+
 bench-run: oqs-bench
 	CORE="$(BENCH_CORE)" WARMUP="$(BENCH_WARMUP)" \
 	RESULT_DIR="$(BENCH_RESULT_DIR)" VERIFY_KAT="$(BENCH_VERIFY_KAT)" \
@@ -41,6 +43,7 @@ help:
 	@echo "make oqs-test        Run GF and OQS registry/sign/verify tests"
 	@echo "make check           Run all KAT, GF, and OQS correctness tests"
 	@echo "make bench           Build the three-backend benchmark"
+	@echo "make bench-causes    Build the separate AVX-512 causal profiler"
 	@echo "make bench-run       Verify KATs, benchmark all sets, and compare results"
 	@echo "make bench-paper     Rebuild O3, validate, and run repeated end-to-end/kernel measurements"
 	@echo "make bench-kernel-paper  Calibrate and run 15 paper-grade optimized-kernel measurements"
