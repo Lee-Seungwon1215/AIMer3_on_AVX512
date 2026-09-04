@@ -1,0 +1,6 @@
+ID       CORE        MODEL               PORT                        STATE
+m55      Cortex-M55  NUCLEO-N657X0-Q     /dev/cu.usbmodem2402        UART_READY
+m4       Cortex-M4   NUCLEO-L4R5ZI       /dev/cu.usbmodem11203       UART_READY
+m3       Cortex-M3   NUCLEO-F207ZG       /dev/cu.usbmodem11303       UART_READY
+m0plus   Cortex-M0+  NUCLEO-G0B1RE       /dev/cu.usbmodem11403       UART_READY
+/dev/cu.usbmodem2402

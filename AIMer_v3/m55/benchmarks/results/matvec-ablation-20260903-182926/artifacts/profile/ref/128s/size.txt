@@ -1,0 +1,19 @@
+/Users/seungwon/AIMer3_on_AVX512/AIMer_v3/m55/build/full/128s/ref/profile/aimer-m55-128s-ref-profile.elf  :
+section             size        addr
+.isr_vector          844   873989120
+.text              61356   873989968
+.rodata             2360   874051328
+.ARM.exidx             8   874053688
+.init_array            8   874053696
+.fini_array            4   874053704
+.gnu.sgstubs          32   874053728
+.data               2192   874250240
+.noncacheable         16   874252432
+.bss               10568   874252448
+._user_stack      131072   874381312
+._user_heap         4096   874512384
+.ARM.attributes       58           0
+.comment              56           0
+Total             212670
+
+

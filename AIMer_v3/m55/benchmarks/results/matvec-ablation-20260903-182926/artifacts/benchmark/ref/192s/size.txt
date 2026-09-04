@@ -1,0 +1,19 @@
+/Users/seungwon/AIMer3_on_AVX512/AIMer_v3/m55/build/full/192s/ref/benchmark/aimer-m55-192s-ref-benchmark.elf  :
+section             size        addr
+.isr_vector          844   873989120
+.text              72240   873989968
+.rodata             2616   874062208
+.ARM.exidx             8   874064824
+.init_array            8   874064832
+.fini_array            4   874064840
+.gnu.sgstubs          32   874064864
+.data               2192   874250240
+.noncacheable         16   874252432
+.bss               11424   874252448
+._user_stack      131072   874381312
+._user_heap         4096   874512384
+.ARM.attributes       58           0
+.comment              56           0
+Total             224666
+
+

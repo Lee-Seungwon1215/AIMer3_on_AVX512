@@ -1,0 +1,19 @@
+/Users/seungwon/AIMer3_on_AVX512/AIMer_v3/m55/build/full/192f/mve/benchmark/aimer-m55-192f-mve-benchmark.elf  :
+section             size        addr
+.isr_vector          844   873989120
+.text              70984   873989968
+.rodata             2616   874060952
+.ARM.exidx             8   874063568
+.init_array            8   874063576
+.fini_array            4   874063584
+.gnu.sgstubs          32   874063616
+.data               2192   874250240
+.noncacheable         16   874252432
+.bss               16512   874252448
+._user_stack      131072   874381312
+._user_heap         4096   874512384
+.ARM.attributes       58           0
+.comment              56           0
+Total             228498
+
+

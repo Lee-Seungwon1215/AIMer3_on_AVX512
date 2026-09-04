@@ -1,0 +1,5 @@
+ABLATION_CONTEXT,result_dir=/Users/seungwon/AIMer3_on_AVX512/AIMer_v3/m55/benchmarks/results/matvec-ablation-20260903-182926,command=make PARAM=256s BACKEND=ref MATVEC=reference SIGN_SCHEDULE=lowmem check-low-memory
+cc -DPARAMS=256s -Iinclude -I../src/sig/aimer/reference/aimer-256s -I../src \
+		-O2 -std=c11 tests/test_low_memory_host.c src/ref/sign_low_memory.c src/ref/verify_batch.c src/mve/field_batch.c src/mve/mpc_batch.c ../src/sig/aimer/reference/aimer-256s/aim3.c ../src/sig/aimer/reference/aimer-256s/hash.c ../src/sig/aimer/reference/aimer-256s/sign.c ../src/sig/aimer/reference/aimer-256s/tree.c ../src/sig/aimer/reference/aimer-256s/field_common.c ../src/sig/aimer/reference/aimer-256s/field256.c ../src/common/aes.c ../src/common/fips202.c ../src/common/rng.c -o build/host/256s/test-low-memory-256s
+build/host/256s/test-low-memory-256s
+LOW_MEMORY_DIFF_PASS param=256s bytes=20224

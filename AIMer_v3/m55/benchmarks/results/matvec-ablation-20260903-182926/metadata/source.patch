@@ -1,0 +1,623 @@
+diff --git a/AIMer_v3/m55/Makefile b/AIMer_v3/m55/Makefile
+index 1e12c30..6655cfc 100644
+--- a/AIMer_v3/m55/Makefile
++++ b/AIMer_v3/m55/Makefile
+@@ -24,6 +24,24 @@ ifeq ($(filter $(BACKEND),$(VALID_BACKENDS)),)
+ $(error BACKEND must be one of: $(VALID_BACKENDS))
+ endif
+ 
++ifeq ($(origin MATVEC),undefined)
++ifeq ($(BACKEND),mve)
++MATVEC := compact
++else
++MATVEC := reference
++endif
++endif
++
++VALID_MATVECS := compact reference
++ifeq ($(filter $(MATVEC),$(VALID_MATVECS)),)
++$(error MATVEC must be one of: $(VALID_MATVECS))
++endif
++ifeq ($(BACKEND),ref)
++ifneq ($(MATVEC),reference)
++$(error BACKEND=ref requires MATVEC=reference)
++endif
++endif
++
+ VALID_TESTS := reference sign kat benchmark profile phase phasebench
+ ifeq ($(filter $(TEST),$(VALID_TESTS)),)
+ $(error TEST must be one of: $(VALID_TESTS))
+@@ -51,27 +69,48 @@ AIMER_ROOT := ..
+ SRC_ROOT := $(AIMER_ROOT)/src
+ BITS := $(subst f,,$(subst s,,$(PARAM)))
+ SCHEME_DIR := $(SRC_ROOT)/sig/aimer/reference/aimer-$(PARAM)
+-BUILD_DIR := build/$(MEMORY)/$(PARAM)/$(BACKEND)/$(TEST)
+-ELF := $(BUILD_DIR)/aimer-m55-$(PARAM)-$(BACKEND)-$(TEST).elf
+-MAP := $(ELF:.elf=.map)
+-HOST_BUILD_DIR := build/host/$(PARAM)
+-HOST_TEST := $(HOST_BUILD_DIR)/test-low-memory-$(PARAM)
+-HOST_MVE_FIELD_TEST := $(HOST_BUILD_DIR)/test-mve-field-$(PARAM)
+-HOST_KAT_TEST := $(HOST_BUILD_DIR)/test-kat-$(PARAM)
+-HOST_MVE_KAT_TEST := $(HOST_BUILD_DIR)/test-kat-mve-$(PARAM)
+ 
+ ifeq ($(BACKEND),mve)
+ FIELD_SOURCE := src/mve/field_mve.c
+ BACKEND_CPPFLAGS := -DAIMER_MVE_BATCH
++CONFIG_TAG := mve_compact
++BUILD_BACKEND := mve
++MVE_MATVEC_SUFFIX :=
++ifeq ($(MATVEC),reference)
++MATVEC_SOURCE := src/ref/matvec_reference.c
++MATVEC_CPPFLAGS := -DAIMER_M55_REFERENCE_MATVEC
++CONFIG_TAG := mve_refmat
++BUILD_BACKEND := mve-refmat
++MVE_MATVEC_SUFFIX := -refmat
++else
++MATVEC_SOURCE :=
++MATVEC_CPPFLAGS :=
++endif
+ else
+ FIELD_SOURCE := $(SCHEME_DIR)/field$(BITS).c
+ BACKEND_CPPFLAGS :=
++MATVEC_SOURCE :=
++MATVEC_CPPFLAGS :=
++CONFIG_TAG := ref
++BUILD_BACKEND := ref
++MVE_MATVEC_SUFFIX :=
+ endif
+ 
++BUILD_DIR := build/$(MEMORY)/$(PARAM)/$(BUILD_BACKEND)/$(TEST)
++ELF := $(BUILD_DIR)/aimer-m55-$(PARAM)-$(BUILD_BACKEND)-$(TEST).elf
++MAP := $(ELF:.elf=.map)
++HOST_BUILD_DIR := build/host/$(PARAM)
++HOST_TEST := $(HOST_BUILD_DIR)/test-low-memory-$(PARAM)
++HOST_MVE_FIELD_TEST := $(HOST_BUILD_DIR)/test-mve-field-$(PARAM)$(MVE_MATVEC_SUFFIX)
++HOST_KAT_TEST := $(HOST_BUILD_DIR)/test-kat-$(PARAM)
++HOST_MVE_KAT_TEST := $(HOST_BUILD_DIR)/test-kat-mve-$(PARAM)$(MVE_MATVEC_SUFFIX)
++
+ MPC_BATCH_SOURCE := src/mve/mpc_batch.c
+ 
+ ifeq ($(TEST),benchmark)
+ TEST_CPPFLAGS := -DAIMER_BENCHMARK
++else ifeq ($(TEST),profile)
++TEST_CPPFLAGS := -DAIMER_PHASE_PROFILE
+ else ifeq ($(TEST),phase)
+ TEST_CPPFLAGS := -DAIMER_PHASE_PROFILE -DAIMER_BENCHMARK
+ else ifeq ($(TEST),phasebench)
+@@ -99,9 +138,12 @@ endif
+ 
+ CPPFLAGS := \
+ 	$(BACKEND_CPPFLAGS) \
++	$(MATVEC_CPPFLAGS) \
+ 	$(TEST_CPPFLAGS) \
+ 	-DPARAMS=$(PARAM) \
+ 	-DAIMER_BACKEND=$(BACKEND) \
++	-DAIMER_MATVEC=$(MATVEC) \
++	-DAIMER_CONFIG=$(CONFIG_TAG) \
+ 	-DBENCH_KERNEL_SAMPLES=$(BENCH_KERNEL_SAMPLES) \
+ 	-DBENCH_E2E_SAMPLES=$(BENCH_E2E_SAMPLES) \
+ 	-DBENCH_KERNEL_INNER=$(BENCH_KERNEL_INNER) \
+@@ -148,7 +190,8 @@ C_SOURCES_REFERENCE := \
+ 	tests/test_reference.c \
+ 	src/mve/field_batch.c \
+ 	$(SCHEME_DIR)/field_common.c \
+-	$(FIELD_SOURCE)
++	$(FIELD_SOURCE) \
++	$(MATVEC_SOURCE)
+ 
+ C_SOURCES_SIGN := \
+ 	tests/test_sign_verify.c \
+@@ -161,6 +204,7 @@ C_SOURCES_SIGN := \
+ 	$(SCHEME_DIR)/tree.c \
+ 	$(SCHEME_DIR)/field_common.c \
+ 	$(FIELD_SOURCE) \
++	$(MATVEC_SOURCE) \
+ 	$(SRC_ROOT)/common/aes.c \
+ 	$(SRC_ROOT)/common/fips202.c \
+ 	$(SRC_ROOT)/common/rng.c
+@@ -176,6 +220,7 @@ C_SOURCES_KAT := \
+ 	$(SCHEME_DIR)/tree.c \
+ 	$(SCHEME_DIR)/field_common.c \
+ 	$(FIELD_SOURCE) \
++	$(MATVEC_SOURCE) \
+ 	$(SRC_ROOT)/common/aes.c \
+ 	$(SRC_ROOT)/common/fips202.c \
+ 	$(SRC_ROOT)/common/rng.c
+@@ -191,6 +236,7 @@ C_SOURCES_BENCHMARK := \
+ 	$(SCHEME_DIR)/tree.c \
+ 	$(SCHEME_DIR)/field_common.c \
+ 	$(FIELD_SOURCE) \
++	$(MATVEC_SOURCE) \
+ 	$(SRC_ROOT)/common/aes.c \
+ 	$(SRC_ROOT)/common/fips202.c \
+ 	$(SRC_ROOT)/common/rng.c
+@@ -203,6 +249,7 @@ C_SOURCES_PROFILE := \
+ 	$(SCHEME_DIR)/hash.c \
+ 	$(SCHEME_DIR)/field_common.c \
+ 	$(FIELD_SOURCE) \
++	$(MATVEC_SOURCE) \
+ 	$(SRC_ROOT)/common/fips202.c
+ 
+ ifeq ($(TEST),benchmark)
+@@ -320,9 +367,10 @@ check-low-memory: $(HOST_TEST)
+ 	$(HOST_TEST)
+ 
+ $(HOST_MVE_FIELD_TEST): tests/test_reference.c src/mve/field_mve.c \
+-	src/mve/field_batch.c $(SCHEME_DIR)/field_common.c
++	src/mve/field_batch.c $(SCHEME_DIR)/field_common.c $(MATVEC_SOURCE)
+ 	@mkdir -p $(@D)
+-	$(HOST_CC) -DAIMER_MVE_PORTABLE_TEST -DPARAMS=$(PARAM) \
++	$(HOST_CC) -DAIMER_MVE_PORTABLE_TEST $(MATVEC_CPPFLAGS) \
++		-DPARAMS=$(PARAM) -DAIMER_MATVEC=$(MATVEC) \
+ 		-Iinclude -I$(SCHEME_DIR) -I$(SRC_ROOT) -O2 -std=c11 $^ -o $@
+ 
+ check-mve-field-host: $(HOST_MVE_FIELD_TEST)
+@@ -347,12 +395,14 @@ $(HOST_MVE_KAT_TEST): tests/kat_runner.c tests/host_platform.c \
+ 	src/ref/sign_low_memory.c src/ref/verify_batch.c \
+ 	src/mve/field_batch.c $(MPC_BATCH_SOURCE) \
+ 	src/mve/field_mve.c \
++	$(MATVEC_SOURCE) \
+ 	$(SCHEME_DIR)/aim3.c $(SCHEME_DIR)/hash.c $(SCHEME_DIR)/sign.c \
+ 	$(SCHEME_DIR)/tree.c $(SCHEME_DIR)/field_common.c \
+ 	$(SRC_ROOT)/common/aes.c $(SRC_ROOT)/common/fips202.c \
+ 	$(SRC_ROOT)/common/rng.c
+ 	@mkdir -p $(@D)
+ 	$(HOST_CC) -DAIMER_KAT_LOW_MEMORY -DAIMER_MVE_PORTABLE_TEST \
++		$(MATVEC_CPPFLAGS) -DAIMER_MATVEC=$(MATVEC) \
+ 		-DPARAMS=$(PARAM) -Iinclude -I$(SCHEME_DIR) -I$(SRC_ROOT) \
+ 		-O2 -std=c11 $^ -o $@
+ 
+diff --git a/AIMer_v3/m55/benchmarks/README.md b/AIMer_v3/m55/benchmarks/README.md
+index 01da562..6eeb47c 100644
+--- a/AIMer_v3/m55/benchmarks/README.md
++++ b/AIMer_v3/m55/benchmarks/README.md
+@@ -33,6 +33,29 @@ make -B PARAM=128f BACKEND=mve TEST=benchmark MEMORY=full \
+   SIGN_SCHEDULE=lowmem build
+ ```
+ 
++`BACKEND=mve` continues to select the compact matrix implementation by
++default.  The matrix-controlled ablation adds one explicit hybrid build:
++
++```sh
++# A: reference GF, reference matrix, scalar party kernels
++make -B PARAM=128f BACKEND=ref MATVEC=reference TEST=benchmark \
++  MEMORY=full SIGN_SCHEDULE=lowmem build
++
++# B: MVE GF and four-party kernels, official reference matrix only
++make -B PARAM=128f BACKEND=mve MATVEC=reference TEST=benchmark \
++  MEMORY=full SIGN_SCHEDULE=lowmem build
++
++# C: unchanged default full MVE backend and compact matrix
++make -B PARAM=128f BACKEND=mve MATVEC=compact TEST=benchmark \
++  MEMORY=full SIGN_SCHEDULE=lowmem build
++```
++
++The B build keeps the MVE multiplication, squaring/reduction, packing,
++Frobenius, constant multiplication, and MPC integration.  It replaces only
++`gf_mat_vec_mul`; the shared `gf_mat_vec_mul_add` consequently dispatches to
++that selected implementation as well.  The source-copy checker and field
++differential test cover both matrix entry points.
++
+ With the configured NUCLEO board attached, build and run through the shared
+ board lock with:
+ 
+@@ -48,6 +71,19 @@ Raw board logs belong under the ignored `build/` tree.  A summarized result
+ report is added here only from completed board runs; failed or partial runs
+ must not be presented as measurements.
+ 
++The complete restartable experiment (correctness gates, seven rotated E2E
++runs, profiles, 256-bit phase diagnostics, artifact capture, paired bootstrap
++analysis, and Korean Markdown report) is:
++
++```sh
++./benchmarks/run_matvec_ablation.sh
++```
++
++Set `RESULT_DIR` to the existing timestamped result directory to resume an
++interrupted run.  Results are written under
++`benchmarks/results/matvec-ablation-<timestamp>/`; a `COMPLETE` file is added
++only after every gate and the analyzer have passed.
++
+ For causal analysis, `TEST=profile` measures inversion, matrix-vector,
+ real-exponent Frobenius, complete MPC, and scalar MPC kernels and prints the
+ static call counts for the selected parameter set.  `TEST=phase` instruments
+diff --git a/AIMer_v3/m55/benchmarks/benchmark.c b/AIMer_v3/m55/benchmarks/benchmark.c
+index b009fea..1ec205f 100644
+--- a/AIMer_v3/m55/benchmarks/benchmark.c
++++ b/AIMer_v3/m55/benchmarks/benchmark.c
+@@ -114,10 +114,23 @@ static void print_stats(const char *operation, const char *clock,
+              (2.0 * (double)inner);
+   }
+ 
+-  printf("BENCH_RESULT,param=%s,backend=%s,operation=%s,clock=%s,"
++  for (size_t sample = 0; sample < count; ++sample)
++  {
++    printf("BENCH_SAMPLE,param=%s,config=%s,backend=%s,matvec=%s,"
++           "operation=%s,clock=%s,sample=%lu,inner=%lu,items=%lu,"
++           "raw_cycles=%llu\n",
++           xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
++           xstr(AIMER_MATVEC), operation, clock, (unsigned long)sample,
++           (unsigned long)inner, (unsigned long)items,
++           (unsigned long long)samples[sample]);
++  }
++
++  printf("BENCH_RESULT,param=%s,config=%s,backend=%s,matvec=%s,"
++         "operation=%s,clock=%s,"
+          "samples=%lu,inner=%lu,items=%lu,min=%.2f,median=%.2f,"
+          "mean=%.2f,stddev=%.2f,max=%.2f,cycles_per_item_mean=%.2f\n",
+-         xstr(PARAMS), xstr(AIMER_BACKEND), operation, clock,
++         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
++         xstr(AIMER_MATVEC), operation, clock,
+          (unsigned long)count, (unsigned long)inner, (unsigned long)items,
+          minimum, median, mean, sqrt(variance), maximum,
+          mean / (double)items);
+@@ -146,9 +159,11 @@ static int check_timers(void)
+                                   : (uint64_t)pmu_cycles - timer_cycles;
+   const uint64_t error_ppm =
+       (pmu_cycles == 0u) ? UINT64_MAX : difference * 1000000u / pmu_cycles;
+-  printf("BENCH_TIMER_CHECK,param=%s,backend=%s,pmu_cycles=%lu,"
++  printf("BENCH_TIMER_CHECK,param=%s,config=%s,backend=%s,matvec=%s,"
++         "pmu_cycles=%lu,"
+          "timer_cycles=%llu,error_ppm=%llu\n",
+-         xstr(PARAMS), xstr(AIMER_BACKEND), (unsigned long)pmu_cycles,
++         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
++         xstr(AIMER_MATVEC), (unsigned long)pmu_cycles,
+          (unsigned long long)timer_cycles, (unsigned long long)error_ppm);
+   return error_ppm <= 20000u ? 0 : -1;
+ }
+@@ -321,9 +336,11 @@ static int benchmark_end_to_end(void)
+ 
+ int main(void)
+ {
+-  printf("BENCH_CONFIG,param=%s,backend=%s,cpu_hz=%lu,long_timer_hz=%lu,"
++  printf("BENCH_CONFIG,param=%s,config=%s,backend=%s,matvec=%s,cpu_hz=%lu,"
++         "long_timer_hz=%lu,"
+          "kernel_samples=%u,e2e_samples=%u,kernel_inner=%u,warmup=%u\n",
+-         xstr(PARAMS), xstr(AIMER_BACKEND),
++         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
++         xstr(AIMER_MATVEC),
+          (unsigned long)m55_cpu_hz(), (unsigned long)m55_long_timer_hz(),
+          (unsigned int)BENCH_KERNEL_SAMPLES,
+          (unsigned int)BENCH_E2E_SAMPLES,
+@@ -331,30 +348,38 @@ int main(void)
+ 
+   if (check_timers() != 0)
+   {
+-    printf("BENCH_FAIL,param=%s,backend=%s,stage=timer_check\n",
+-           xstr(PARAMS), xstr(AIMER_BACKEND));
++    printf("BENCH_FAIL,param=%s,config=%s,backend=%s,matvec=%s,"
++           "stage=timer_check\n",
++           xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
++           xstr(AIMER_MATVEC));
+     return 1;
+   }
+   benchmark_field_kernels();
+   if (benchmark_end_to_end() != 0)
+   {
+-    printf("BENCH_FAIL,param=%s,backend=%s,stage=end_to_end\n",
+-           xstr(PARAMS), xstr(AIMER_BACKEND));
++    printf("BENCH_FAIL,param=%s,config=%s,backend=%s,matvec=%s,"
++           "stage=end_to_end\n",
++           xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
++           xstr(AIMER_MATVEC));
+     return 1;
+   }
+ 
+-  printf("BENCH_MEMORY,param=%s,backend=%s,static_ram_bytes=%lu,"
++  printf("BENCH_MEMORY,param=%s,config=%s,backend=%s,matvec=%s,"
++         "static_ram_bytes=%lu,"
+          "stack_reserved_bytes=%lu,stack_peak_bytes=%lu,"
+          "heap_capacity_bytes=%lu,heap_peak_bytes=%lu\n",
+-         xstr(PARAMS), xstr(AIMER_BACKEND),
++         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
++         xstr(AIMER_MATVEC),
+          (unsigned long)m55_static_ram_bytes(),
+          (unsigned long)m55_stack_reserved_bytes(),
+          (unsigned long)m55_stack_peak_bytes(),
+          (unsigned long)m55_heap_capacity_bytes(),
+          (unsigned long)m55_heap_peak_bytes());
+ 
+-  printf("BENCH_PASS,param=%s,backend=%s,checksum=%08lx%08lx\n",
+-         xstr(PARAMS), xstr(AIMER_BACKEND),
++  printf("BENCH_PASS,param=%s,config=%s,backend=%s,matvec=%s,"
++         "checksum=%08lx%08lx\n",
++         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
++         xstr(AIMER_MATVEC),
+          (unsigned long)(benchmark_checksum >> 32),
+          (unsigned long)(benchmark_checksum & UINT32_MAX));
+   return 0;
+diff --git a/AIMer_v3/m55/benchmarks/profile.c b/AIMer_v3/m55/benchmarks/profile.c
+index 9bf6ce5..79077e3 100644
+--- a/AIMer_v3/m55/benchmarks/profile.c
++++ b/AIMer_v3/m55/benchmarks/profile.c
+@@ -136,10 +136,22 @@ static void print_stats(const char *operation, const uint64_t *samples,
+   }
+   variance /= (double)PROFILE_SAMPLES;
+ 
+-  printf("PROFILE_RESULT,param=%s,backend=%s,operation=%s,samples=%u,"
++  for (size_t sample = 0; sample < PROFILE_SAMPLES; ++sample)
++  {
++    printf("PROFILE_SAMPLE,param=%s,config=%s,backend=%s,matvec=%s,"
++           "operation=%s,sample=%lu,inner=%lu,items=%lu,raw_cycles=%llu\n",
++           xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
++           xstr(AIMER_MATVEC), operation, (unsigned long)sample,
++           (unsigned long)inner, (unsigned long)items,
++           (unsigned long long)samples[sample]);
++  }
++
++  printf("PROFILE_RESULT,param=%s,config=%s,backend=%s,matvec=%s,"
++         "operation=%s,samples=%u,"
+          "inner=%lu,items=%lu,min=%.2f,median=%.2f,mean=%.2f,"
+          "stddev=%.2f,max=%.2f,cycles_per_item_mean=%.2f\n",
+-         xstr(PARAMS), xstr(AIMER_BACKEND), operation,
++         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
++         xstr(AIMER_MATVEC), operation,
+          (unsigned int)PROFILE_SAMPLES, (unsigned long)inner,
+          (unsigned long)items, (double)sorted[0] / (double)inner,
+          (double)sorted[PROFILE_SAMPLES / 2u] / (double)inner, mean,
+@@ -204,12 +216,46 @@ static void profile_basic_kernels(void)
+     profile_checksum ^= field_output[sample % AIM3_NUM_WORDS_FIELD];
+   }
+   print_stats("gf_mat_vec_mul", samples, PROFILE_KERNEL_INNER, 1u);
++
++  for (size_t sample = 0; sample < PROFILE_SAMPLES; ++sample)
++  {
++    fill_field(field_a);
++    fill_field(field_output);
++    m55_measure_start();
++    for (size_t inner = 0; inner < PROFILE_KERNEL_INNER; ++inner)
++    {
++      gf_mat_vec_mul_add(field_output, field_a, linear.mat_A[0]);
++    }
++    samples[sample] = m55_measure_end();
++    profile_checksum ^= field_output[sample % AIM3_NUM_WORDS_FIELD];
++  }
++  print_stats("gf_mat_vec_mul_add", samples, PROFILE_KERNEL_INNER, 1u);
+ }
+ 
+ static void profile_batch_kernels(void)
+ {
+   uint64_t samples[PROFILE_SAMPLES];
+ 
++  for (size_t sample = 0; sample < PROFILE_SAMPLES; ++sample)
++  {
++    for (size_t lane = 0; lane < M55_PARTY_BATCH_LANES; ++lane)
++    {
++      fill_field(batch_input[lane]);
++    }
++    m55_measure_start();
++    for (size_t inner = 0; inner < PROFILE_KERNEL_INNER; ++inner)
++    {
++      m55_gf_sqr_batch4(batch_output, batch_input,
++                        M55_PARTY_BATCH_LANES);
++    }
++    samples[sample] = m55_measure_end();
++    profile_checksum ^=
++        batch_output[sample % M55_PARTY_BATCH_LANES]
++                    [sample % AIM3_NUM_WORDS_FIELD];
++  }
++  print_stats("gf_sqr_batch4", samples, PROFILE_KERNEL_INNER,
++              M55_PARTY_BATCH_LANES);
++
+   for (size_t ell = 0; ell < AIMER_L + 1u; ++ell)
+   {
+     char operation[40];
+@@ -263,12 +309,15 @@ static void profile_batch_kernels(void)
+ static void profile_mpc(void)
+ {
+   uint64_t samples[PROFILE_SAMPLES];
++  uint64_t affine_samples[PROFILE_SAMPLES];
++  uint64_t frobenius_samples[PROFILE_SAMPLES];
+   gf ciphertext;
+   fill_field(ciphertext);
+ 
+   for (size_t sample = 0; sample < PROFILE_SAMPLES; ++sample)
+   {
+     fill_tapes();
++    m55_mpc_profile_reset();
+     m55_measure_start();
+     for (size_t inner = 0; inner < PROFILE_COMPLEX_INNER; ++inner)
+     {
+@@ -276,6 +325,8 @@ static void profile_mpc(void)
+                           M55_PARTY_BATCH_LANES);
+     }
+     samples[sample] = m55_measure_end();
++    affine_samples[sample] = m55_mpc_profile_affine_cycles();
++    frobenius_samples[sample] = m55_mpc_profile_frobenius_cycles();
+     profile_checksum ^=
+         checks[sample % M55_PARTY_BATCH_LANES]
+               .z_shares[sample % (AIMER_L + 1u)]
+@@ -283,6 +334,10 @@ static void profile_mpc(void)
+   }
+   print_stats("aim3_mpc_batch4", samples, PROFILE_COMPLEX_INNER,
+               M55_PARTY_BATCH_LANES);
++  print_stats("aim3_mpc_batch4_affine", affine_samples,
++              PROFILE_COMPLEX_INNER, M55_PARTY_BATCH_LANES);
++  print_stats("aim3_mpc_batch4_frobenius", frobenius_samples,
++              PROFILE_COMPLEX_INNER, M55_PARTY_BATCH_LANES);
+ 
+   for (size_t sample = 0; sample < PROFILE_SAMPLES; ++sample)
+   {
+@@ -322,9 +377,11 @@ int main(void)
+   const size_t challenge_batch_mul_calls =
+       3u * (AIMER_L + 1u) * AIMER_T * party_batches;
+ 
+-  printf("PROFILE_CONFIG,param=%s,backend=%s,cpu_hz=%lu,bits=%u,"
++  printf("PROFILE_CONFIG,param=%s,config=%s,backend=%s,matvec=%s,cpu_hz=%lu,"
++         "bits=%u,"
+          "limbs16=%u,padded_limbs16=%u,L=%u,N=%u,T=%u,exponent_sum=%lu\n",
+-         xstr(PARAMS), xstr(AIMER_BACKEND),
++         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
++         xstr(AIMER_MATVEC),
+          (unsigned long)m55_cpu_hz(), (unsigned int)SECURITY_BITS,
+          (unsigned int)M55_PROFILE_LIMBS,
+          (unsigned int)M55_PROFILE_PADDED_LIMBS,
+@@ -350,8 +407,10 @@ int main(void)
+   profile_batch_kernels();
+   profile_mpc();
+ 
+-  printf("PROFILE_PASS,param=%s,backend=%s,checksum=%08lx%08lx\n",
+-         xstr(PARAMS), xstr(AIMER_BACKEND),
++  printf("PROFILE_PASS,param=%s,config=%s,backend=%s,matvec=%s,"
++         "checksum=%08lx%08lx\n",
++         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
++         xstr(AIMER_MATVEC),
+          (unsigned long)(profile_checksum >> 32),
+          (unsigned long)(profile_checksum & UINT32_MAX));
+   return 0;
+diff --git a/AIMer_v3/m55/src/mve/field_mve.c b/AIMer_v3/m55/src/mve/field_mve.c
+index a34b06d..cc5a516 100644
+--- a/AIMer_v3/m55/src/mve/field_mve.c
++++ b/AIMer_v3/m55/src/mve/field_mve.c
+@@ -182,6 +182,7 @@ void gf_sqr(gf c, const gf a)
+   m55_gf_reduce_words(c, product);
+ }
+ 
++#if !defined(AIMER_M55_REFERENCE_MATVEC)
+ void gf_mat_vec_mul(gf c, const gf a,
+                     const gf b[AIM3_NUM_BITS_FIELD])
+ {
+@@ -203,3 +204,4 @@ void gf_mat_vec_mul(gf c, const gf a,
+     c[word] = result[word];
+   }
+ }
++#endif
+diff --git a/AIMer_v3/m55/src/ref/sign_low_memory.c b/AIMer_v3/m55/src/ref/sign_low_memory.c
+index 6a79fb9..db9a57b 100644
+--- a/AIMer_v3/m55/src/ref/sign_low_memory.c
++++ b/AIMer_v3/m55/src/ref/sign_low_memory.c
+@@ -388,6 +388,7 @@ static int m55_sign_signature_internal(uint8_t *sig, size_t *siglen,
+   uint64_t phase_2_3_cycles;
+   uint64_t phase_5_cycles;
+   uint64_t phase_start;
++  m55_mpc_profile_reset();
+ #endif
+ 
+   aim_lin_t *const lin = malloc(sizeof(*lin));
+@@ -455,14 +456,18 @@ static int m55_sign_signature_internal(uint8_t *sig, size_t *siglen,
+   *siglen = CRYPTO_BYTES;
+ 
+ #if defined(AIMER_PHASE_PROFILE)
+-  printf("PHASE_PROFILE_SIGN,param=%s,backend=%s,linear=%llu,sbox=%llu,"
+-         "phase1=%llu,phase23=%llu,phase5=%llu,total_phases=%llu\n",
+-         xstr(PARAMS), xstr(AIMER_BACKEND),
++  printf("PHASE_PROFILE_SIGN,param=%s,config=%s,backend=%s,matvec=%s,"
++         "linear=%llu,sbox=%llu,phase1=%llu,phase23=%llu,phase5=%llu,"
++         "mpc_affine=%llu,mpc_frobenius=%llu,total_phases=%llu\n",
++         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
++         xstr(AIMER_MATVEC),
+          (unsigned long long)linear_cycles,
+          (unsigned long long)sbox_cycles,
+          (unsigned long long)phase_1_cycles,
+          (unsigned long long)phase_2_3_cycles,
+          (unsigned long long)phase_5_cycles,
++         (unsigned long long)m55_mpc_profile_affine_cycles(),
++         (unsigned long long)m55_mpc_profile_frobenius_cycles(),
+          (unsigned long long)(linear_cycles + sbox_cycles + phase_1_cycles +
+                               phase_2_3_cycles + phase_5_cycles));
+ #endif
+diff --git a/AIMer_v3/m55/src/ref/verify_batch.c b/AIMer_v3/m55/src/ref/verify_batch.c
+index 2790d3b..746e231 100644
+--- a/AIMer_v3/m55/src/ref/verify_batch.c
++++ b/AIMer_v3/m55/src/ref/verify_batch.c
+@@ -392,13 +392,15 @@ static int m55_crypto_sign_verify_internal(
+ 
+ #if defined(AIMER_PHASE_PROFILE)
+   const uint64_t total_cycles = m55_cycle_count64() - total_start;
+-  printf("PHASE_PROFILE_VERIFY,param=%s,backend=%s,linear=%llu,setup=%llu,"
++  printf("PHASE_PROFILE_VERIFY,param=%s,config=%s,backend=%s,matvec=%s,"
++         "linear=%llu,setup=%llu,"
+          "tree=%llu,tape=%llu,mpc=%llu,mpc_affine=%llu,mpc_frobenius=%llu,"
+          "mpc_icache_refills=%llu,"
+          "mpc_dcache_refills=%llu,"
+          "xz_products=%llu,b_products=%llu,"
+          "transcript=%llu,finish=%llu,total=%llu,result=%d\n",
+-         xstr(PARAMS), xstr(AIMER_BACKEND),
++         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
++         xstr(AIMER_MATVEC),
+          (unsigned long long)linear_cycles,
+          (unsigned long long)setup_cycles,
+          (unsigned long long)tree_cycles,
+diff --git a/AIMer_v3/m55/tests/test_reference.c b/AIMer_v3/m55/tests/test_reference.c
+index cd039b7..5873454 100644
+--- a/AIMer_v3/m55/tests/test_reference.c
++++ b/AIMer_v3/m55/tests/test_reference.c
+@@ -147,6 +147,7 @@ int main(void)
+   gf a = {0};
+   gf b = {0};
+   gf expected;
++  gf add_expected;
+   gf actual;
+   gf matrix[AIM3_NUM_BITS_FIELD];
+   size_t test_case = 0;
+@@ -207,6 +208,18 @@ int main(void)
+     {
+       return 1;
+     }
++
++    fill_random(b);
++    for (size_t word = 0; word < AIM3_NUM_WORDS_FIELD; ++word)
++    {
++      add_expected[word] = b[word] ^ expected[word];
++      actual[word] = b[word];
++    }
++    gf_mat_vec_mul_add(actual, a, matrix);
++    if (compare("matrix_add", round, add_expected, actual) != 0)
++    {
++      return 1;
++    }
+   }
+ 
+   for (size_t round = 0; round < 16; ++round)
+diff --git a/AIMer_v3/m55/tests/test_sign_verify.c b/AIMer_v3/m55/tests/test_sign_verify.c
+index 841e7ed..4f72dd3 100644
+--- a/AIMer_v3/m55/tests/test_sign_verify.c
++++ b/AIMer_v3/m55/tests/test_sign_verify.c
+@@ -16,6 +16,17 @@ static uint8_t secret_key[CRYPTO_SECRETKEYBYTES];
+ static uint8_t signature[CRYPTO_BYTES];
+ static uint8_t message[MESSAGE_LENGTH];
+ 
++static uint64_t checksum_bytes(uint64_t state, const uint8_t *input,
++                               size_t length)
++{
++  for (size_t i = 0; i < length; ++i)
++  {
++    state ^= input[i];
++    state *= UINT64_C(0x100000001b3);
++  }
++  return state;
++}
++
+ int main(void)
+ {
+   uint8_t entropy[48];
+@@ -65,6 +76,11 @@ int main(void)
+   }
+   const uint32_t verify_cycles = m55_measure_end();
+ 
++  uint64_t checksum = UINT64_C(0xcbf29ce484222325);
++  checksum = checksum_bytes(checksum, public_key, sizeof(public_key));
++  checksum = checksum_bytes(checksum, secret_key, sizeof(secret_key));
++  checksum = checksum_bytes(checksum, signature, signature_length);
++
+   signature[signature_length / 2] ^= 1u;
+   if (crypto_sign_verify(signature, signature_length, message,
+                          sizeof(message), NULL, 0, public_key) == 0)
+@@ -73,9 +89,13 @@ int main(void)
+     return 1;
+   }
+ 
+-  printf("SIGN_TEST_PASS param=%s keypair_cycles=%lu sign_cycles=%lu "
+-         "verify_cycles=%lu\n",
+-         xstr(PARAMS), (unsigned long)keypair_cycles,
+-         (unsigned long)sign_cycles, (unsigned long)verify_cycles);
++  printf("SIGN_TEST_PASS param=%s config=%s backend=%s matvec=%s "
++         "keypair_cycles=%lu sign_cycles=%lu verify_cycles=%lu "
++         "checksum=%08lx%08lx\n",
++         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
++         xstr(AIMER_MATVEC), (unsigned long)keypair_cycles,
++         (unsigned long)sign_cycles, (unsigned long)verify_cycles,
++         (unsigned long)(checksum >> 32),
++         (unsigned long)(checksum & UINT32_MAX));
+   return 0;
+ }

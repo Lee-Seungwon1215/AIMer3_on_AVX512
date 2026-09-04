@@ -1,0 +1,19 @@
+/Users/seungwon/AIMer3_on_AVX512/AIMer_v3/m55/build/full/128f/mve-refmat/profile/aimer-m55-128f-mve-refmat-profile.elf  :
+section             size        addr
+.isr_vector          844   873989120
+.text              59652   873989968
+.rodata             2376   874049624
+.ARM.exidx             8   874052000
+.init_array            8   874052008
+.fini_array            4   874052016
+.gnu.sgstubs          32   874052032
+.data               2192   874250240
+.noncacheable         16   874252432
+.bss               10568   874252448
+._user_stack      131072   874381312
+._user_heap         4096   874512384
+.ARM.attributes       58           0
+.comment              56           0
+Total             210982
+
+

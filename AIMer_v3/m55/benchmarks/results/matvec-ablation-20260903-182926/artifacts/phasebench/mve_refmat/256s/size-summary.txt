@@ -1,0 +1,2 @@
+   text	   data	    bss	    dec	    hex	filename
+  79296	   2192	 156568	 238056	  3a1e8	/Users/seungwon/AIMer3_on_AVX512/AIMer_v3/m55/build/full/256s/mve-refmat/phasebench/aimer-m55-256s-mve-refmat-phasebench.elf

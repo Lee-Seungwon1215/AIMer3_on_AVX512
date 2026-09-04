@@ -1,0 +1,7 @@
+공식 gf_mat_vec_mul 소스 본문 128/192/256-bit 완전 일치
+호스트 low-memory byte exact 6/6
+호스트 공식 KAT 100개 × 6 파라미터 × 3 구성
+MVE field differential 6 파라미터 × B/C
+보드 sign/verify/tamper 6 파라미터 × 3 구성, checksum 일치
+보드 B/MVE-REFMAT 공식 KAT 100개 × 6 파라미터
+B/MVE-REFMAT VMULLB.P16/VMULLT.P16 6/6 및 선택 심볼 확인
