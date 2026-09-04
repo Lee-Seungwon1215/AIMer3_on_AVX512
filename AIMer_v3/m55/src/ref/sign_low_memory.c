@@ -388,6 +388,7 @@ static int m55_sign_signature_internal(uint8_t *sig, size_t *siglen,
   uint64_t phase_2_3_cycles;
   uint64_t phase_5_cycles;
   uint64_t phase_start;
+  m55_mpc_profile_reset();
 #endif
 
   aim_lin_t *const lin = malloc(sizeof(*lin));
@@ -455,14 +456,18 @@ static int m55_sign_signature_internal(uint8_t *sig, size_t *siglen,
   *siglen = CRYPTO_BYTES;
 
 #if defined(AIMER_PHASE_PROFILE)
-  printf("PHASE_PROFILE_SIGN,param=%s,backend=%s,linear=%llu,sbox=%llu,"
-         "phase1=%llu,phase23=%llu,phase5=%llu,total_phases=%llu\n",
-         xstr(PARAMS), xstr(AIMER_BACKEND),
+  printf("PHASE_PROFILE_SIGN,param=%s,config=%s,backend=%s,matvec=%s,"
+         "linear=%llu,sbox=%llu,phase1=%llu,phase23=%llu,phase5=%llu,"
+         "mpc_affine=%llu,mpc_frobenius=%llu,total_phases=%llu\n",
+         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
+         xstr(AIMER_MATVEC),
          (unsigned long long)linear_cycles,
          (unsigned long long)sbox_cycles,
          (unsigned long long)phase_1_cycles,
          (unsigned long long)phase_2_3_cycles,
          (unsigned long long)phase_5_cycles,
+         (unsigned long long)m55_mpc_profile_affine_cycles(),
+         (unsigned long long)m55_mpc_profile_frobenius_cycles(),
          (unsigned long long)(linear_cycles + sbox_cycles + phase_1_cycles +
                               phase_2_3_cycles + phase_5_cycles));
 #endif

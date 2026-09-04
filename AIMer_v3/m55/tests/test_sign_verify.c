@@ -16,6 +16,17 @@ static uint8_t secret_key[CRYPTO_SECRETKEYBYTES];
 static uint8_t signature[CRYPTO_BYTES];
 static uint8_t message[MESSAGE_LENGTH];
 
+static uint64_t checksum_bytes(uint64_t state, const uint8_t *input,
+                               size_t length)
+{
+  for (size_t i = 0; i < length; ++i)
+  {
+    state ^= input[i];
+    state *= UINT64_C(0x100000001b3);
+  }
+  return state;
+}
+
 int main(void)
 {
   uint8_t entropy[48];
@@ -65,6 +76,11 @@ int main(void)
   }
   const uint32_t verify_cycles = m55_measure_end();
 
+  uint64_t checksum = UINT64_C(0xcbf29ce484222325);
+  checksum = checksum_bytes(checksum, public_key, sizeof(public_key));
+  checksum = checksum_bytes(checksum, secret_key, sizeof(secret_key));
+  checksum = checksum_bytes(checksum, signature, signature_length);
+
   signature[signature_length / 2] ^= 1u;
   if (crypto_sign_verify(signature, signature_length, message,
                          sizeof(message), NULL, 0, public_key) == 0)
@@ -73,9 +89,13 @@ int main(void)
     return 1;
   }
 
-  printf("SIGN_TEST_PASS param=%s keypair_cycles=%lu sign_cycles=%lu "
-         "verify_cycles=%lu\n",
-         xstr(PARAMS), (unsigned long)keypair_cycles,
-         (unsigned long)sign_cycles, (unsigned long)verify_cycles);
+  printf("SIGN_TEST_PASS param=%s config=%s backend=%s matvec=%s "
+         "keypair_cycles=%lu sign_cycles=%lu verify_cycles=%lu "
+         "checksum=%08lx%08lx\n",
+         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
+         xstr(AIMER_MATVEC), (unsigned long)keypair_cycles,
+         (unsigned long)sign_cycles, (unsigned long)verify_cycles,
+         (unsigned long)(checksum >> 32),
+         (unsigned long)(checksum & UINT32_MAX));
   return 0;
 }

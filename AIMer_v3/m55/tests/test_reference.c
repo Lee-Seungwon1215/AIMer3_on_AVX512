@@ -147,6 +147,7 @@ int main(void)
   gf a = {0};
   gf b = {0};
   gf expected;
+  gf add_expected;
   gf actual;
   gf matrix[AIM3_NUM_BITS_FIELD];
   size_t test_case = 0;
@@ -204,6 +205,18 @@ int main(void)
     generic_matrix(expected, a, matrix);
     gf_mat_vec_mul(actual, a, matrix);
     if (compare("matrix", round, expected, actual) != 0)
+    {
+      return 1;
+    }
+
+    fill_random(b);
+    for (size_t word = 0; word < AIM3_NUM_WORDS_FIELD; ++word)
+    {
+      add_expected[word] = b[word] ^ expected[word];
+      actual[word] = b[word];
+    }
+    gf_mat_vec_mul_add(actual, a, matrix);
+    if (compare("matrix_add", round, add_expected, actual) != 0)
     {
       return 1;
     }

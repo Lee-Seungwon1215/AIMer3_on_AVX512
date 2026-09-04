@@ -392,13 +392,15 @@ static int m55_crypto_sign_verify_internal(
 
 #if defined(AIMER_PHASE_PROFILE)
   const uint64_t total_cycles = m55_cycle_count64() - total_start;
-  printf("PHASE_PROFILE_VERIFY,param=%s,backend=%s,linear=%llu,setup=%llu,"
+  printf("PHASE_PROFILE_VERIFY,param=%s,config=%s,backend=%s,matvec=%s,"
+         "linear=%llu,setup=%llu,"
          "tree=%llu,tape=%llu,mpc=%llu,mpc_affine=%llu,mpc_frobenius=%llu,"
          "mpc_icache_refills=%llu,"
          "mpc_dcache_refills=%llu,"
          "xz_products=%llu,b_products=%llu,"
          "transcript=%llu,finish=%llu,total=%llu,result=%d\n",
-         xstr(PARAMS), xstr(AIMER_BACKEND),
+         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
+         xstr(AIMER_MATVEC),
          (unsigned long long)linear_cycles,
          (unsigned long long)setup_cycles,
          (unsigned long long)tree_cycles,

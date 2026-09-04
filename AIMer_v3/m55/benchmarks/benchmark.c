@@ -114,10 +114,23 @@ static void print_stats(const char *operation, const char *clock,
              (2.0 * (double)inner);
   }
 
-  printf("BENCH_RESULT,param=%s,backend=%s,operation=%s,clock=%s,"
+  for (size_t sample = 0; sample < count; ++sample)
+  {
+    printf("BENCH_SAMPLE,param=%s,config=%s,backend=%s,matvec=%s,"
+           "operation=%s,clock=%s,sample=%lu,inner=%lu,items=%lu,"
+           "raw_cycles=%llu\n",
+           xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
+           xstr(AIMER_MATVEC), operation, clock, (unsigned long)sample,
+           (unsigned long)inner, (unsigned long)items,
+           (unsigned long long)samples[sample]);
+  }
+
+  printf("BENCH_RESULT,param=%s,config=%s,backend=%s,matvec=%s,"
+         "operation=%s,clock=%s,"
          "samples=%lu,inner=%lu,items=%lu,min=%.2f,median=%.2f,"
          "mean=%.2f,stddev=%.2f,max=%.2f,cycles_per_item_mean=%.2f\n",
-         xstr(PARAMS), xstr(AIMER_BACKEND), operation, clock,
+         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
+         xstr(AIMER_MATVEC), operation, clock,
          (unsigned long)count, (unsigned long)inner, (unsigned long)items,
          minimum, median, mean, sqrt(variance), maximum,
          mean / (double)items);
@@ -146,9 +159,11 @@ static int check_timers(void)
                                   : (uint64_t)pmu_cycles - timer_cycles;
   const uint64_t error_ppm =
       (pmu_cycles == 0u) ? UINT64_MAX : difference * 1000000u / pmu_cycles;
-  printf("BENCH_TIMER_CHECK,param=%s,backend=%s,pmu_cycles=%lu,"
+  printf("BENCH_TIMER_CHECK,param=%s,config=%s,backend=%s,matvec=%s,"
+         "pmu_cycles=%lu,"
          "timer_cycles=%llu,error_ppm=%llu\n",
-         xstr(PARAMS), xstr(AIMER_BACKEND), (unsigned long)pmu_cycles,
+         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
+         xstr(AIMER_MATVEC), (unsigned long)pmu_cycles,
          (unsigned long long)timer_cycles, (unsigned long long)error_ppm);
   return error_ppm <= 20000u ? 0 : -1;
 }
@@ -321,9 +336,11 @@ static int benchmark_end_to_end(void)
 
 int main(void)
 {
-  printf("BENCH_CONFIG,param=%s,backend=%s,cpu_hz=%lu,long_timer_hz=%lu,"
+  printf("BENCH_CONFIG,param=%s,config=%s,backend=%s,matvec=%s,cpu_hz=%lu,"
+         "long_timer_hz=%lu,"
          "kernel_samples=%u,e2e_samples=%u,kernel_inner=%u,warmup=%u\n",
-         xstr(PARAMS), xstr(AIMER_BACKEND),
+         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
+         xstr(AIMER_MATVEC),
          (unsigned long)m55_cpu_hz(), (unsigned long)m55_long_timer_hz(),
          (unsigned int)BENCH_KERNEL_SAMPLES,
          (unsigned int)BENCH_E2E_SAMPLES,
@@ -331,30 +348,38 @@ int main(void)
 
   if (check_timers() != 0)
   {
-    printf("BENCH_FAIL,param=%s,backend=%s,stage=timer_check\n",
-           xstr(PARAMS), xstr(AIMER_BACKEND));
+    printf("BENCH_FAIL,param=%s,config=%s,backend=%s,matvec=%s,"
+           "stage=timer_check\n",
+           xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
+           xstr(AIMER_MATVEC));
     return 1;
   }
   benchmark_field_kernels();
   if (benchmark_end_to_end() != 0)
   {
-    printf("BENCH_FAIL,param=%s,backend=%s,stage=end_to_end\n",
-           xstr(PARAMS), xstr(AIMER_BACKEND));
+    printf("BENCH_FAIL,param=%s,config=%s,backend=%s,matvec=%s,"
+           "stage=end_to_end\n",
+           xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
+           xstr(AIMER_MATVEC));
     return 1;
   }
 
-  printf("BENCH_MEMORY,param=%s,backend=%s,static_ram_bytes=%lu,"
+  printf("BENCH_MEMORY,param=%s,config=%s,backend=%s,matvec=%s,"
+         "static_ram_bytes=%lu,"
          "stack_reserved_bytes=%lu,stack_peak_bytes=%lu,"
          "heap_capacity_bytes=%lu,heap_peak_bytes=%lu\n",
-         xstr(PARAMS), xstr(AIMER_BACKEND),
+         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
+         xstr(AIMER_MATVEC),
          (unsigned long)m55_static_ram_bytes(),
          (unsigned long)m55_stack_reserved_bytes(),
          (unsigned long)m55_stack_peak_bytes(),
          (unsigned long)m55_heap_capacity_bytes(),
          (unsigned long)m55_heap_peak_bytes());
 
-  printf("BENCH_PASS,param=%s,backend=%s,checksum=%08lx%08lx\n",
-         xstr(PARAMS), xstr(AIMER_BACKEND),
+  printf("BENCH_PASS,param=%s,config=%s,backend=%s,matvec=%s,"
+         "checksum=%08lx%08lx\n",
+         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
+         xstr(AIMER_MATVEC),
          (unsigned long)(benchmark_checksum >> 32),
          (unsigned long)(benchmark_checksum & UINT32_MAX));
   return 0;

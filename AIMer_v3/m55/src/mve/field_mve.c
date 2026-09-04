@@ -182,6 +182,7 @@ void gf_sqr(gf c, const gf a)
   m55_gf_reduce_words(c, product);
 }
 
+#if !defined(AIMER_M55_REFERENCE_MATVEC)
 void gf_mat_vec_mul(gf c, const gf a,
                     const gf b[AIM3_NUM_BITS_FIELD])
 {
@@ -203,3 +204,4 @@ void gf_mat_vec_mul(gf c, const gf a,
     c[word] = result[word];
   }
 }
+#endif

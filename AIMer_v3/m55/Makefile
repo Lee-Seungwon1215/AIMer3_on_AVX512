@@ -24,6 +24,24 @@ ifeq ($(filter $(BACKEND),$(VALID_BACKENDS)),)
 $(error BACKEND must be one of: $(VALID_BACKENDS))
 endif
 
+ifeq ($(origin MATVEC),undefined)
+ifeq ($(BACKEND),mve)
+MATVEC := compact
+else
+MATVEC := reference
+endif
+endif
+
+VALID_MATVECS := compact reference
+ifeq ($(filter $(MATVEC),$(VALID_MATVECS)),)
+$(error MATVEC must be one of: $(VALID_MATVECS))
+endif
+ifeq ($(BACKEND),ref)
+ifneq ($(MATVEC),reference)
+$(error BACKEND=ref requires MATVEC=reference)
+endif
+endif
+
 VALID_TESTS := reference sign kat benchmark profile phase phasebench
 ifeq ($(filter $(TEST),$(VALID_TESTS)),)
 $(error TEST must be one of: $(VALID_TESTS))
@@ -51,27 +69,48 @@ AIMER_ROOT := ..
 SRC_ROOT := $(AIMER_ROOT)/src
 BITS := $(subst f,,$(subst s,,$(PARAM)))
 SCHEME_DIR := $(SRC_ROOT)/sig/aimer/reference/aimer-$(PARAM)
-BUILD_DIR := build/$(MEMORY)/$(PARAM)/$(BACKEND)/$(TEST)
-ELF := $(BUILD_DIR)/aimer-m55-$(PARAM)-$(BACKEND)-$(TEST).elf
-MAP := $(ELF:.elf=.map)
-HOST_BUILD_DIR := build/host/$(PARAM)
-HOST_TEST := $(HOST_BUILD_DIR)/test-low-memory-$(PARAM)
-HOST_MVE_FIELD_TEST := $(HOST_BUILD_DIR)/test-mve-field-$(PARAM)
-HOST_KAT_TEST := $(HOST_BUILD_DIR)/test-kat-$(PARAM)
-HOST_MVE_KAT_TEST := $(HOST_BUILD_DIR)/test-kat-mve-$(PARAM)
 
 ifeq ($(BACKEND),mve)
 FIELD_SOURCE := src/mve/field_mve.c
 BACKEND_CPPFLAGS := -DAIMER_MVE_BATCH
+CONFIG_TAG := mve_compact
+BUILD_BACKEND := mve
+MVE_MATVEC_SUFFIX :=
+ifeq ($(MATVEC),reference)
+MATVEC_SOURCE := src/ref/matvec_reference.c
+MATVEC_CPPFLAGS := -DAIMER_M55_REFERENCE_MATVEC
+CONFIG_TAG := mve_refmat
+BUILD_BACKEND := mve-refmat
+MVE_MATVEC_SUFFIX := -refmat
+else
+MATVEC_SOURCE :=
+MATVEC_CPPFLAGS :=
+endif
 else
 FIELD_SOURCE := $(SCHEME_DIR)/field$(BITS).c
 BACKEND_CPPFLAGS :=
+MATVEC_SOURCE :=
+MATVEC_CPPFLAGS :=
+CONFIG_TAG := ref
+BUILD_BACKEND := ref
+MVE_MATVEC_SUFFIX :=
 endif
+
+BUILD_DIR := build/$(MEMORY)/$(PARAM)/$(BUILD_BACKEND)/$(TEST)
+ELF := $(BUILD_DIR)/aimer-m55-$(PARAM)-$(BUILD_BACKEND)-$(TEST).elf
+MAP := $(ELF:.elf=.map)
+HOST_BUILD_DIR := build/host/$(PARAM)
+HOST_TEST := $(HOST_BUILD_DIR)/test-low-memory-$(PARAM)
+HOST_MVE_FIELD_TEST := $(HOST_BUILD_DIR)/test-mve-field-$(PARAM)$(MVE_MATVEC_SUFFIX)
+HOST_KAT_TEST := $(HOST_BUILD_DIR)/test-kat-$(PARAM)
+HOST_MVE_KAT_TEST := $(HOST_BUILD_DIR)/test-kat-mve-$(PARAM)$(MVE_MATVEC_SUFFIX)
 
 MPC_BATCH_SOURCE := src/mve/mpc_batch.c
 
 ifeq ($(TEST),benchmark)
 TEST_CPPFLAGS := -DAIMER_BENCHMARK
+else ifeq ($(TEST),profile)
+TEST_CPPFLAGS := -DAIMER_PHASE_PROFILE
 else ifeq ($(TEST),phase)
 TEST_CPPFLAGS := -DAIMER_PHASE_PROFILE -DAIMER_BENCHMARK
 else ifeq ($(TEST),phasebench)
@@ -99,9 +138,12 @@ endif
 
 CPPFLAGS := \
 	$(BACKEND_CPPFLAGS) \
+	$(MATVEC_CPPFLAGS) \
 	$(TEST_CPPFLAGS) \
 	-DPARAMS=$(PARAM) \
 	-DAIMER_BACKEND=$(BACKEND) \
+	-DAIMER_MATVEC=$(MATVEC) \
+	-DAIMER_CONFIG=$(CONFIG_TAG) \
 	-DBENCH_KERNEL_SAMPLES=$(BENCH_KERNEL_SAMPLES) \
 	-DBENCH_E2E_SAMPLES=$(BENCH_E2E_SAMPLES) \
 	-DBENCH_KERNEL_INNER=$(BENCH_KERNEL_INNER) \
@@ -148,7 +190,8 @@ C_SOURCES_REFERENCE := \
 	tests/test_reference.c \
 	src/mve/field_batch.c \
 	$(SCHEME_DIR)/field_common.c \
-	$(FIELD_SOURCE)
+	$(FIELD_SOURCE) \
+	$(MATVEC_SOURCE)
 
 C_SOURCES_SIGN := \
 	tests/test_sign_verify.c \
@@ -161,6 +204,7 @@ C_SOURCES_SIGN := \
 	$(SCHEME_DIR)/tree.c \
 	$(SCHEME_DIR)/field_common.c \
 	$(FIELD_SOURCE) \
+	$(MATVEC_SOURCE) \
 	$(SRC_ROOT)/common/aes.c \
 	$(SRC_ROOT)/common/fips202.c \
 	$(SRC_ROOT)/common/rng.c
@@ -176,6 +220,7 @@ C_SOURCES_KAT := \
 	$(SCHEME_DIR)/tree.c \
 	$(SCHEME_DIR)/field_common.c \
 	$(FIELD_SOURCE) \
+	$(MATVEC_SOURCE) \
 	$(SRC_ROOT)/common/aes.c \
 	$(SRC_ROOT)/common/fips202.c \
 	$(SRC_ROOT)/common/rng.c
@@ -191,6 +236,7 @@ C_SOURCES_BENCHMARK := \
 	$(SCHEME_DIR)/tree.c \
 	$(SCHEME_DIR)/field_common.c \
 	$(FIELD_SOURCE) \
+	$(MATVEC_SOURCE) \
 	$(SRC_ROOT)/common/aes.c \
 	$(SRC_ROOT)/common/fips202.c \
 	$(SRC_ROOT)/common/rng.c
@@ -203,6 +249,7 @@ C_SOURCES_PROFILE := \
 	$(SCHEME_DIR)/hash.c \
 	$(SCHEME_DIR)/field_common.c \
 	$(FIELD_SOURCE) \
+	$(MATVEC_SOURCE) \
 	$(SRC_ROOT)/common/fips202.c
 
 ifeq ($(TEST),benchmark)
@@ -320,9 +367,10 @@ check-low-memory: $(HOST_TEST)
 	$(HOST_TEST)
 
 $(HOST_MVE_FIELD_TEST): tests/test_reference.c src/mve/field_mve.c \
-	src/mve/field_batch.c $(SCHEME_DIR)/field_common.c
+	src/mve/field_batch.c $(SCHEME_DIR)/field_common.c $(MATVEC_SOURCE)
 	@mkdir -p $(@D)
-	$(HOST_CC) -DAIMER_MVE_PORTABLE_TEST -DPARAMS=$(PARAM) \
+	$(HOST_CC) -DAIMER_MVE_PORTABLE_TEST $(MATVEC_CPPFLAGS) \
+		-DPARAMS=$(PARAM) -DAIMER_MATVEC=$(MATVEC) \
 		-Iinclude -I$(SCHEME_DIR) -I$(SRC_ROOT) -O2 -std=c11 $^ -o $@
 
 check-mve-field-host: $(HOST_MVE_FIELD_TEST)
@@ -347,12 +395,14 @@ $(HOST_MVE_KAT_TEST): tests/kat_runner.c tests/host_platform.c \
 	src/ref/sign_low_memory.c src/ref/verify_batch.c \
 	src/mve/field_batch.c $(MPC_BATCH_SOURCE) \
 	src/mve/field_mve.c \
+	$(MATVEC_SOURCE) \
 	$(SCHEME_DIR)/aim3.c $(SCHEME_DIR)/hash.c $(SCHEME_DIR)/sign.c \
 	$(SCHEME_DIR)/tree.c $(SCHEME_DIR)/field_common.c \
 	$(SRC_ROOT)/common/aes.c $(SRC_ROOT)/common/fips202.c \
 	$(SRC_ROOT)/common/rng.c
 	@mkdir -p $(@D)
 	$(HOST_CC) -DAIMER_KAT_LOW_MEMORY -DAIMER_MVE_PORTABLE_TEST \
+		$(MATVEC_CPPFLAGS) -DAIMER_MATVEC=$(MATVEC) \
 		-DPARAMS=$(PARAM) -Iinclude -I$(SCHEME_DIR) -I$(SRC_ROOT) \
 		-O2 -std=c11 $^ -o $@
 

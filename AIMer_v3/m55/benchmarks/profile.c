@@ -136,10 +136,22 @@ static void print_stats(const char *operation, const uint64_t *samples,
   }
   variance /= (double)PROFILE_SAMPLES;
 
-  printf("PROFILE_RESULT,param=%s,backend=%s,operation=%s,samples=%u,"
+  for (size_t sample = 0; sample < PROFILE_SAMPLES; ++sample)
+  {
+    printf("PROFILE_SAMPLE,param=%s,config=%s,backend=%s,matvec=%s,"
+           "operation=%s,sample=%lu,inner=%lu,items=%lu,raw_cycles=%llu\n",
+           xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
+           xstr(AIMER_MATVEC), operation, (unsigned long)sample,
+           (unsigned long)inner, (unsigned long)items,
+           (unsigned long long)samples[sample]);
+  }
+
+  printf("PROFILE_RESULT,param=%s,config=%s,backend=%s,matvec=%s,"
+         "operation=%s,samples=%u,"
          "inner=%lu,items=%lu,min=%.2f,median=%.2f,mean=%.2f,"
          "stddev=%.2f,max=%.2f,cycles_per_item_mean=%.2f\n",
-         xstr(PARAMS), xstr(AIMER_BACKEND), operation,
+         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
+         xstr(AIMER_MATVEC), operation,
          (unsigned int)PROFILE_SAMPLES, (unsigned long)inner,
          (unsigned long)items, (double)sorted[0] / (double)inner,
          (double)sorted[PROFILE_SAMPLES / 2u] / (double)inner, mean,
@@ -204,11 +216,45 @@ static void profile_basic_kernels(void)
     profile_checksum ^= field_output[sample % AIM3_NUM_WORDS_FIELD];
   }
   print_stats("gf_mat_vec_mul", samples, PROFILE_KERNEL_INNER, 1u);
+
+  for (size_t sample = 0; sample < PROFILE_SAMPLES; ++sample)
+  {
+    fill_field(field_a);
+    fill_field(field_output);
+    m55_measure_start();
+    for (size_t inner = 0; inner < PROFILE_KERNEL_INNER; ++inner)
+    {
+      gf_mat_vec_mul_add(field_output, field_a, linear.mat_A[0]);
+    }
+    samples[sample] = m55_measure_end();
+    profile_checksum ^= field_output[sample % AIM3_NUM_WORDS_FIELD];
+  }
+  print_stats("gf_mat_vec_mul_add", samples, PROFILE_KERNEL_INNER, 1u);
 }
 
 static void profile_batch_kernels(void)
 {
   uint64_t samples[PROFILE_SAMPLES];
+
+  for (size_t sample = 0; sample < PROFILE_SAMPLES; ++sample)
+  {
+    for (size_t lane = 0; lane < M55_PARTY_BATCH_LANES; ++lane)
+    {
+      fill_field(batch_input[lane]);
+    }
+    m55_measure_start();
+    for (size_t inner = 0; inner < PROFILE_KERNEL_INNER; ++inner)
+    {
+      m55_gf_sqr_batch4(batch_output, batch_input,
+                        M55_PARTY_BATCH_LANES);
+    }
+    samples[sample] = m55_measure_end();
+    profile_checksum ^=
+        batch_output[sample % M55_PARTY_BATCH_LANES]
+                    [sample % AIM3_NUM_WORDS_FIELD];
+  }
+  print_stats("gf_sqr_batch4", samples, PROFILE_KERNEL_INNER,
+              M55_PARTY_BATCH_LANES);
 
   for (size_t ell = 0; ell < AIMER_L + 1u; ++ell)
   {
@@ -263,12 +309,15 @@ static void profile_batch_kernels(void)
 static void profile_mpc(void)
 {
   uint64_t samples[PROFILE_SAMPLES];
+  uint64_t affine_samples[PROFILE_SAMPLES];
+  uint64_t frobenius_samples[PROFILE_SAMPLES];
   gf ciphertext;
   fill_field(ciphertext);
 
   for (size_t sample = 0; sample < PROFILE_SAMPLES; ++sample)
   {
     fill_tapes();
+    m55_mpc_profile_reset();
     m55_measure_start();
     for (size_t inner = 0; inner < PROFILE_COMPLEX_INNER; ++inner)
     {
@@ -276,6 +325,8 @@ static void profile_mpc(void)
                           M55_PARTY_BATCH_LANES);
     }
     samples[sample] = m55_measure_end();
+    affine_samples[sample] = m55_mpc_profile_affine_cycles();
+    frobenius_samples[sample] = m55_mpc_profile_frobenius_cycles();
     profile_checksum ^=
         checks[sample % M55_PARTY_BATCH_LANES]
               .z_shares[sample % (AIMER_L + 1u)]
@@ -283,6 +334,10 @@ static void profile_mpc(void)
   }
   print_stats("aim3_mpc_batch4", samples, PROFILE_COMPLEX_INNER,
               M55_PARTY_BATCH_LANES);
+  print_stats("aim3_mpc_batch4_affine", affine_samples,
+              PROFILE_COMPLEX_INNER, M55_PARTY_BATCH_LANES);
+  print_stats("aim3_mpc_batch4_frobenius", frobenius_samples,
+              PROFILE_COMPLEX_INNER, M55_PARTY_BATCH_LANES);
 
   for (size_t sample = 0; sample < PROFILE_SAMPLES; ++sample)
   {
@@ -322,9 +377,11 @@ int main(void)
   const size_t challenge_batch_mul_calls =
       3u * (AIMER_L + 1u) * AIMER_T * party_batches;
 
-  printf("PROFILE_CONFIG,param=%s,backend=%s,cpu_hz=%lu,bits=%u,"
+  printf("PROFILE_CONFIG,param=%s,config=%s,backend=%s,matvec=%s,cpu_hz=%lu,"
+         "bits=%u,"
          "limbs16=%u,padded_limbs16=%u,L=%u,N=%u,T=%u,exponent_sum=%lu\n",
-         xstr(PARAMS), xstr(AIMER_BACKEND),
+         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
+         xstr(AIMER_MATVEC),
          (unsigned long)m55_cpu_hz(), (unsigned int)SECURITY_BITS,
          (unsigned int)M55_PROFILE_LIMBS,
          (unsigned int)M55_PROFILE_PADDED_LIMBS,
@@ -350,8 +407,10 @@ int main(void)
   profile_batch_kernels();
   profile_mpc();
 
-  printf("PROFILE_PASS,param=%s,backend=%s,checksum=%08lx%08lx\n",
-         xstr(PARAMS), xstr(AIMER_BACKEND),
+  printf("PROFILE_PASS,param=%s,config=%s,backend=%s,matvec=%s,"
+         "checksum=%08lx%08lx\n",
+         xstr(PARAMS), xstr(AIMER_CONFIG), xstr(AIMER_BACKEND),
+         xstr(AIMER_MATVEC),
          (unsigned long)(profile_checksum >> 32),
          (unsigned long)(profile_checksum & UINT32_MAX));
   return 0;
