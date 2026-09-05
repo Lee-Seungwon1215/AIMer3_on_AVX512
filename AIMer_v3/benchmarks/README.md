@@ -79,3 +79,43 @@ The diagnostic splits MPC into setup/affine and Frobenius regions, measures the
 scalar kernels used outside MPC, and emits a count-based keypair/sign/verify
 model with an explicit residual. It does not alter the production AVX-512
 objects or the official paper benchmark's predeclared kernel list.
+
+## Single-input matvec intrinsic ablation
+
+`run_single_matvec_ablation.py` compares two **already built and KAT-validated**
+libraries using the same current benchmark harness. It does not build code,
+configure the governor/Turbo, stop processes, or isolate CPUs/IRQs. Its reports
+are explicitly provisional; use the paper environment protocol before making
+final performance claims.
+
+```bash
+python3 AIMer_v3/benchmarks/run_single_matvec_ablation.py \
+  --baseline-build /absolute/path/to/baseline/build \
+  --candidate-build /absolute/path/to/candidate/build \
+  --output /absolute/path/to/new-result-directory --cpu 2
+
+python3 AIMer_v3/benchmarks/run_single_matvec_ablation.py \
+  --output /absolute/path/to/new-result-directory --analyze-only
+```
+
+Defaults: all six parameters, reference/AVX2/AVX-512, seven paired runs,
+50 E2E samples and 75 single-matvec batches per run, and ten warmups. Kernel
+batch size is calibrated once per parameter and shared by both versions and
+all three backends. Version order alternates, backend order rotates, and
+parameter order reverses. No outliers are removed. Bootstrap intervals resample
+paired run medians and are not a substitute for environmental control.
+
+Both benchmark executables accept `AIMER_BENCH_RAW=/path/to/file.csv` to append
+individual samples in original order (no header: backend, variant, operation,
+sample index, TSC ticks per operation). The paired runner uses a fresh path for
+each invocation. `bench_full` additionally accepts `AIMER_BENCH_SEED` containing
+96 lowercase hexadecimal digits to seed the NIST KAT DRBG for identical paired
+workloads. This is a **benchmark-only deterministic mode**, not a production RNG
+setting; the default system RNG is unchanged when the variable is absent.
+The final public-key/signature diagnostic checksum is compared across versions
+and backends. Any execution or checksum failure stops the experiment.
+
+The 192/256-bit experiment compares auto-vectorizable general C with explicit
+AIMer v2-style 256-bit intrinsics in both x86 backends. It does not compare
+non-vectorized code against vectorized code. Reference and 128-bit results are
+unchanged-code controls. The existing paper results are not overwritten.

@@ -171,6 +171,16 @@ static int compare_double(const void *left, const void *right) {
 static void emit_csv(double *samples, size_t count, const char *backend,
                      const char *variant, const char *kernel,
                      size_t work_items, size_t inner) {
+  const char *raw_path = getenv("AIMER_BENCH_RAW");
+  if (raw_path != NULL) {
+    FILE *raw = fopen(raw_path, "a");
+    if (raw == NULL) { perror(raw_path); exit(1); }
+    for (size_t i = 0; i < count; i++) {
+      fprintf(raw, "%s,%s,%s,%zu,%.9f\n", backend, variant, kernel,
+              i, samples[i]);
+    }
+    if (fclose(raw) != 0) { perror(raw_path); exit(1); }
+  }
   qsort(samples, count, sizeof(*samples), compare_double);
   const double minimum = samples[0];
   const double median = samples[count / 2];

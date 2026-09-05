@@ -11,6 +11,26 @@
 #include <time.h>
 
 #include <oqs/oqs.h>
+#include <oqs/rand_nist.h>
+
+/* Optional reproducible workload for paired implementation experiments only.
+ * With this variable absent, the normal library RNG remains unchanged. */
+static int configure_benchmark_seed(void) {
+	const char *text = getenv("AIMER_BENCH_SEED");
+	if (text == NULL) return 0;
+	uint8_t entropy[48];
+	if (strlen(text) != 2 * sizeof(entropy)) return -1;
+	for (size_t i = 0; i < sizeof(entropy); i++) {
+		const char *digits = "0123456789abcdef";
+		const char *hi = strchr(digits, text[2 * i]);
+		const char *lo = strchr(digits, text[2 * i + 1]);
+		if (hi == NULL || lo == NULL) return -1;
+		entropy[i] = (uint8_t)(((hi - digits) << 4) | (lo - digits));
+	}
+	OQS_randombytes_nist_kat_init_256bit(entropy, NULL);
+	OQS_randombytes_custom_algorithm(OQS_randombytes_nist_kat);
+	return 0;
+}
 
 #if defined(__x86_64__) || defined(_M_X64)
 #include <x86intrin.h>
@@ -119,6 +139,16 @@ static double calibrate_cycles_per_us(void) {
 static void emit_csv(uint64_t *samples, size_t count, const char *backend,
 	                 const char *variant, const char *operation,
 	                 double cycles_per_us) {
+	const char *raw_path = getenv("AIMER_BENCH_RAW");
+	if (raw_path != NULL) {
+		FILE *raw = fopen(raw_path, "a");
+		if (raw == NULL) { perror(raw_path); exit(1); }
+		for (size_t i = 0; i < count; i++) {
+			fprintf(raw, "%s,%s,%s,%zu,%llu\n", backend, variant, operation,
+			        i, (unsigned long long)samples[i]);
+		}
+		if (fclose(raw) != 0) { perror(raw_path); exit(1); }
+	}
 	qsort(samples, count, sizeof(*samples), compare_u64);
 	const uint64_t minimum = samples[0];
 	const uint64_t median = samples[count / 2];
@@ -206,6 +236,11 @@ int main(int argc, char **argv) {
 		return 2;
 	}
 	OQS_init();
+	if (configure_benchmark_seed() != 0) {
+		fprintf(stderr, "AIMER_BENCH_SEED must be 96 lowercase hex digits\n");
+		OQS_destroy();
+		return 2;
+	}
 	if (!backend_is_supported(backend)) {
 		fprintf(stderr, "backend %s is not supported by this CPU\n",
 		        backend->name);
@@ -281,6 +316,19 @@ int main(int argc, char **argv) {
 			fprintf(stderr, "verify failed at iteration %zu\n", i);
 			goto failure;
 		}
+	}
+
+	/* Diagnostic checksum of the final public key and signature, not a
+	 * cryptographic integrity check; computed outside all timed regions. */
+	if (getenv("AIMER_BENCH_SEED") != NULL) {
+		uint64_t checksum = UINT64_C(14695981039346656037);
+		for (size_t i = 0; i < signature->length_public_key; i++) {
+			checksum = (checksum ^ public_key[i]) * UINT64_C(1099511628211);
+		}
+		for (size_t i = 0; i < signed_message_len; i++) {
+			checksum = (checksum ^ signed_message[i]) * UINT64_C(1099511628211);
+		}
+		fprintf(stderr, "workload_checksum=%016llx\n", (unsigned long long)checksum);
 	}
 
 	emit_csv(keypair_cycles, iterations, backend->name,

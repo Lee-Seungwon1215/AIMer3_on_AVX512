@@ -16,6 +16,8 @@ typedef void (*gf_matrix_fn)(uint64_t *, const uint64_t *, const uint64_t *);
 	extern void namespace##_gf_sqr(uint64_t *, const uint64_t *);                \
 	extern void namespace##_gf_inv(uint64_t *, const uint64_t *);                \
 	extern void namespace##_gf_mat_vec_mul(uint64_t *, const uint64_t *,         \
+	                                       const uint64_t *);                    \
+	extern void namespace##_gf_mat_vec_mul_add(uint64_t *, const uint64_t *,     \
 	                                       const uint64_t *)
 
 #define DECLARE_BATCH(namespace)                                               \
@@ -47,6 +49,7 @@ struct field_backend {
 	gf_unary_fn sqr;
 	gf_unary_fn inv;
 	gf_matrix_fn matrix;
+	gf_matrix_fn matrix_add;
 	gf_unary_fn sqr_n;
 	gf_binary_fn mul_add_n;
 	gf_matrix_fn matrix_n;
@@ -71,6 +74,7 @@ struct field_set {
 		samsungsds_aimer_##parameter##_##suffix##_gf_sqr,                         \
 		samsungsds_aimer_##parameter##_##suffix##_gf_inv,                         \
 		samsungsds_aimer_##parameter##_##suffix##_gf_mat_vec_mul,                 \
+		samsungsds_aimer_##parameter##_##suffix##_gf_mat_vec_mul_add,             \
 		samsungsds_aimer_##parameter##_##suffix##_gf_sqr_N,                       \
 		samsungsds_aimer_##parameter##_##suffix##_gf_mul_add_N,                   \
 		samsungsds_aimer_##parameter##_##suffix##_gf_mat_vec_mul_N,               \
@@ -116,6 +120,86 @@ static int check_equal(const struct field_set *set,
 	}
 	fprintf(stderr, "GF differential mismatch: %s %s %s\n",
 	        set->name, backend->name, operation);
+	return -1;
+}
+
+/* Every basis vector independently identifies a matrix row. Exercise all
+ * uint64_t-aligned offsets modulo 32, zero/identity/random matrices, zero and
+ * all-one inputs, random inputs, additive output, and exact input/output alias.
+ * Canaries also catch a 192-bit output accidentally padded to 256 bits. */
+static int test_matrix_edges(const struct field_set *set,
+                             const struct field_backend *backend) {
+	const size_t bits = 64 * set->words;
+	const size_t matrix_words = bits * set->words;
+	const size_t matrix_bytes = matrix_words * sizeof(uint64_t);
+	uint64_t *storage = aligned_alloc(32, matrix_bytes + 32);
+	if (storage == NULL) {
+		return -1;
+	}
+	for (size_t offset = 0; offset < 4; offset++) {
+		uint64_t *matrix = storage + offset;
+		for (size_t kind = 0; kind < 3; kind++) {
+			memset(matrix, 0, matrix_bytes);
+			if (kind == 1) {
+				for (size_t bit = 0; bit < bits; bit++) {
+					matrix[bit * set->words + bit / 64] = UINT64_C(1) << (bit % 64);
+				}
+			} else if (kind == 2) {
+				fill_words(matrix, matrix_words);
+			}
+			for (size_t round = 0; round < bits + 66; round++) {
+				const uint64_t canary = UINT64_C(0xc397be16d05a482f);
+				uint64_t input[4] = {0}, expected[4], initial[4], sum[4];
+				_Alignas(32) uint64_t buffer[12];
+				uint64_t *actual = buffer + 4 + offset;
+				if (round < bits) {
+					input[round / 64] = UINT64_C(1) << (round % 64);
+					memcpy(expected, matrix + round * set->words,
+					       set->words * sizeof(uint64_t));
+				} else {
+					if (round == bits + 1) {
+						memset(input, 0xff, set->words * sizeof(uint64_t));
+					} else if (round > bits + 1) {
+						fill_words(input, set->words);
+					}
+					set->ref_matrix(expected, input, matrix);
+				}
+				actual[-1] = canary;
+				actual[set->words] = canary;
+				backend->matrix(actual, input, matrix);
+				if (check_equal(set, backend, "matrix edge", expected, actual,
+				                set->words) != 0) goto fail;
+				memcpy(actual, input, set->words * sizeof(uint64_t));
+				backend->matrix(actual, actual, matrix);
+				if (check_equal(set, backend, "matrix in-place", expected, actual,
+				                set->words) != 0) goto fail;
+				fill_words(initial, set->words);
+				for (size_t word = 0; word < set->words; word++) {
+					sum[word] = initial[word] ^ expected[word];
+				}
+				memcpy(actual, initial, set->words * sizeof(uint64_t));
+				backend->matrix_add(actual, input, matrix);
+				if (check_equal(set, backend, "matrix_add edge", sum, actual,
+				                set->words) != 0) goto fail;
+				for (size_t word = 0; word < set->words; word++) {
+					sum[word] = input[word] ^ expected[word];
+				}
+				memcpy(actual, input, set->words * sizeof(uint64_t));
+				backend->matrix_add(actual, actual, matrix);
+				if (check_equal(set, backend, "matrix_add in-place", sum, actual,
+				                set->words) != 0) goto fail;
+				if (actual[-1] != canary || actual[set->words] != canary) {
+					fprintf(stderr, "matrix output bounds mismatch: %s %s\n",
+					        set->name, backend->name);
+					goto fail;
+				}
+			}
+		}
+	}
+	free(storage);
+	return 0;
+fail:
+	free(storage);
 	return -1;
 }
 
@@ -270,7 +354,8 @@ int main(void) {
 		}
 		fill_words(matrix, bits * set->words);
 		for (size_t backend = 0; backend < 2; backend++) {
-			if (test_scalar(set, &set->backends[backend], matrix) != 0 ||
+			if (test_matrix_edges(set, &set->backends[backend]) != 0 ||
+			    test_scalar(set, &set->backends[backend], matrix) != 0 ||
 			    test_batch(set, &set->backends[backend], matrix) != 0) {
 				free(matrix);
 				return 1;
@@ -280,6 +365,6 @@ int main(void) {
 	}
 
 	puts("[PASS] GF reference/AVX2/AVX-512 differential test "
-	     "(scalar and batch, all six parameter sets)");
+	     "(single/batch, matrix basis/alias/alignment, all six parameter sets)");
 	return 0;
 }
