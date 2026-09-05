@@ -1,0 +1,2 @@
+   text	   data	    bss	    dec	    hex	filename
+  79872	   2192	 167704	 249768	  3cfa8	/Users/seungwon/AIMer3_on_AVX512/AIMer_v3/m55/build/full/256f/mve-affine/phasebench/aimer-m55-256f-mve-affine-phasebench.elf

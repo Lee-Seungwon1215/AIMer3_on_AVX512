@@ -1,0 +1,19 @@
+/Users/seungwon/AIMer3_on_AVX512/AIMer_v3/m55/build/full/128s/mve-affine/profile/aimer-m55-128s-mve-affine-profile.elf  :
+section             size        addr
+.isr_vector          844   873989120
+.text              62148   873989968
+.rodata             2416   874052120
+.ARM.exidx             8   874054536
+.init_array            8   874054544
+.fini_array            4   874054552
+.gnu.sgstubs          32   874054560
+.data               2192   874250240
+.noncacheable         16   874252432
+.bss               10568   874252448
+._user_stack      131072   874381312
+._user_heap         4096   874512384
+.ARM.attributes       58           0
+.comment              56           0
+Total             213518
+
+

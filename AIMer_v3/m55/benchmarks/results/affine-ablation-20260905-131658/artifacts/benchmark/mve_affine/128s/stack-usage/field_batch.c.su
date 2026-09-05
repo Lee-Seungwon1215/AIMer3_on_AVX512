@@ -1,0 +1,4 @@
+src/mve/field_batch.c:93:13:m55_square_reduce_batch4	336	static
+src/mve/field_batch.c:140:6:m55_gf_mul_const_batch4	224	static
+src/mve/field_batch.c:220:6:m55_gf_frobenius_batch4	136	static
+src/mve/field_batch.c:238:6:m55_gf_sqr_batch4	128	static

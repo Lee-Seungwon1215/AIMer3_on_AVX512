@@ -1,0 +1,1 @@
+run=5 config_order=ref mve_refmat mve_compact mve_affine param_order=128f 128s 192f 192s 256f 256s

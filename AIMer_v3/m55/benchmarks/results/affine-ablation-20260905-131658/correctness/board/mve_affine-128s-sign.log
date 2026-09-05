@@ -1,0 +1,711 @@
+AFFINE_CONTEXT,result_dir=/Users/seungwon/AIMer3_on_AVX512/AIMer_v3/m55/benchmarks/results/affine-ablation-20260905-131658,source_sha256=2401098821284c320032ca8f57fd0fd1dca293ccde43f9a8af2b8c4e0e6875d8,command=make -B PARAM=128s BACKEND=mve MATVEC=mve TEST=sign MEMORY=full SIGN_SCHEDULE=lowmem STACK_USAGE=1 run-board 
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c tests/test_sign_verify.c -o build/full/128s/mve-affine/sign/test_sign_verify.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c src/ref/sign_low_memory.c -o build/full/128s/mve-affine/sign/sign_low_memory.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c src/ref/verify_batch.c -o build/full/128s/mve-affine/sign/verify_batch.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c src/mve/field_batch.c -o build/full/128s/mve-affine/sign/field_batch.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c src/mve/mpc_batch.c -o build/full/128s/mve-affine/sign/mpc_batch.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c ../src/sig/aimer/reference/aimer-128s/aim3.c -o build/full/128s/mve-affine/sign/aim3.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c ../src/sig/aimer/reference/aimer-128s/hash.c -o build/full/128s/mve-affine/sign/hash.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c ../src/sig/aimer/reference/aimer-128s/sign.c -o build/full/128s/mve-affine/sign/sign.c.o
+../src/sig/aimer/reference/aimer-128s/sign.c: In function 'samsungsds_aimer_128s_ref_crypto_sign_signature':
+../src/sig/aimer/reference/aimer-128s/sign.c:409:15: warning: conversion from 'size_t' {aka 'unsigned int'} to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
+  409 |   prefix[0] = ctxlen;
+      |               ^~~~~~
+../src/sig/aimer/reference/aimer-128s/sign.c: In function 'samsungsds_aimer_128s_ref_crypto_sign_verify':
+../src/sig/aimer/reference/aimer-128s/sign.c:675:15: warning: conversion from 'size_t' {aka 'unsigned int'} to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
+  675 |   prefix[0] = ctxlen;
+      |               ^~~~~~
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c ../src/sig/aimer/reference/aimer-128s/tree.c -o build/full/128s/mve-affine/sign/tree.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c ../src/sig/aimer/reference/aimer-128s/field_common.c -o build/full/128s/mve-affine/sign/field_common.c.o
+../src/sig/aimer/reference/aimer-128s/field_common.c: In function 'samsungsds_aimer_128s_ref_gf_from_bytes':
+../src/sig/aimer/reference/aimer-128s/field_common.c:28:31: warning: conversion to 'size_t' {aka 'unsigned int'} from 'int' may change the sign of the result [-Wsign-conversion]
+   28 |       u = (u << 8) | in[8 * i + j];
+      |                               ^
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c src/mve/field_mve.c -o build/full/128s/mve-affine/sign/field_mve.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c src/mve/matvec_mve.c -o build/full/128s/mve-affine/sign/matvec_mve.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c ../src/common/aes.c -o build/full/128s/mve-affine/sign/aes.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c ../src/common/fips202.c -o build/full/128s/mve-affine/sign/fips202.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c ../src/common/rng.c -o build/full/128s/mve-affine/sign/rng.c.o
+../src/common/rng.c: In function 'seedexpander_init':
+../src/common/rng.c:30:17: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+   30 |     if ( maxlen >= 0x100000000 )
+      |                 ^~
+../src/common/rng.c: In function 'seedexpander':
+../src/common/rng.c:73:19: warning: comparison of integer expressions of different signedness: 'long unsigned int' and 'int' [-Wsign-compare]
+   73 |         if ( xlen <= (16-ctx->buffer_pos) ) { // buffer has what we need
+      |                   ^~
+../src/common/rng.c:75:29: warning: conversion to 'long unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+   75 |             ctx->buffer_pos += xlen;
+      |                             ^~
+../src/common/rng.c:75:32: warning: conversion to 'int' from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   75 |             ctx->buffer_pos += xlen;
+      |                                ^~~~
+../src/common/rng.c:81:57: warning: conversion to 'size_t' {aka 'unsigned int'} from 'int' may change the sign of the result [-Wsign-conversion]
+   81 |         memcpy(x+offset, ctx->buffer+ctx->buffer_pos, 16-ctx->buffer_pos);
+      |                                                       ~~^~~~~~~~~~~~~~~~
+../src/common/rng.c:82:14: warning: conversion to 'long unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+   82 |         xlen -= 16-ctx->buffer_pos;
+      |              ^~
+../src/common/rng.c:83:16: warning: conversion to 'long unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+   83 |         offset += 16-ctx->buffer_pos;
+      |                ^~
+../src/common/rng.c: In function 'randombytes_init':
+../src/common/rng.c:127:22: warning: unused parameter 'security_strength' [-Wunused-parameter]
+  127 |                  int security_strength)
+      |                  ~~~~^~~~~~~~~~~~~~~~~
+../src/common/rng.c: In function 'randombytes':
+../src/common/rng.c:164:32: warning: conversion from 'long long unsigned int' to 'size_t' {aka 'unsigned int'} may change value [-Wconversion]
+  164 |             memcpy(x+i, block, xlen);
+      |                                ^~~~
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c toolchain/board/nucleo-n657x0-q/platform.c -o build/full/128s/mve-affine/sign/platform.c.o
+In file included from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/core_cm55.h:4605,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n657xx.h:281,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n6xx.h:87,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_def.h:33,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_rcc.h:28,
+                 from /Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc/stm32n6xx_hal_conf.h:253,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal.h:29,
+                 from toolchain/board/nucleo-n657x0-q/platform.c:5:
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateICache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:48:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   48 | #define __SCB_ICACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:20: note: in expansion of macro '__SCB_ICACHE_LINE_SIZE'
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanInvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:29: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                             ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c /Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Src/system_stm32n6xx_fsbl.c -o build/full/128s/mve-affine/sign/system_stm32n6xx_fsbl.c.o
+In file included from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/core_cm55.h:4605,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n657xx.h:281,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n6xx.h:87,
+                 from /Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Src/system_stm32n6xx_fsbl.c:55:
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateICache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:48:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   48 | #define __SCB_ICACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:20: note: in expansion of macro '__SCB_ICACHE_LINE_SIZE'
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanInvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:29: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                             ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal.c -o build/full/128s/mve-affine/sign/stm32n6xx_hal.c.o
+In file included from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/core_cm55.h:4605,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n657xx.h:281,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n6xx.h:87,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_def.h:33,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_rcc.h:28,
+                 from /Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc/stm32n6xx_hal_conf.h:253,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal.h:29,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal.c:45:
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateICache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:48:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   48 | #define __SCB_ICACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:20: note: in expansion of macro '__SCB_ICACHE_LINE_SIZE'
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanInvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:29: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                             ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_cortex.c -o build/full/128s/mve-affine/sign/stm32n6xx_hal_cortex.c.o
+In file included from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/core_cm55.h:4605,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n657xx.h:281,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n6xx.h:87,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_def.h:33,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_rcc.h:28,
+                 from /Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc/stm32n6xx_hal_conf.h:253,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal.h:29,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_cortex.c:158:
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateICache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:48:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   48 | #define __SCB_ICACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:20: note: in expansion of macro '__SCB_ICACHE_LINE_SIZE'
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanInvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:29: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                             ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_pwr.c -o build/full/128s/mve-affine/sign/stm32n6xx_hal_pwr.c.o
+In file included from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/core_cm55.h:4605,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n657xx.h:281,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n6xx.h:87,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_def.h:33,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_rcc.h:28,
+                 from /Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc/stm32n6xx_hal_conf.h:253,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal.h:29,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_pwr.c:107:
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateICache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:48:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   48 | #define __SCB_ICACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:20: note: in expansion of macro '__SCB_ICACHE_LINE_SIZE'
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanInvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:29: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                             ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_pwr_ex.c -o build/full/128s/mve-affine/sign/stm32n6xx_hal_pwr_ex.c.o
+In file included from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/core_cm55.h:4605,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n657xx.h:281,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n6xx.h:87,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_def.h:33,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_rcc.h:28,
+                 from /Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc/stm32n6xx_hal_conf.h:253,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal.h:29,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_pwr_ex.c:159:
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateICache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:48:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   48 | #define __SCB_ICACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:20: note: in expansion of macro '__SCB_ICACHE_LINE_SIZE'
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanInvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:29: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                             ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_rcc.c -o build/full/128s/mve-affine/sign/stm32n6xx_hal_rcc.c.o
+In file included from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/core_cm55.h:4605,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n657xx.h:281,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n6xx.h:87,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_def.h:33,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_rcc.h:28,
+                 from /Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc/stm32n6xx_hal_conf.h:253,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal.h:29,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_rcc.c:73:
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateICache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:48:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   48 | #define __SCB_ICACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:20: note: in expansion of macro '__SCB_ICACHE_LINE_SIZE'
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanInvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:29: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                             ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_rcc_ex.c -o build/full/128s/mve-affine/sign/stm32n6xx_hal_rcc_ex.c.o
+In file included from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/core_cm55.h:4605,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n657xx.h:281,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n6xx.h:87,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_def.h:33,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_rcc.h:28,
+                 from /Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc/stm32n6xx_hal_conf.h:253,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal.h:29,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_rcc_ex.c:24:
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateICache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:48:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   48 | #define __SCB_ICACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:20: note: in expansion of macro '__SCB_ICACHE_LINE_SIZE'
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanInvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:29: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                             ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc -DAIMER_MVE_BATCH -DAIMER_M55_MVE_MATVEC  -DPARAMS=128s -DAIMER_BACKEND=mve -DAIMER_MATVEC=mve -DAIMER_CONFIG=mve_affine -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=7 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=1 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -x assembler-with-cpp -c /Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/STM32CubeIDE/FSBL/Application/Startup/startup_stm32n657x0hxq_fsbl.s -o build/full/128s/mve-affine/sign/startup_stm32n657x0hxq_fsbl.s.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc --specs=nosys.specs -Wl,--gc-sections -Wl,--print-memory-usage -Wl,-Map,build/full/128s/mve-affine/sign/aimer-m55-128s-mve-affine-sign.map -Wl,--wrap=main -Wl,--wrap=_write -Wl,--wrap=_read -Ttoolchain/board/nucleo-n657x0-q/stm32n657-axi-sram.ld -Wl,--wrap=samsungsds_aimer_128s_ref_gf_mat_vec_mul_add -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -Wl,--wrap=samsungsds_aimer_128s_ref_crypto_sign_signature -Wl,--wrap=samsungsds_aimer_128s_ref_crypto_sign -Wl,--wrap=samsungsds_aimer_128s_ref_crypto_sign_verify -Wl,--wrap=samsungsds_aimer_128s_ref_crypto_sign_open build/full/128s/mve-affine/sign/test_sign_verify.c.o build/full/128s/mve-affine/sign/sign_low_memory.c.o build/full/128s/mve-affine/sign/verify_batch.c.o build/full/128s/mve-affine/sign/field_batch.c.o build/full/128s/mve-affine/sign/mpc_batch.c.o build/full/128s/mve-affine/sign/aim3.c.o build/full/128s/mve-affine/sign/hash.c.o build/full/128s/mve-affine/sign/sign.c.o build/full/128s/mve-affine/sign/tree.c.o build/full/128s/mve-affine/sign/field_common.c.o build/full/128s/mve-affine/sign/field_mve.c.o build/full/128s/mve-affine/sign/matvec_mve.c.o build/full/128s/mve-affine/sign/aes.c.o build/full/128s/mve-affine/sign/fips202.c.o build/full/128s/mve-affine/sign/rng.c.o build/full/128s/mve-affine/sign/platform.c.o build/full/128s/mve-affine/sign/system_stm32n6xx_fsbl.c.o build/full/128s/mve-affine/sign/stm32n6xx_hal.c.o build/full/128s/mve-affine/sign/stm32n6xx_hal_cortex.c.o build/full/128s/mve-affine/sign/stm32n6xx_hal_pwr.c.o build/full/128s/mve-affine/sign/stm32n6xx_hal_pwr_ex.c.o build/full/128s/mve-affine/sign/stm32n6xx_hal_rcc.c.o build/full/128s/mve-affine/sign/stm32n6xx_hal_rcc_ex.c.o build/full/128s/mve-affine/sign/startup_stm32n657x0hxq_fsbl.s.o -lc -lm -o build/full/128s/mve-affine/sign/aimer-m55-128s-mve-affine-sign.elf
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-closer.o): in function `_close_r':
+(.text._close_r+0xc): warning: _close is not implemented and will always fail
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-closer.o): note: the message above does not take linker garbage collection into account
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-fstatr.o): in function `_fstat_r':
+(.text._fstat_r+0xe): warning: _fstat is not implemented and will always fail
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-fstatr.o): note: the message above does not take linker garbage collection into account
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-signalr.o): in function `_getpid_r':
+(.text._getpid_r+0x0): warning: _getpid is not implemented and will always fail
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-signalr.o): note: the message above does not take linker garbage collection into account
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-isattyr.o): in function `_isatty_r':
+(.text._isatty_r+0xc): warning: _isatty is not implemented and will always fail
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-isattyr.o): note: the message above does not take linker garbage collection into account
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-signalr.o): in function `_kill_r':
+(.text._kill_r+0xe): warning: _kill is not implemented and will always fail
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-signalr.o): note: the message above does not take linker garbage collection into account
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-lseekr.o): in function `_lseek_r':
+(.text._lseek_r+0x10): warning: _lseek is not implemented and will always fail
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-lseekr.o): note: the message above does not take linker garbage collection into account
+Memory region         Used Size  Region Size  %age Used
+             ROM:       66888 B       255 KB     25.62%
+         BOOTRAM:        256 KB       256 KB    100.00%
+         HEAPRAM:          4 KB      1792 KB      0.22%
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-size build/full/128s/mve-affine/sign/aimer-m55-128s-mve-affine-sign.elf
+   text	   data	    bss	    dec	    hex	filename
+  64688	   2184	 140936	 207808	  32bc0	build/full/128s/mve-affine/sign/aimer-m55-128s-mve-affine-sign.elf
+/Users/Shared/cortexctl run m55 -- /Users/seungwon/test/.tools/xpack-openocd-0.12.0-7/bin/openocd \
+		-s /Users/seungwon/test/.tools/xpack-openocd-0.12.0-7/openocd/scripts -s /Users/seungwon/test/.tools/openocd-scripts \
+		-f toolchain/board/nucleo-n657x0-q/openocd.cfg \
+		-c init -c 'reset halt' \
+		-c 'load_image /Users/seungwon/AIMer3_on_AVX512/AIMer_v3/m55/build/full/128s/mve-affine/sign/aimer-m55-128s-mve-affine-sign.elf' \
+		-c 'verify_image /Users/seungwon/AIMer3_on_AVX512/AIMer_v3/m55/build/full/128s/mve-affine/sign/aimer-m55-128s-mve-affine-sign.elf' \
+		-c 'set vector_msp [mrw 0x34180400]' \
+		-c 'set vector_reset [mrw 0x34180404]' \
+		-c 'arm semihosting enable' \
+		-c 'arm semihosting_resexit enable' \
+		-c 'reg msp $vector_msp' -c 'resume $vector_reset'
+xPack Open On-Chip Debugger 0.12.0+dev-02228-ge5888bda3-dirty (2025-10-04-22:45)
+Licensed under GNU GPL v2
+For bug reports, read
+	http://openocd.org/doc/doxygen/bugs.html
+adapter speed: 1000 kHz
+Info : STLINK V3J15M6 (API v3) VID:PID 0483:3754
+Info : Target voltage: 3.281437
+Info : clock speed 1000 kHz
+Info : SWD DPIDR 0x6ba02477
+Info : [stm32n6x.ap0] Examination succeed
+Info : [stm32n6x.cpu] Cortex-M55 r1p1 processor detected
+Info : [stm32n6x.cpu] target has 8 breakpoints, 8 watchpoints
+stm32n6x.cpu in Secure state
+Info : [stm32n6x.cpu] Examination succeed
+Info : [stm32n6x.ap0] gdb port disabled
+Info : [stm32n6x.cpu] starting gdb server on 3333
+Info : Listening on port 3333 for gdb connections
+[stm32n6x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x81000000 pc: 0x18003a1a msp: 0x341037a0
+65728 bytes written at address 0x34180000
+2184 bytes written at address 0x341900c0
+downloaded 67912 bytes in 0.499883s (132.672 KiB/s)
+verified 67912 bytes in 0.553347s (119.853 KiB/s)
+0x34200000
+0x34188a19
+semihosting is enabled
+semihosting resumable exit is enabled
+msp (/32): 0x34200000
+Info : Listening on port 6666 for tcl connections
+Info : Listening on port 4444 for telnet connections
+AIMer v3 on NUCLEO-N657X0-Q
+Cortex-M55 @ 600000000 Hz, MVE=2, I/D-cache=on
+SIGN_TEST_PASS param=128s config=mve_affine backend=mve matvec=mve keypair_cycles=3404501 sign_cycles=676577679 verify_cycles=370418492 checksum=fae64113d37f835a
+TEST_EXIT=0

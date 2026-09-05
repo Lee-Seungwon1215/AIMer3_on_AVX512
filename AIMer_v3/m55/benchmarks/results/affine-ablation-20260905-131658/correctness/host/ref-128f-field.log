@@ -1,0 +1,6 @@
+AFFINE_CONTEXT,result_dir=/Users/seungwon/AIMer3_on_AVX512/AIMer_v3/m55/benchmarks/results/affine-ablation-20260905-131658,source_sha256=2401098821284c320032ca8f57fd0fd1dca293ccde43f9a8af2b8c4e0e6875d8,command=make -B PARAM=128f BACKEND=ref MATVEC=reference check-mve-field-host 
+cc -DAIMER_MVE_PORTABLE_TEST  \
+		-DPARAMS=128f -DAIMER_MATVEC=reference \
+		-Iinclude -I../src/sig/aimer/reference/aimer-128f -I../src -O2 -std=c11 tests/test_reference.c src/mve/field_mve.c src/mve/field_batch.c ../src/sig/aimer/reference/aimer-128f/field_common.c -o build/host/128f/test-mve-field-128f
+build/host/128f/test-mve-field-128f
+REF_GF_PASS param=128f cases=259

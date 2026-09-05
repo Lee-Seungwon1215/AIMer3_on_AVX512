@@ -1,0 +1,5 @@
+../src/sig/aimer/reference/aimer-256s/aim3.c:11:13:squeeze_invertible_matrix	16520	static
+../src/sig/aimer/reference/aimer-256s/aim3.c:54:6:samsungsds_aimer_256s_ref_aim3_generate_linear	24	static
+../src/sig/aimer/reference/aimer-256s/aim3.c:74:5:samsungsds_aimer_256s_ref_aim3_nozeroinpsb	232	static
+../src/sig/aimer/reference/aimer-256s/aim3.c:146:6:samsungsds_aimer_256s_ref_aim3_sbox_outputs	80	static
+../src/sig/aimer/reference/aimer-256s/aim3.c:169:6:samsungsds_aimer_256s_ref_aim3_mpc	56	static

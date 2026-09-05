@@ -1,0 +1,6 @@
+341841cc 00000004 T __wrap_samsungsds_aimer_256s_ref_gf_mat_vec_mul_add
+34184184 00000048 T samsungsds_aimer_256s_ref_gf_mat_vec_mul
+3418411c 00000066 T m55_gf_mat_vec_mul_batch4
+34183e3c 000000ae T m55_gf_mat_vec_mul_add
+34183eec 0000022e T m55_gf_mat_vec_mul_add_batch4
+341824a4 000002e8 T m55_aim3_mpc_batch4

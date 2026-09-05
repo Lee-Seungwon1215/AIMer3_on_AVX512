@@ -1,0 +1,6 @@
+../src/sig/aimer/reference/aimer-256s/hash.c:21:6:samsungsds_aimer_256s_ref_hash_init	0	static
+../src/sig/aimer/reference/aimer-256s/hash.c:26:6:samsungsds_aimer_256s_ref_hash_init_prefix	16	static
+../src/sig/aimer/reference/aimer-256s/hash.c:32:6:samsungsds_aimer_256s_ref_hash_update	0	static
+../src/sig/aimer/reference/aimer-256s/hash.c:37:6:samsungsds_aimer_256s_ref_hash_final	0	static
+../src/sig/aimer/reference/aimer-256s/hash.c:42:6:samsungsds_aimer_256s_ref_hash_squeeze	0	static
+../src/sig/aimer/reference/aimer-256s/hash.c:47:6:samsungsds_aimer_256s_ref_hash_ctx_release	0	static

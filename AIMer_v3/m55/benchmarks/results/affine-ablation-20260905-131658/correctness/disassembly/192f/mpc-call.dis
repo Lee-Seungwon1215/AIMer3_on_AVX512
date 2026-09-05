@@ -1,0 +1,265 @@
+
+/Users/seungwon/AIMer3_on_AVX512/AIMer_v3/m55/build/full/192f/mve-affine/sign/aimer-m55-192f-mve-affine-sign.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+34182350 <m55_aim3_mpc_batch4>:
+34182350:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+34182354:	b0b7      	sub	sp, #220	@ 0xdc
+34182356:	9c41      	ldr	r4, [sp, #260]	@ 0x104
+34182358:	469b      	mov	fp, r3
+3418235a:	e9dd 6340 	ldrd	r6, r3, [sp, #256]	@ 0x100
+3418235e:	2c04      	cmp	r4, #4
+34182360:	bf28      	it	cs
+34182362:	2404      	movcs	r4, #4
+34182364:	e9cd 2102 	strd	r2, r1, [sp, #8]
+34182368:	9001      	str	r0, [sp, #4]
+3418236a:	2b00      	cmp	r3, #0
+3418236c:	f000 8130 	beq.w	341825d0 <m55_aim3_mpc_batch4+0x280>
+34182370:	f04f 0a00 	mov.w	sl, #0
+34182374:	9b01      	ldr	r3, [sp, #4]
+34182376:	f102 0790 	add.w	r7, r2, #144	@ 0x90
+3418237a:	f103 05d8 	add.w	r5, r3, #216	@ 0xd8
+3418237e:	f44f 729c 	mov.w	r2, #312	@ 0x138
+34182382:	2100      	movs	r1, #0
+34182384:	f1a5 00d8 	sub.w	r0, r5, #216	@ 0xd8
+34182388:	f007 fe1e 	bl	34189fc8 <memset>
+3418238c:	f1a5 0848 	sub.w	r8, r5, #72	@ 0x48
+34182390:	f1a7 0948 	sub.w	r9, r7, #72	@ 0x48
+34182394:	4649      	mov	r1, r9
+34182396:	4640      	mov	r0, r8
+34182398:	f108 0818 	add.w	r8, r8, #24
+3418239c:	f000 fe5a 	bl	34183054 <samsungsds_aimer_192f_ref_gf_copy>
+341823a0:	45a8      	cmp	r8, r5
+341823a2:	f109 0918 	add.w	r9, r9, #24
+341823a6:	d1f5      	bne.n	34182394 <m55_aim3_mpc_batch4+0x44>
+341823a8:	4628      	mov	r0, r5
+341823aa:	f1a7 0178 	sub.w	r1, r7, #120	@ 0x78
+341823ae:	f000 fe51 	bl	34183054 <samsungsds_aimer_192f_ref_gf_copy>
+341823b2:	f1a7 0160 	sub.w	r1, r7, #96	@ 0x60
+341823b6:	f105 0018 	add.w	r0, r5, #24
+341823ba:	f000 fe4b 	bl	34183054 <samsungsds_aimer_192f_ref_gf_copy>
+341823be:	f1a7 0190 	sub.w	r1, r7, #144	@ 0x90
+341823c2:	f105 0030 	add.w	r0, r5, #48	@ 0x30
+341823c6:	f000 fe45 	bl	34183054 <samsungsds_aimer_192f_ref_gf_copy>
+341823ca:	eb06 030a 	add.w	r3, r6, sl
+341823ce:	2b0f      	cmp	r3, #15
+341823d0:	f000 80ee 	beq.w	341825b0 <m55_aim3_mpc_batch4+0x260>
+341823d4:	4639      	mov	r1, r7
+341823d6:	f105 0048 	add.w	r0, r5, #72	@ 0x48
+341823da:	f10a 0a01 	add.w	sl, sl, #1
+341823de:	f000 fe39 	bl	34183054 <samsungsds_aimer_192f_ref_gf_copy>
+341823e2:	4554      	cmp	r4, sl
+341823e4:	d903      	bls.n	341823ee <m55_aim3_mpc_batch4+0x9e>
+341823e6:	37a8      	adds	r7, #168	@ 0xa8
+341823e8:	f505 759c 	add.w	r5, r5, #312	@ 0x138
+341823ec:	e7c7      	b.n	3418237e <m55_aim3_mpc_batch4+0x2e>
+341823ee:	9b41      	ldr	r3, [sp, #260]	@ 0x104
+341823f0:	2b00      	cmp	r3, #0
+341823f2:	f000 80ed 	beq.w	341825d0 <m55_aim3_mpc_batch4+0x280>
+341823f6:	f04f 0b00 	mov.w	fp, #0
+341823fa:	9b03      	ldr	r3, [sp, #12]
+341823fc:	f10d 0a18 	add.w	sl, sp, #24
+34182400:	461a      	mov	r2, r3
+34182402:	9304      	str	r3, [sp, #16]
+34182404:	f503 4390 	add.w	r3, r3, #18432	@ 0x4800
+34182408:	af1e      	add	r7, sp, #120	@ 0x78
+3418240a:	9305      	str	r3, [sp, #20]
+3418240c:	f8dd 9008 	ldr.w	r9, [sp, #8]
+34182410:	9640      	str	r6, [sp, #256]	@ 0x100
+34182412:	4655      	mov	r5, sl
+34182414:	464e      	mov	r6, r9
+34182416:	f04f 0800 	mov.w	r8, #0
+3418241a:	4691      	mov	r9, r2
+3418241c:	4631      	mov	r1, r6
+3418241e:	4628      	mov	r0, r5
+34182420:	f108 0801 	add.w	r8, r8, #1
+34182424:	f000 fe16 	bl	34183054 <samsungsds_aimer_192f_ref_gf_copy>
+34182428:	4544      	cmp	r4, r8
+3418242a:	f105 0518 	add.w	r5, r5, #24
+3418242e:	f106 06a8 	add.w	r6, r6, #168	@ 0xa8
+34182432:	d8f3      	bhi.n	3418241c <m55_aim3_mpc_batch4+0xcc>
+34182434:	2500      	movs	r5, #0
+34182436:	46b8      	mov	r8, r7
+34182438:	464a      	mov	r2, r9
+3418243a:	4623      	mov	r3, r4
+3418243c:	4651      	mov	r1, sl
+3418243e:	4638      	mov	r0, r7
+34182440:	9e40      	ldr	r6, [sp, #256]	@ 0x100
+34182442:	f001 fb29 	bl	34183a98 <m55_gf_mat_vec_mul_batch4>
+34182446:	9b01      	ldr	r3, [sp, #4]
+34182448:	eb03 090b 	add.w	r9, r3, fp
+3418244c:	4641      	mov	r1, r8
+3418244e:	4648      	mov	r0, r9
+34182450:	f000 fe00 	bl	34183054 <samsungsds_aimer_192f_ref_gf_copy>
+34182454:	1973      	adds	r3, r6, r5
+34182456:	2b0f      	cmp	r3, #15
+34182458:	d011      	beq.n	3418247e <m55_aim3_mpc_batch4+0x12e>
+3418245a:	3501      	adds	r5, #1
+3418245c:	42ac      	cmp	r4, r5
+3418245e:	f509 799c 	add.w	r9, r9, #312	@ 0x138
+34182462:	f108 0818 	add.w	r8, r8, #24
+34182466:	d8f1      	bhi.n	3418244c <m55_aim3_mpc_batch4+0xfc>
+34182468:	f1bb 0f18 	cmp.w	fp, #24
+3418246c:	d00f      	beq.n	3418248e <m55_aim3_mpc_batch4+0x13e>
+3418246e:	9b04      	ldr	r3, [sp, #16]
+34182470:	f04f 0b18 	mov.w	fp, #24
+34182474:	f503 5390 	add.w	r3, r3, #4608	@ 0x1200
+34182478:	461a      	mov	r2, r3
+3418247a:	9304      	str	r3, [sp, #16]
+3418247c:	e7c6      	b.n	3418240c <m55_aim3_mpc_batch4+0xbc>
+3418247e:	9b05      	ldr	r3, [sp, #20]
+34182480:	4649      	mov	r1, r9
+34182482:	4648      	mov	r0, r9
+34182484:	eb03 020b 	add.w	r2, r3, fp
+34182488:	f000 fdf2 	bl	34183070 <samsungsds_aimer_192f_ref_gf_add>
+3418248c:	e7e5      	b.n	3418245a <m55_aim3_mpc_batch4+0x10a>
+3418248e:	9b41      	ldr	r3, [sp, #260]	@ 0x104
+34182490:	b14b      	cbz	r3, 341824a6 <m55_aim3_mpc_batch4+0x156>
+34182492:	46d3      	mov	fp, sl
+34182494:	2500      	movs	r5, #0
+34182496:	4658      	mov	r0, fp
+34182498:	3501      	adds	r5, #1
+3418249a:	f000 fdbf 	bl	3418301c <samsungsds_aimer_192f_ref_gf_set0>
+3418249e:	42ac      	cmp	r4, r5
+341824a0:	f10b 0b18 	add.w	fp, fp, #24
+341824a4:	d8f7      	bhi.n	34182496 <m55_aim3_mpc_batch4+0x146>
+341824a6:	9b03      	ldr	r3, [sp, #12]
+341824a8:	9640      	str	r6, [sp, #256]	@ 0x100
+341824aa:	f503 5b10 	add.w	fp, r3, #9216	@ 0x2400
+341824ae:	9b02      	ldr	r3, [sp, #8]
+341824b0:	f103 0518 	add.w	r5, r3, #24
+341824b4:	3348      	adds	r3, #72	@ 0x48
+341824b6:	9302      	str	r3, [sp, #8]
+341824b8:	9b41      	ldr	r3, [sp, #260]	@ 0x104
+341824ba:	b17b      	cbz	r3, 341824dc <m55_aim3_mpc_batch4+0x18c>
+341824bc:	463e      	mov	r6, r7
+341824be:	46a8      	mov	r8, r5
+341824c0:	f04f 0900 	mov.w	r9, #0
+341824c4:	4641      	mov	r1, r8
+341824c6:	4630      	mov	r0, r6
+341824c8:	f109 0901 	add.w	r9, r9, #1
+341824cc:	f000 fdc2 	bl	34183054 <samsungsds_aimer_192f_ref_gf_copy>
+341824d0:	454c      	cmp	r4, r9
+341824d2:	f106 0618 	add.w	r6, r6, #24
+341824d6:	f108 08a8 	add.w	r8, r8, #168	@ 0xa8
+341824da:	d8f3      	bhi.n	341824c4 <m55_aim3_mpc_batch4+0x174>
+341824dc:	4623      	mov	r3, r4
+341824de:	465a      	mov	r2, fp
+341824e0:	4639      	mov	r1, r7
+341824e2:	4650      	mov	r0, sl
+341824e4:	f001 f9d2 	bl	3418388c <m55_gf_mat_vec_mul_add_batch4>
+341824e8:	9b02      	ldr	r3, [sp, #8]
+341824ea:	3518      	adds	r5, #24
+341824ec:	429d      	cmp	r5, r3
+341824ee:	f50b 5b90 	add.w	fp, fp, #4608	@ 0x1200
+341824f2:	d1e1      	bne.n	341824b8 <m55_aim3_mpc_batch4+0x168>
+341824f4:	e9dd 6340 	ldrd	r6, r3, [sp, #256]	@ 0x100
+341824f8:	b193      	cbz	r3, 34182520 <m55_aim3_mpc_batch4+0x1d0>
+341824fa:	46d1      	mov	r9, sl
+341824fc:	2500      	movs	r5, #0
+341824fe:	9b01      	ldr	r3, [sp, #4]
+34182500:	f103 0b30 	add.w	fp, r3, #48	@ 0x30
+34182504:	4649      	mov	r1, r9
+34182506:	4658      	mov	r0, fp
+34182508:	f000 fda4 	bl	34183054 <samsungsds_aimer_192f_ref_gf_copy>
+3418250c:	1973      	adds	r3, r6, r5
+3418250e:	2b0f      	cmp	r3, #15
+34182510:	d055      	beq.n	341825be <m55_aim3_mpc_batch4+0x26e>
+34182512:	3501      	adds	r5, #1
+34182514:	42ac      	cmp	r4, r5
+34182516:	f50b 7b9c 	add.w	fp, fp, #312	@ 0x138
+3418251a:	f109 0918 	add.w	r9, r9, #24
+3418251e:	d8f1      	bhi.n	34182504 <m55_aim3_mpc_batch4+0x1b4>
+34182520:	9d01      	ldr	r5, [sp, #4]
+34182522:	f105 0348 	add.w	r3, r5, #72	@ 0x48
+34182526:	9302      	str	r3, [sp, #8]
+34182528:	9b41      	ldr	r3, [sp, #260]	@ 0x104
+3418252a:	2b00      	cmp	r3, #0
+3418252c:	d066      	beq.n	341825fc <m55_aim3_mpc_batch4+0x2ac>
+3418252e:	f8df 90ec 	ldr.w	r9, [pc, #236]	@ 3418261c <m55_aim3_mpc_batch4+0x2cc>
+34182532:	f8cd a004 	str.w	sl, [sp, #4]
+34182536:	46ab      	mov	fp, r5
+34182538:	f04f 0800 	mov.w	r8, #0
+3418253c:	f8dd a004 	ldr.w	sl, [sp, #4]
+34182540:	4659      	mov	r1, fp
+34182542:	4650      	mov	r0, sl
+34182544:	f108 0801 	add.w	r8, r8, #1
+34182548:	f000 fd84 	bl	34183054 <samsungsds_aimer_192f_ref_gf_copy>
+3418254c:	4544      	cmp	r4, r8
+3418254e:	f10a 0a18 	add.w	sl, sl, #24
+34182552:	f50b 7b9c 	add.w	fp, fp, #312	@ 0x138
+34182556:	d8f3      	bhi.n	34182540 <m55_aim3_mpc_batch4+0x1f0>
+34182558:	4623      	mov	r3, r4
+3418255a:	4638      	mov	r0, r7
+3418255c:	9901      	ldr	r1, [sp, #4]
+3418255e:	f8d9 2000 	ldr.w	r2, [r9]
+34182562:	f7ff fd43 	bl	34181fec <m55_gf_frobenius_batch4>
+34182566:	f04f 0800 	mov.w	r8, #0
+3418256a:	46ab      	mov	fp, r5
+3418256c:	eb08 0148 	add.w	r1, r8, r8, lsl #1
+34182570:	eb07 01c1 	add.w	r1, r7, r1, lsl #3
+34182574:	f10b 0048 	add.w	r0, fp, #72	@ 0x48
+34182578:	f000 fd6c 	bl	34183054 <samsungsds_aimer_192f_ref_gf_copy>
+3418257c:	eb06 0208 	add.w	r2, r6, r8
+34182580:	2a0f      	cmp	r2, #15
+34182582:	f108 0801 	add.w	r8, r8, #1
+34182586:	d00c      	beq.n	341825a2 <m55_aim3_mpc_batch4+0x252>
+34182588:	4544      	cmp	r4, r8
+3418258a:	f50b 7b9c 	add.w	fp, fp, #312	@ 0x138
+3418258e:	d8ed      	bhi.n	3418256c <m55_aim3_mpc_batch4+0x21c>
+34182590:	9b02      	ldr	r3, [sp, #8]
+34182592:	3518      	adds	r5, #24
+34182594:	42ab      	cmp	r3, r5
+34182596:	f109 0904 	add.w	r9, r9, #4
+3418259a:	d1cc      	bne.n	34182536 <m55_aim3_mpc_batch4+0x1e6>
+3418259c:	b037      	add	sp, #220	@ 0xdc
+3418259e:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
+341825a2:	f8db 2048 	ldr.w	r2, [fp, #72]	@ 0x48
+341825a6:	f082 0201 	eor.w	r2, r2, #1
+341825aa:	f8cb 2048 	str.w	r2, [fp, #72]	@ 0x48
+341825ae:	e7eb      	b.n	34182588 <m55_aim3_mpc_batch4+0x238>
+341825b0:	f105 0130 	add.w	r1, r5, #48	@ 0x30
+341825b4:	465a      	mov	r2, fp
+341825b6:	4608      	mov	r0, r1
+341825b8:	f000 fd5a 	bl	34183070 <samsungsds_aimer_192f_ref_gf_add>
+341825bc:	e70a      	b.n	341823d4 <m55_aim3_mpc_batch4+0x84>
+341825be:	9b03      	ldr	r3, [sp, #12]
+341825c0:	4659      	mov	r1, fp
+341825c2:	f503 4290 	add.w	r2, r3, #18432	@ 0x4800
+341825c6:	4658      	mov	r0, fp
+341825c8:	3230      	adds	r2, #48	@ 0x30
+341825ca:	f000 fd51 	bl	34183070 <samsungsds_aimer_192f_ref_gf_add>
+341825ce:	e7a0      	b.n	34182512 <m55_aim3_mpc_batch4+0x1c2>
+341825d0:	9a03      	ldr	r2, [sp, #12]
+341825d2:	f04f 0b00 	mov.w	fp, #0
+341825d6:	4615      	mov	r5, r2
+341825d8:	f10d 0a18 	add.w	sl, sp, #24
+341825dc:	af1e      	add	r7, sp, #120	@ 0x78
+341825de:	2300      	movs	r3, #0
+341825e0:	4651      	mov	r1, sl
+341825e2:	4638      	mov	r0, r7
+341825e4:	f001 fa58 	bl	34183a98 <m55_gf_mat_vec_mul_batch4>
+341825e8:	f1bb 0f18 	cmp.w	fp, #24
+341825ec:	f505 5590 	add.w	r5, r5, #4608	@ 0x1200
+341825f0:	f43f af59 	beq.w	341824a6 <m55_aim3_mpc_batch4+0x156>
+341825f4:	462a      	mov	r2, r5
+341825f6:	f04f 0b18 	mov.w	fp, #24
+341825fa:	e7f0      	b.n	341825de <m55_aim3_mpc_batch4+0x28e>
+341825fc:	4c07      	ldr	r4, [pc, #28]	@ (3418261c <m55_aim3_mpc_batch4+0x2cc>)
+341825fe:	9e02      	ldr	r6, [sp, #8]
+34182600:	2300      	movs	r3, #0
+34182602:	4651      	mov	r1, sl
+34182604:	4638      	mov	r0, r7
+34182606:	f854 2b04 	ldr.w	r2, [r4], #4
+3418260a:	3518      	adds	r5, #24
+3418260c:	f7ff fcee 	bl	34181fec <m55_gf_frobenius_batch4>
+34182610:	42ae      	cmp	r6, r5
+34182612:	d1f5      	bne.n	34182600 <m55_aim3_mpc_batch4+0x2b0>
+34182614:	b037      	add	sp, #220	@ 0xdc
+34182616:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
+3418261a:	bf00      	nop
+3418261c:	34190578 	.word	0x34190578
+
+Disassembly of section .gnu.sgstubs:

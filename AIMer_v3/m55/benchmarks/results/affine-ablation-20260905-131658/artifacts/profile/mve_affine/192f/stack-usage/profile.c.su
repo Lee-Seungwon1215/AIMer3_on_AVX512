@@ -1,0 +1,5 @@
+benchmarks/profile.c:117:13:print_stats	416	static
+benchmarks/profile.c:117:13:print_stats.constprop	400	static
+benchmarks/profile.c:235:13:profile_batch_kernels	2136	static
+benchmarks/profile.c:352:13:profile_mpc	1832	static
+benchmarks/profile.c:401:5:main	880	static

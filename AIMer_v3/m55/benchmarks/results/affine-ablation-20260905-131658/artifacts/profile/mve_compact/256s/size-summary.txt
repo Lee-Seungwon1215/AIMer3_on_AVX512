@@ -1,0 +1,2 @@
+   text	   data	    bss	    dec	    hex	filename
+  78380	   2192	 189016	 269588	  41d14	/Users/seungwon/AIMer3_on_AVX512/AIMer_v3/m55/build/full/256s/mve/profile/aimer-m55-256s-mve-profile.elf

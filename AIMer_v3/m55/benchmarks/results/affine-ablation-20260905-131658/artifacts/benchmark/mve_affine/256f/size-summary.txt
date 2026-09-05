@@ -1,0 +1,2 @@
+   text	   data	    bss	    dec	    hex	filename
+  78256	   2192	 167688	 248136	  3c948	/Users/seungwon/AIMer3_on_AVX512/AIMer_v3/m55/build/full/256f/mve-affine/benchmark/aimer-m55-256f-mve-affine-benchmark.elf

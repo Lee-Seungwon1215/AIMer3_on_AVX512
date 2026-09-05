@@ -1,0 +1,19 @@
+/Users/seungwon/AIMer3_on_AVX512/AIMer_v3/m55/build/full/256f/mve/phasebench/aimer-m55-256f-mve-phasebench.elf  :
+section             size        addr
+.isr_vector          844   873989120
+.text              75120   873989968
+.rodata             3072   874065088
+.ARM.exidx             8   874068160
+.init_array            8   874068168
+.fini_array            4   874068176
+.gnu.sgstubs          32   874068192
+.data               2192   874250240
+.noncacheable         16   874252432
+.bss               32520   874252448
+._user_stack      131072   874381312
+._user_heap         4096   874512384
+.ARM.attributes       58           0
+.comment              56           0
+Total             249098
+
+
