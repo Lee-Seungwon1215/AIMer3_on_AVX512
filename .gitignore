@@ -34,3 +34,7 @@ compile_commands.json
 __pycache__/
 *.py[cod]
 *.orig
+
+# Local paper drafts and PDF documents (not published to GitHub)
+/AIMer3_on_AVX512_LNCS/
+*.[pP][dD][fF]
