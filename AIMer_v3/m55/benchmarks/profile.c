@@ -304,6 +304,49 @@ static void profile_batch_kernels(void)
   }
   print_stats("gf_mul_const_batch4", samples, PROFILE_KERNEL_INNER,
               M55_PARTY_BATCH_LANES);
+
+  for (size_t sample = 0; sample < PROFILE_SAMPLES; ++sample)
+  {
+    for (size_t lane = 0; lane < M55_PARTY_BATCH_LANES; ++lane)
+    {
+      fill_field(batch_input[lane]);
+    }
+    m55_measure_start();
+    for (size_t inner = 0; inner < PROFILE_KERNEL_INNER; ++inner)
+    {
+      m55_gf_mat_vec_mul_batch4(batch_output, batch_input,
+                                linear.mat_A[0],
+                                M55_PARTY_BATCH_LANES);
+    }
+    samples[sample] = m55_measure_end();
+    profile_checksum ^=
+        batch_output[sample % M55_PARTY_BATCH_LANES]
+                    [sample % AIM3_NUM_WORDS_FIELD];
+  }
+  print_stats("gf_mat_vec_mul_batch4", samples, PROFILE_KERNEL_INNER,
+              M55_PARTY_BATCH_LANES);
+
+  for (size_t sample = 0; sample < PROFILE_SAMPLES; ++sample)
+  {
+    for (size_t lane = 0; lane < M55_PARTY_BATCH_LANES; ++lane)
+    {
+      fill_field(batch_input[lane]);
+      fill_field(batch_output[lane]);
+    }
+    m55_measure_start();
+    for (size_t inner = 0; inner < PROFILE_KERNEL_INNER; ++inner)
+    {
+      m55_gf_mat_vec_mul_add_batch4(batch_output, batch_input,
+                                    linear.mat_A[0],
+                                    M55_PARTY_BATCH_LANES);
+    }
+    samples[sample] = m55_measure_end();
+    profile_checksum ^=
+        batch_output[sample % M55_PARTY_BATCH_LANES]
+                    [sample % AIM3_NUM_WORDS_FIELD];
+  }
+  print_stats("gf_mat_vec_mul_add_batch4", samples,
+              PROFILE_KERNEL_INNER, M55_PARTY_BATCH_LANES);
 }
 
 static void profile_mpc(void)

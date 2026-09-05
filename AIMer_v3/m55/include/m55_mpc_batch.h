@@ -10,8 +10,9 @@
 #include <stdint.h>
 
 /* Evaluate the unchanged AIM3 MPC equations for up to four contiguous
- * parties.  The affine layers remain scalar; only the independent Frobenius
- * powers used to form z_shares are kept in the MVE four-party layout. */
+ * parties.  MATVEC=mve uses the four-party affine kernels before returning to
+ * the unchanged packed Frobenius path; A/B/C retain their existing affine
+ * calls. */
 void m55_aim3_mpc_batch4(mult_chk_t checks[M55_PARTY_BATCH_LANES],
                          const aim_lin_t *lin,
                          const tape_t tapes[M55_PARTY_BATCH_LANES],

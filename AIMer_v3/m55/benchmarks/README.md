@@ -48,6 +48,10 @@ make -B PARAM=128f BACKEND=mve MATVEC=reference TEST=benchmark \
 # C: unchanged default full MVE backend and compact matrix
 make -B PARAM=128f BACKEND=mve MATVEC=compact TEST=benchmark \
   MEMORY=full SIGN_SCHEDULE=lowmem build
+
+# D: MVE GF/Frobenius plus single-input and four-party MVE affine
+make -B PARAM=128f BACKEND=mve MATVEC=mve TEST=benchmark \
+  MEMORY=full SIGN_SCHEDULE=lowmem build
 ```
 
 The B build keeps the MVE multiplication, squaring/reduction, packing,
@@ -78,6 +82,18 @@ analysis, and Korean Markdown report) is:
 ```sh
 ./benchmarks/run_matvec_ablation.sh
 ```
+
+The corresponding four-way affine experiment remeasures A/B/C together with
+D and never combines the archived A/B/C samples with a new D result:
+
+```sh
+./benchmarks/run_affine_ablation.sh
+```
+
+Its resume state validates the frozen M55 source manifest, exact command, and
+ELF checksum before accepting an existing PASS log. Partial or mismatched
+runs are retained below `partial/`. The official speedup is always baseline
+cycles divided by target cycles and includes affine packing/unpacking.
 
 Set `RESULT_DIR` to the existing timestamped result directory to resume an
 interrupted run.  Results are written under

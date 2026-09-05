@@ -142,6 +142,228 @@ static int test_pair(const gf a, const gf b, size_t test_case)
   return compare("sqr", test_case, expected, actual);
 }
 
+static int test_matrix_inputs(const gf matrix[AIM3_NUM_BITS_FIELD])
+{
+  struct guarded_field
+  {
+    uint64_t before;
+    gf value;
+    uint64_t after;
+  } input_guard, output_guard;
+  gf expected;
+  gf initial;
+  size_t test_case = 0u;
+
+  input_guard.before = UINT64_C(0x13579bdf2468ace0);
+  input_guard.after = UINT64_C(0xfdb97531eca86420);
+  output_guard.before = UINT64_C(0x0123456789abcdef);
+  output_guard.after = UINT64_C(0xfedcba9876543210);
+
+  for (size_t pattern = 0; pattern < AIM3_NUM_BITS_FIELD + 3u; ++pattern)
+  {
+    gf_set0(input_guard.value);
+    if (pattern == 1u)
+    {
+      input_guard.value[0] = 1u;
+    }
+    else if (pattern >= 2u && pattern < AIM3_NUM_BITS_FIELD + 2u)
+    {
+      const size_t bit = pattern - 2u;
+      input_guard.value[bit >> 6] = UINT64_C(1) << (bit & 63u);
+    }
+    else if (pattern == AIM3_NUM_BITS_FIELD + 2u)
+    {
+      for (size_t word = 0; word < AIM3_NUM_WORDS_FIELD; ++word)
+      {
+        input_guard.value[word] = UINT64_MAX;
+      }
+    }
+
+    generic_matrix(expected, input_guard.value, matrix);
+    gf_mat_vec_mul(output_guard.value, input_guard.value, matrix);
+    if (compare("matrix_edge", test_case, expected, output_guard.value) != 0)
+    {
+      return -1;
+    }
+
+    fill_random(initial);
+    gf_copy(output_guard.value, initial);
+    for (size_t word = 0; word < AIM3_NUM_WORDS_FIELD; ++word)
+    {
+      expected[word] ^= initial[word];
+    }
+    gf_mat_vec_mul_add(output_guard.value, input_guard.value, matrix);
+    if (compare("matrix_add_edge", test_case, expected,
+                output_guard.value) != 0)
+    {
+      return -1;
+    }
+
+    gf_copy(output_guard.value, input_guard.value);
+    generic_matrix(expected, input_guard.value, matrix);
+    gf_mat_vec_mul(output_guard.value, output_guard.value, matrix);
+    if (compare("matrix_alias", test_case, expected, output_guard.value) != 0)
+    {
+      return -1;
+    }
+
+    gf_copy(output_guard.value, input_guard.value);
+    gf_copy(initial, input_guard.value);
+    generic_matrix(expected, input_guard.value, matrix);
+    for (size_t word = 0; word < AIM3_NUM_WORDS_FIELD; ++word)
+    {
+      expected[word] ^= initial[word];
+    }
+    gf_mat_vec_mul_add(output_guard.value, output_guard.value, matrix);
+    if (compare("matrix_add_alias", test_case, expected,
+                output_guard.value) != 0)
+    {
+      return -1;
+    }
+    ++test_case;
+  }
+
+  for (size_t round = 0; round < 32u; ++round)
+  {
+    fill_random(input_guard.value);
+    generic_matrix(expected, input_guard.value, matrix);
+    gf_mat_vec_mul(output_guard.value, input_guard.value, matrix);
+    if (compare("matrix_random", test_case++, expected,
+                output_guard.value) != 0)
+    {
+      return -1;
+    }
+  }
+
+  if (input_guard.before != UINT64_C(0x13579bdf2468ace0) ||
+      input_guard.after != UINT64_C(0xfdb97531eca86420) ||
+      output_guard.before != UINT64_C(0x0123456789abcdef) ||
+      output_guard.after != UINT64_C(0xfedcba9876543210))
+  {
+    printf("REF_GF_FAIL param=%s op=matrix_guard\n", xstr(PARAMS));
+    return -1;
+  }
+
+#if defined(AIMER_M55_MVE_MATVEC)
+  fill_random(input_guard.value);
+  fill_random(output_guard.value);
+  gf_copy(initial, output_guard.value);
+  generic_matrix(expected, input_guard.value, matrix);
+  for (size_t word = 0; word < AIM3_NUM_WORDS_FIELD; ++word)
+  {
+    expected[word] ^= initial[word];
+  }
+  m55_gf_mat_vec_mul_add(output_guard.value, input_guard.value, matrix);
+  if (compare("mve_matrix_add_direct", test_case, expected,
+              output_guard.value) != 0)
+  {
+    return -1;
+  }
+#endif
+  return 0;
+}
+
+static int test_matrix_batch4(const gf matrix[AIM3_NUM_BITS_FIELD])
+{
+  gf input[M55_PARTY_BATCH_LANES];
+  gf output[M55_PARTY_BATCH_LANES];
+  gf initial[M55_PARTY_BATCH_LANES];
+  gf expected;
+
+  gf_set0(input[0]);
+  gf_set0(input[1]);
+  input[1][0] = 1u;
+  gf_set0(input[2]);
+  input[2][AIM3_NUM_WORDS_FIELD - 1u] = UINT64_C(1) << 63;
+  fill_random(input[3]);
+
+  for (size_t active_lanes = 0u;
+       active_lanes <= M55_PARTY_BATCH_LANES; ++active_lanes)
+  {
+    for (size_t lane = 0; lane < M55_PARTY_BATCH_LANES; ++lane)
+    {
+      fill_random(output[lane]);
+      gf_copy(initial[lane], output[lane]);
+    }
+    m55_gf_mat_vec_mul_batch4(output, input, matrix, active_lanes);
+    for (size_t lane = 0; lane < active_lanes; ++lane)
+    {
+      generic_matrix(expected, input[lane], matrix);
+      if (compare("matrix_batch4", 8u * active_lanes + lane,
+                  expected, output[lane]) != 0)
+      {
+        return -1;
+      }
+    }
+    for (size_t lane = active_lanes; lane < M55_PARTY_BATCH_LANES; ++lane)
+    {
+      if (memcmp(output[lane], initial[lane], sizeof(gf)) != 0)
+      {
+        printf("REF_GF_FAIL param=%s op=matrix_batch4_inactive lane=%lu\n",
+               xstr(PARAMS), (unsigned long)lane);
+        return -1;
+      }
+    }
+
+    for (size_t lane = 0; lane < M55_PARTY_BATCH_LANES; ++lane)
+    {
+      fill_random(output[lane]);
+      gf_copy(initial[lane], output[lane]);
+    }
+    m55_gf_mat_vec_mul_add_batch4(output, input, matrix, active_lanes);
+    for (size_t lane = 0; lane < active_lanes; ++lane)
+    {
+      generic_matrix(expected, input[lane], matrix);
+      for (size_t word = 0; word < AIM3_NUM_WORDS_FIELD; ++word)
+      {
+        expected[word] ^= initial[lane][word];
+      }
+      if (compare("matrix_add_batch4", 8u * active_lanes + lane,
+                  expected, output[lane]) != 0)
+      {
+        return -1;
+      }
+    }
+
+    for (size_t lane = 0; lane < M55_PARTY_BATCH_LANES; ++lane)
+    {
+      gf_copy(output[lane], input[lane]);
+      gf_copy(initial[lane], input[lane]);
+    }
+    m55_gf_mat_vec_mul_batch4(output, output, matrix, active_lanes);
+    for (size_t lane = 0; lane < active_lanes; ++lane)
+    {
+      generic_matrix(expected, initial[lane], matrix);
+      if (compare("matrix_batch4_alias", 8u * active_lanes + lane,
+                  expected, output[lane]) != 0)
+      {
+        return -1;
+      }
+    }
+
+    for (size_t lane = 0; lane < M55_PARTY_BATCH_LANES; ++lane)
+    {
+      gf_copy(output[lane], input[lane]);
+      gf_copy(initial[lane], input[lane]);
+    }
+    m55_gf_mat_vec_mul_add_batch4(output, output, matrix, active_lanes);
+    for (size_t lane = 0; lane < active_lanes; ++lane)
+    {
+      generic_matrix(expected, initial[lane], matrix);
+      for (size_t word = 0; word < AIM3_NUM_WORDS_FIELD; ++word)
+      {
+        expected[word] ^= initial[lane][word];
+      }
+      if (compare("matrix_add_batch4_alias", 8u * active_lanes + lane,
+                  expected, output[lane]) != 0)
+      {
+        return -1;
+      }
+    }
+  }
+  return 0;
+}
+
 int main(void)
 {
   gf a = {0};
@@ -198,6 +420,10 @@ int main(void)
   for (size_t bit = 0; bit < AIM3_NUM_BITS_FIELD; ++bit)
   {
     fill_random(matrix[bit]);
+  }
+  if (test_matrix_inputs(matrix) != 0 || test_matrix_batch4(matrix) != 0)
+  {
+    return 1;
   }
   for (size_t round = 0; round < 16; ++round)
   {
@@ -289,5 +515,9 @@ int main(void)
 
   printf("REF_GF_PASS param=%s cases=%lu\n", xstr(PARAMS),
          (unsigned long)test_case);
+#if defined(AIMER_M55_MVE_MATVEC)
+  printf("AFFINE_DIFF_PASS param=%s active_lanes=0..4 alias=pass "
+         "tail=pass\n", xstr(PARAMS));
+#endif
   return 0;
 }

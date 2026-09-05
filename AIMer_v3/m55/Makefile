@@ -13,6 +13,7 @@ BENCH_WARMUP ?= 1
 PROFILE_SAMPLES ?= 31
 PROFILE_KERNEL_INNER ?= 64
 PROFILE_COMPLEX_INNER ?= 8
+STACK_USAGE ?= 0
 
 VALID_PARAMS := 128f 128s 192f 192s 256f 256s
 ifeq ($(filter $(PARAM),$(VALID_PARAMS)),)
@@ -32,7 +33,7 @@ MATVEC := reference
 endif
 endif
 
-VALID_MATVECS := compact reference
+VALID_MATVECS := compact reference mve
 ifeq ($(filter $(MATVEC),$(VALID_MATVECS)),)
 $(error MATVEC must be one of: $(VALID_MATVECS))
 endif
@@ -82,6 +83,14 @@ MATVEC_CPPFLAGS := -DAIMER_M55_REFERENCE_MATVEC
 CONFIG_TAG := mve_refmat
 BUILD_BACKEND := mve-refmat
 MVE_MATVEC_SUFFIX := -refmat
+else ifeq ($(MATVEC),mve)
+MATVEC_SOURCE := src/mve/matvec_mve.c
+MATVEC_CPPFLAGS := -DAIMER_M55_MVE_MATVEC
+MATVEC_LDFLAGS := \
+	-Wl,--wrap=samsungsds_aimer_$(PARAM)_ref_gf_mat_vec_mul_add
+CONFIG_TAG := mve_affine
+BUILD_BACKEND := mve-affine
+MVE_MATVEC_SUFFIX := -mve
 else
 MATVEC_SOURCE :=
 MATVEC_CPPFLAGS :=
@@ -175,6 +184,10 @@ CFLAGS := \
 	$(COMMON_WARNINGS) \
 	$(ARCH_FLAGS)
 
+ifeq ($(STACK_USAGE),1)
+CFLAGS += -fstack-usage
+endif
+
 LDFLAGS := \
 	--specs=nosys.specs \
 	-Wl,--gc-sections \
@@ -184,6 +197,7 @@ LDFLAGS := \
 	-Wl,--wrap=_write \
 	-Wl,--wrap=_read \
 	-T$(LINKER_SCRIPT) \
+	$(MATVEC_LDFLAGS) \
 	$(ARCH_FLAGS)
 
 C_SOURCES_REFERENCE := \
@@ -311,6 +325,7 @@ $(foreach source,$(C_SOURCES),$(eval $(call compile_c,$(source))))
 $(foreach source,$(ASM_SOURCES),$(eval $(call compile_asm,$(source))))
 
 .PHONY: all build size disassemble check-mve-config check-mve-disassembly \
+	check-mve-affine-disassembly \
 	check-low-memory check-mve-field-host check-kat-host check-kat-mve-host \
 	run-board clean
 
@@ -334,6 +349,18 @@ check-mve-disassembly: disassemble
 	@rg -q '\bvmullb\.p16\b' $(ELF:.elf=.dis)
 	@rg -q '\bvmullt\.p16\b' $(ELF:.elf=.dis)
 	@echo "MVE polynomial multiply instructions: VMULLB.P16 + VMULLT.P16"
+
+check-mve-affine-disassembly: disassemble
+	@test "$(BACKEND)" = "mve"
+	@test "$(MATVEC)" = "mve"
+	@$(OBJDUMP) -d --disassemble=m55_gf_mat_vec_mul_add_batch4 $(ELF) \
+		>$(ELF:.elf=.affine.dis)
+	@rg -q '\bvand\b' $(ELF:.elf=.affine.dis)
+	@rg -q '\bveor\b' $(ELF:.elf=.affine.dis)
+	@$(NM) $(ELF) | rg -q ' m55_gf_mat_vec_mul_add_batch4$$'
+	@$(OBJDUMP) -d --disassemble=m55_aim3_mpc_batch4 $(ELF) | \
+		rg -q 'm55_gf_mat_vec_mul(_add)?_batch4'
+	@echo "MVE affine instructions: VAND + VEOR; MPC batch call connected"
 
 check-mve-config:
 	@printf '' | $(CC) $(ARCH_FLAGS) -dM -E - | grep -q '^#define __ARM_FEATURE_MVE 3$$'

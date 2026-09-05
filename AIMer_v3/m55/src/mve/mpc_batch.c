@@ -67,6 +67,65 @@ void m55_aim3_mpc_batch4(mult_chk_t checks[M55_PARTY_BATCH_LANES],
              ciphertext);
     }
     gf_copy(check->c_share, tape->c_share);
+  }
+
+#if defined(AIMER_M55_MVE_MATVEC)
+  for (size_t ell = 0; ell < AIMER_L; ++ell)
+  {
+    gf inputs[M55_PARTY_BATCH_LANES];
+    gf outputs[M55_PARTY_BATCH_LANES];
+    for (size_t lane = 0; lane < active_lanes; ++lane)
+    {
+      gf_copy(inputs[lane], tapes[lane].pt_share);
+    }
+    m55_gf_mat_vec_mul_batch4(outputs, inputs, lin->mat_A[ell],
+                              active_lanes);
+    for (size_t lane = 0; lane < active_lanes; ++lane)
+    {
+      const size_t party = party_base + lane;
+      gf_copy(checks[lane].x_shares[ell], outputs[lane]);
+      if (party == AIMER_N - 1u)
+      {
+        gf_add(checks[lane].x_shares[ell], checks[lane].x_shares[ell],
+               lin->vec_b[ell]);
+      }
+    }
+  }
+
+  {
+    gf outputs[M55_PARTY_BATCH_LANES];
+    for (size_t lane = 0; lane < active_lanes; ++lane)
+    {
+      gf_set0(outputs[lane]);
+    }
+    for (size_t ell = 0; ell < AIMER_L; ++ell)
+    {
+      gf inputs[M55_PARTY_BATCH_LANES];
+      for (size_t lane = 0; lane < active_lanes; ++lane)
+      {
+        gf_copy(inputs[lane], tapes[lane].y_shares[ell]);
+      }
+      m55_gf_mat_vec_mul_add_batch4(outputs, inputs,
+                                    lin->mat_A[ell + AIMER_L],
+                                    active_lanes);
+    }
+    for (size_t lane = 0; lane < active_lanes; ++lane)
+    {
+      const size_t party = party_base + lane;
+      gf_copy(checks[lane].x_shares[AIMER_L], outputs[lane]);
+      if (party == AIMER_N - 1u)
+      {
+        gf_add(checks[lane].x_shares[AIMER_L],
+               checks[lane].x_shares[AIMER_L], lin->vec_b[AIMER_L]);
+      }
+    }
+  }
+#else
+  for (size_t lane = 0; lane < active_lanes; ++lane)
+  {
+    mult_chk_t *const check = &checks[lane];
+    const tape_t *const tape = &tapes[lane];
+    const size_t party = party_base + lane;
 
     for (size_t ell = 0; ell < AIMER_L; ++ell)
     {
@@ -89,6 +148,7 @@ void m55_aim3_mpc_batch4(mult_chk_t checks[M55_PARTY_BATCH_LANES],
              lin->vec_b[AIMER_L]);
     }
   }
+#endif
 
 #if defined(AIMER_PHASE_PROFILE)
   mpc_profile_affine += (uint32_t)(m55_cycle_count() - profile_start);

@@ -29,6 +29,18 @@ make PARAM=128f check-kat-host
 make PARAM=128f check-kat-mve-host
 ```
 
+The explicit affine backend keeps the existing MVE GF and packed Frobenius
+path while selecting the Cortex-M55 VAND/VEOR matrix kernels:
+
+```sh
+make PARAM=128f BACKEND=mve MATVEC=mve check-mve-field-host
+make PARAM=128f BACKEND=mve MATVEC=mve TEST=sign MEMORY=full \
+  build check-mve-disassembly check-mve-affine-disassembly
+```
+
+`BACKEND=mve` without `MATVEC` still selects `compact`; the new backend does
+not change any existing default.
+
 The M55 reference and MVE field tests use the verified 256 KiB bring-up
 layout:
 
@@ -49,7 +61,9 @@ make PARAM=128f BACKEND=mve TEST=kat MEMORY=full \
 ```
 
 `check-mve-disassembly` fails unless both `VMULLB.P16` and `VMULLT.P16` are
-present in the final ELF.  The historical v0 implementation passed 1,200
+present in the final ELF. `check-mve-affine-disassembly` additionally requires
+VAND/VEOR in the four-party affine function and verifies its call from the MPC
+batch function. The historical v0 implementation passed 1,200
 board KAT vectors.  After adding the MPC squaring/reduction path, all six
 parameter sets passed their 100-vector host KAT, all six passed actual-board
 sign/verify/tamper tests, and actual-board MVE KATs passed for one parameter at
@@ -72,6 +86,11 @@ the 256-bit matrix-layer confounder, are analyzed in
 [`benchmarks/CAUSE_ANALYSIS.md`](benchmarks/CAUSE_ANALYSIS.md).
 The original v0 measurement rows and CSV remain in `benchmarks/RESULTS.md` and
 `benchmarks/results.csv` as the performance baseline.
+
+The restartable four-configuration affine experiment is driven by
+`benchmarks/run_affine_ablation.sh`. It remeasures A/B/C/D in one environment,
+checks source/command/ELF hashes before reusing a completed run, and preserves
+invalid or failed attempts separately under the selected result directory.
 
 `ARM_GCC_DIR` and `CUBE_N6_DIR` may be overridden on the make command line.
 Generated files stay below ignored `build/`; no firmware artifact belongs in

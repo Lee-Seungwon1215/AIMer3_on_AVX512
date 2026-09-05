@@ -7,6 +7,38 @@
 
 #define M55_GF_WORDS32 (AIM3_NUM_BITS_FIELD / 32u)
 
+#if !defined(AIMER_M55_MVE_MATVEC)
+void m55_gf_mat_vec_mul_batch4(
+    gf output[M55_PARTY_BATCH_LANES],
+    const gf input[M55_PARTY_BATCH_LANES],
+    const gf matrix[AIM3_NUM_BITS_FIELD], size_t active_lanes)
+{
+  if (active_lanes > M55_PARTY_BATCH_LANES)
+  {
+    active_lanes = M55_PARTY_BATCH_LANES;
+  }
+  for (size_t lane = 0; lane < active_lanes; ++lane)
+  {
+    gf_mat_vec_mul(output[lane], input[lane], matrix);
+  }
+}
+
+void m55_gf_mat_vec_mul_add_batch4(
+    gf output[M55_PARTY_BATCH_LANES],
+    const gf input[M55_PARTY_BATCH_LANES],
+    const gf matrix[AIM3_NUM_BITS_FIELD], size_t active_lanes)
+{
+  if (active_lanes > M55_PARTY_BATCH_LANES)
+  {
+    active_lanes = M55_PARTY_BATCH_LANES;
+  }
+  for (size_t lane = 0; lane < active_lanes; ++lane)
+  {
+    gf_mat_vec_mul_add(output[lane], input[lane], matrix);
+  }
+}
+#endif
+
 #if defined(AIMER_MVE_BATCH)
 #include <arm_mve.h>
 
