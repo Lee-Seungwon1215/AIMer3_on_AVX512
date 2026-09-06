@@ -1,0 +1,99 @@
+# SPDX-License-Identifier: MIT
+
+CC       ?= cc
+AR       ?= ar
+CPPFLAGS ?=
+CFLAGS   ?= -O3 -Wall -Wextra -fomit-frame-pointer -std=c11
+LDFLAGS  ?=
+LDLIBS   ?=
+
+BUILD       := build/oqs
+LIB_DIR     := build/lib
+INCLUDE_DIR := include
+SRC_ROOT    := src
+COMMON_ROOT := ../common/src
+KAT_ROOT := ../common/KAT
+AIMER_DIR   := $(COMMON_ROOT)/sig/aimer/reference/aimer-128f
+
+INCLUDES := -I$(INCLUDE_DIR) -I$(SRC_ROOT) -I$(COMMON_ROOT)
+OQS_AIMER_INCLUDES := -I$(SRC_ROOT)/oqs/include_override \
+                      -I$(AIMER_DIR) $(INCLUDES)
+
+AIMER_CORE_NAMES := aim3.c field_common.c hash.c sign.c tree.c field128.c
+AIMER_CORE_OBJS  := $(addprefix $(BUILD)/aimer-v3-128f_ref/,\
+                                $(AIMER_CORE_NAMES:.c=.o))
+
+OQS_GLUE_OBJS := \
+  $(BUILD)/glue/common.o \
+  $(BUILD)/glue/rand.o \
+  $(BUILD)/glue/rand_nist.o \
+  $(BUILD)/glue/sig.o \
+  $(BUILD)/glue/sig_aimer_v3_128f.o
+
+OQS_COMMON_OBJS := \
+  $(BUILD)/common/aes.o \
+  $(BUILD)/common/fips202.o \
+  $(BUILD)/common/rng.o
+
+OQS_OBJS := $(OQS_GLUE_OBJS) $(OQS_COMMON_OBJS) $(AIMER_CORE_OBJS)
+OQS_LIB  := $(LIB_DIR)/liboqs.a
+KAT_BIN  := $(BUILD)/tests/kat_sig
+
+.PHONY: all oqs oqs-kat oqs-check clean help
+
+all: oqs
+
+oqs: $(OQS_LIB) $(KAT_BIN)
+
+$(BUILD)/glue/%.o: $(SRC_ROOT)/oqs/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/glue/sig_aimer_v3_128f.o: \
+    $(SRC_ROOT)/sig/aimer_v3/sig_aimer_v3_128f.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/common/%.o: $(COMMON_ROOT)/common/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD)/aimer-v3-128f_ref/%.o: $(AIMER_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(OQS_AIMER_INCLUDES) -DPARAMS=128f \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(OQS_LIB): $(OQS_OBJS)
+	@mkdir -p $(dir $@)
+	$(AR) rcs $@ $^
+
+$(BUILD)/tests/PQCgenKAT_sign.o: tests/PQCgenKAT_sign.c \
+    $(SRC_ROOT)/oqs/kat_compat.h
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(INCLUDES) -include $(SRC_ROOT)/oqs/kat_compat.h \
+	      $(CFLAGS) -MMD -MP -c $< -o $@
+
+$(KAT_BIN): $(BUILD)/tests/PQCgenKAT_sign.o $(OQS_LIB)
+	$(CC) $(LDFLAGS) $< $(OQS_LIB) $(LDLIBS) -o $@
+
+oqs-kat: $(KAT_BIN)
+	@cd $(BUILD)/tests && ./kat_sig >/dev/null
+	@if cmp -s $(KAT_ROOT)/aimer-128f/PQCsignKAT_48.rsp \
+	             $(BUILD)/tests/PQCsignKAT_48.rsp; then \
+		echo "[PASS] AIMER-v3-128f OQS_SIG official KAT (100 vectors)"; \
+	else \
+		echo "[FAIL] AIMER-v3-128f OQS_SIG official KAT"; \
+		exit 1; \
+	fi
+
+oqs-check: oqs-kat
+
+clean:
+	rm -rf $(BUILD) $(OQS_LIB)
+
+help:
+	@echo "make -f Makefile.oqs oqs       Build liboqs.a and the AIM3 OQS KAT driver"
+	@echo "make -f Makefile.oqs oqs-kat   Run 100 official AIM3-128f vectors via OQS_SIG"
+
+DEPS := $(OQS_OBJS:.o=.d) $(BUILD)/tests/PQCgenKAT_sign.d
+-include $(DEPS)
