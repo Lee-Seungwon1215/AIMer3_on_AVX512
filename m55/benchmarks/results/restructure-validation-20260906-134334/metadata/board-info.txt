@@ -1,0 +1,7 @@
+id=m55
+core=Cortex-M55
+model=NUCLEO-N657X0-Q
+state_before_validation=UART_READY
+serial_port=/dev/cu.usbmodem2402
+stlink_serial=003C00223335510735383531
+

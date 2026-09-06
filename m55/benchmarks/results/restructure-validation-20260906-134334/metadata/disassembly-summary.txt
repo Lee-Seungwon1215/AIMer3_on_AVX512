@@ -1,0 +1,7 @@
+128f: __ARM_FEATURE_MVE=3; VMULLB.P16=10; VMULLT.P16=9; affine VAND=3; affine VEOR=2; MPC batch call connected=pass
+128s: __ARM_FEATURE_MVE=3; VMULLB.P16=10; VMULLT.P16=9; affine VAND=3; affine VEOR=2; MPC batch call connected=pass
+192f: __ARM_FEATURE_MVE=3; VMULLB.P16=15; VMULLT.P16=14; affine VAND=3; affine VEOR=2; MPC batch call connected=pass
+192s: __ARM_FEATURE_MVE=3; VMULLB.P16=15; VMULLT.P16=14; affine VAND=3; affine VEOR=2; MPC batch call connected=pass
+256f: __ARM_FEATURE_MVE=3; VMULLB.P16=19; VMULLT.P16=18; affine VAND=3; affine VEOR=2; MPC batch call connected=pass
+256s: __ARM_FEATURE_MVE=3; VMULLB.P16=19; VMULLT.P16=18; affine VAND=3; affine VEOR=2; MPC batch call connected=pass
+

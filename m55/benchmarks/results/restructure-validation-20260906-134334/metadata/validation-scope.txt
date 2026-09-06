@@ -1,0 +1,10 @@
+worktree=/Users/seungwon/AIMer3-common-x86-m55-validation
+branch=validation/m55-restructure-20260906
+base=origin/automation/common-x86-m55
+expected_head=352b33156210dd4f373a799330541b9a3b82e5fc
+board=STMicroelectronics NUCLEO-N657X0-Q
+core=Arm Cortex-M55
+parameters=128f 128s 192f 192s 256f 256s
+backend=BACKEND=mve MATVEC=mve MEMORY=full SIGN_SCHEDULE=lowmem
+performance_measurement=not_requested_and_not_performed
+

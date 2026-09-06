@@ -1,0 +1,99 @@
+Validation command log
+started_at=2026-09-06T13:43:34+0900
+
+Pre-worktree commands (executed in /Users/seungwon/AIMer3_on_AVX512):
+pwd
+git status --short --branch
+git branch --show-current
+git rev-parse HEAD
+git remote -v
+rg --files -g 'AGENTS.md' -g '!build' -g '!**/build/**' -g '!benchmarks/results/**'
+git fetch origin --prune
+git rev-parse origin/automation/common-x86-m55
+git status --short --branch
+git worktree list --porcelain
+git show --no-patch --format='%H%n%P%n%ci%n%s' origin/automation/common-x86-m55
+git show-ref --verify --quiet refs/heads/validation/m55-restructure-20260906
+git ls-remote --heads origin refs/heads/validation/m55-restructure-20260906
+git worktree add -b validation/m55-restructure-20260906 /Users/seungwon/AIMer3-common-x86-m55-validation origin/automation/common-x86-m55
+
+Worktree inspection commands:
+git rev-parse HEAD
+git status --short --branch
+find . -maxdepth 2 -type d -print
+sed -n '1,760p' m55/Makefile
+rg -n --hidden --glob '!benchmarks/results/**' --glob '!build/**' '(x86/|\\.\\./x86|/x86|x86_)' m55 Makefile
+find common x86 m55 -maxdepth 2 -type f -print
+find common/src m55/src m55/include m55/platform m55/tests -type f -print
+rg -n 'ARM_GCC_DIR|CUBE_N6_DIR|CORTEXCTL|OPENOCD|OPENOCD_SCRIPTS|OPENOCD_TARGET_SCRIPTS|run-board|check-mve-config|check-mve-disassembly|check-mve-affine-disassembly|SIGN_TEST_PASS|KAT_PASS' m55 Makefile
+git ls-files common x86 m55/src m55/include m55/platform m55/tests Makefile | wc -l
+date '+%Y%m%d-%H%M%S%n%Y-%m-%dT%H:%M:%S%z'
+
+Validation setup and host commands (executed in the validation worktree):
+mkdir -p m55/benchmarks/results/restructure-validation-20260906-134334/{metadata,host,disassembly,board-kat,board-sign}
+git ls-files -z -- common x86 m55/src m55/include m55/platform m55/tests Makefile m55/Makefile | LC_ALL=C sort -z | xargs -0 shasum -a 256 > m55/benchmarks/results/restructure-validation-20260906-134334/metadata/source-manifest-before.sha256
+git status --porcelain=v1 --untracked-files=all > m55/benchmarks/results/restructure-validation-20260906-134334/metadata/git-status-before.txt
+make -C m55 --no-print-directory -pn PARAM=128f BACKEND=mve MATVEC=mve MEMORY=full SIGN_SCHEDULE=lowmem TEST=sign
+make m55-host-check
+
+Host result checks and tool discovery:
+rg '^(REF_GF_PASS|AFFINE_DIFF_PASS|KAT_PASS|KAT_FAIL)' m55/benchmarks/results/restructure-validation-20260906-134334/host/m55-host-check.log
+rg -c '^KAT_VECTOR_PASS ' m55/benchmarks/results/restructure-validation-20260906-134334/host/m55-host-check.log
+rg -n '(^|[^A-Z_])(KAT_FAIL|SIGN_TEST_FAIL|VERIFY_FAIL|TAMPER_FAIL)([^A-Z_]|$)' m55/benchmarks/results/restructure-validation-20260906-134334/host/m55-host-check.log
+command -v arm-none-eabi-gcc
+command -v openocd
+command -v cortexctl
+stat -f '%N|type=%HT|mode=%Sp' <each configured tool path>
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc --version
+/Users/seungwon/test/.tools/xpack-openocd-0.12.0-7/bin/openocd --version
+/Users/Shared/cortexctl --help
+make --version
+cc --version
+git --version
+uname -a
+sw_vers
+readlink /Users/Shared/cortexctl
+/Users/Shared/cortexctl list
+/Users/Shared/cortexctl serial m55
+/Users/Shared/cortexctl port m55
+
+Board sign validation (executed once per parameter with p in 128f 128s 192f 192s 256f 256s):
+make -C m55 PARAM=<p> BACKEND=mve MATVEC=mve MEMORY=full SIGN_SCHEDULE=lowmem TEST=sign build check-mve-config check-mve-disassembly check-mve-affine-disassembly run-board
+
+Preservation and result checks:
+cp -p m55/build/full/<p>/mve-affine/sign/aimer-m55-<p>-mve-affine-sign.dis m55/benchmarks/results/restructure-validation-20260906-134334/disassembly/<p>-sign.dis
+cp -p m55/build/full/<p>/mve-affine/sign/aimer-m55-<p>-mve-affine-sign.affine.dis m55/benchmarks/results/restructure-validation-20260906-134334/disassembly/<p>-sign.affine.dis
+rg '^(MVE compile feature|MVE polynomial|MVE affine|SIGN_TEST_PASS|TEST_EXIT)' m55/benchmarks/results/restructure-validation-20260906-134334/board-sign/{128f,128s,192f,192s,256f,256s}.log
+rg -n 'KAT_FAIL|SIGN_TEST_FAIL|VERIFY_FAIL|TAMPER_FAIL|TEST_EXIT=[^0]' m55/benchmarks/results/restructure-validation-20260906-134334/board-sign/{128f,128s,192f,192s,256f,256s}.log
+rg -c '\\bvmullb\\.p16\\b' m55/benchmarks/results/restructure-validation-20260906-134334/disassembly/<p>-sign.dis
+rg -c '\\bvmullt\\.p16\\b' m55/benchmarks/results/restructure-validation-20260906-134334/disassembly/<p>-sign.dis
+rg -c '\\bvand\\b' m55/benchmarks/results/restructure-validation-20260906-134334/disassembly/<p>-sign.affine.dis
+rg -c '\\bveor\\b' m55/benchmarks/results/restructure-validation-20260906-134334/disassembly/<p>-sign.affine.dis
+
+Board KAT validation (executed once per parameter with p in 128f 128s 192f 192s 256f 256s):
+make -C m55 PARAM=<p> BACKEND=mve MATVEC=mve MEMORY=full SIGN_SCHEDULE=lowmem TEST=kat build run-board
+
+Aggregate and source-integrity checks:
+rg '^KAT_PASS param=.* vectors=100$|^TEST_EXIT=' m55/benchmarks/results/restructure-validation-20260906-134334/board-kat/{128f,128s,192f,192s,256f,256s}.log
+rg --no-filename '^KAT_VECTOR_PASS ' m55/benchmarks/results/restructure-validation-20260906-134334/board-kat/{128f,128s,192f,192s,256f,256s}.log | wc -l
+rg -n '^KAT_FAIL|^TEST_EXIT=[^0]' m55/benchmarks/results/restructure-validation-20260906-134334/board-kat/{128f,128s,192f,192s,256f,256s}.log
+rg --no-filename '^SIGN_TEST_PASS ' m55/benchmarks/results/restructure-validation-20260906-134334/board-sign/{128f,128s,192f,192s,256f,256s}.log | wc -l
+git ls-files -z -- common x86 m55/src m55/include m55/platform m55/tests Makefile m55/Makefile | LC_ALL=C sort -z | xargs -0 shasum -a 256 > m55/benchmarks/results/restructure-validation-20260906-134334/metadata/source-manifest-after.sha256
+git diff -- common x86 m55/src m55/include m55/platform m55/tests Makefile m55/Makefile > m55/benchmarks/results/restructure-validation-20260906-134334/metadata/source-diff.patch
+git status --short --branch --untracked-files=all > m55/benchmarks/results/restructure-validation-20260906-134334/metadata/git-status-before-clean.txt
+cmp -s m55/benchmarks/results/restructure-validation-20260906-134334/metadata/source-manifest-before.sha256 m55/benchmarks/results/restructure-validation-20260906-134334/metadata/source-manifest-after.sha256
+git diff --quiet -- common x86 m55/src m55/include m55/platform m55/tests Makefile m55/Makefile
+make -C m55 clean
+
+Preserved invocation-only error:
+The first 128f sign command was accidentally launched from inside m55 while also using '-C m55'. It exited before compilation with 'm55: No such file or directory'. The log was preserved as board-sign/128f-invocation-error.log, and the requested command was then run correctly from the worktree root.
+
+Commit and publication commands:
+git add -f m55/benchmarks/results/restructure-validation-20260906-134334
+git diff --cached --stat
+git diff --cached --name-only
+git commit -m 'test(m55): validate restructured board build'
+git push -u origin validation/m55-restructure-20260906
+git status --short --branch
+git rev-parse HEAD
+git ls-remote --heads origin refs/heads/validation/m55-restructure-20260906
