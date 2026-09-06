@@ -1,0 +1,994 @@
+PAPER_M55_CONTEXT,result_dir=/Users/seungwon/AIMer3_on_AVX512/m55/benchmarks/results/paper-final-ref-mve-20260906-151313,source_sha256=d5a9217638ee84f7d9f5243875243052c95d5d6c224578e33e0548304ef6457e,command=make -B -C /Users/seungwon/AIMer3_on_AVX512/m55 PARAM=256s BACKEND=ref MATVEC=reference TEST=benchmark MEMORY=full SIGN_SCHEDULE=lowmem STACK_USAGE=1 BENCH_KERNEL_SAMPLES=31 BENCH_KERNEL_INNER=64 BENCH_E2E_SAMPLES=50 BENCH_WARMUP=10 run-board ARM_GCC_DIR=/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin CUBE_N6_DIR=/Users/seungwon/STM32CubeN6 CORTEXCTL=/Users/Shared/cortexctl OPENOCD=/Users/seungwon/test/.tools/xpack-openocd-0.12.0-7/bin/openocd OPENOCD_SCRIPTS=/Users/seungwon/test/.tools/xpack-openocd-0.12.0-7/openocd/scripts OPENOCD_TARGET_SCRIPTS=/Users/seungwon/test/.tools/openocd-scripts 
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c benchmarks/benchmark.c -o build/full/256s/ref/benchmark/benchmark.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c src/lowmem/sign_low_memory.c -o build/full/256s/ref/benchmark/sign_low_memory.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c src/lowmem/verify_batch.c -o build/full/256s/ref/benchmark/verify_batch.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c src/mve/field_batch.c -o build/full/256s/ref/benchmark/field_batch.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c src/mve/mpc_batch.c -o build/full/256s/ref/benchmark/mpc_batch.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c ../common/src/sig/aimer/reference/aimer-256s/aim3.c -o build/full/256s/ref/benchmark/aim3.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c ../common/src/sig/aimer/reference/aimer-256s/hash.c -o build/full/256s/ref/benchmark/hash.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c ../common/src/sig/aimer/reference/aimer-256s/sign.c -o build/full/256s/ref/benchmark/sign.c.o
+../common/src/sig/aimer/reference/aimer-256s/sign.c: In function 'samsungsds_aimer_256s_ref_crypto_sign_signature':
+../common/src/sig/aimer/reference/aimer-256s/sign.c:409:15: warning: conversion from 'size_t' {aka 'unsigned int'} to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
+  409 |   prefix[0] = ctxlen;
+      |               ^~~~~~
+../common/src/sig/aimer/reference/aimer-256s/sign.c: In function 'samsungsds_aimer_256s_ref_crypto_sign_verify':
+../common/src/sig/aimer/reference/aimer-256s/sign.c:675:15: warning: conversion from 'size_t' {aka 'unsigned int'} to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
+  675 |   prefix[0] = ctxlen;
+      |               ^~~~~~
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c ../common/src/sig/aimer/reference/aimer-256s/tree.c -o build/full/256s/ref/benchmark/tree.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c ../common/src/sig/aimer/reference/aimer-256s/field_common.c -o build/full/256s/ref/benchmark/field_common.c.o
+../common/src/sig/aimer/reference/aimer-256s/field_common.c: In function 'samsungsds_aimer_256s_ref_gf_from_bytes':
+../common/src/sig/aimer/reference/aimer-256s/field_common.c:28:31: warning: conversion to 'size_t' {aka 'unsigned int'} from 'int' may change the sign of the result [-Wsign-conversion]
+   28 |       u = (u << 8) | in[8 * i + j];
+      |                               ^
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c ../common/src/sig/aimer/reference/aimer-256s/field256.c -o build/full/256s/ref/benchmark/field256.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c ../common/src/common/aes.c -o build/full/256s/ref/benchmark/aes.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c ../common/src/common/fips202.c -o build/full/256s/ref/benchmark/fips202.c.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c ../common/src/common/rng.c -o build/full/256s/ref/benchmark/rng.c.o
+../common/src/common/rng.c: In function 'seedexpander_init':
+../common/src/common/rng.c:30:17: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+   30 |     if ( maxlen >= 0x100000000 )
+      |                 ^~
+../common/src/common/rng.c: In function 'seedexpander':
+../common/src/common/rng.c:73:19: warning: comparison of integer expressions of different signedness: 'long unsigned int' and 'int' [-Wsign-compare]
+   73 |         if ( xlen <= (16-ctx->buffer_pos) ) { // buffer has what we need
+      |                   ^~
+../common/src/common/rng.c:75:29: warning: conversion to 'long unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+   75 |             ctx->buffer_pos += xlen;
+      |                             ^~
+../common/src/common/rng.c:75:32: warning: conversion to 'int' from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   75 |             ctx->buffer_pos += xlen;
+      |                                ^~~~
+../common/src/common/rng.c:81:57: warning: conversion to 'size_t' {aka 'unsigned int'} from 'int' may change the sign of the result [-Wsign-conversion]
+   81 |         memcpy(x+offset, ctx->buffer+ctx->buffer_pos, 16-ctx->buffer_pos);
+      |                                                       ~~^~~~~~~~~~~~~~~~
+../common/src/common/rng.c:82:14: warning: conversion to 'long unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+   82 |         xlen -= 16-ctx->buffer_pos;
+      |              ^~
+../common/src/common/rng.c:83:16: warning: conversion to 'long unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+   83 |         offset += 16-ctx->buffer_pos;
+      |                ^~
+../common/src/common/rng.c: In function 'randombytes_init':
+../common/src/common/rng.c:127:22: warning: unused parameter 'security_strength' [-Wunused-parameter]
+  127 |                  int security_strength)
+      |                  ~~~~^~~~~~~~~~~~~~~~~
+../common/src/common/rng.c: In function 'randombytes':
+../common/src/common/rng.c:164:32: warning: conversion from 'long long unsigned int' to 'size_t' {aka 'unsigned int'} may change value [-Wconversion]
+  164 |             memcpy(x+i, block, xlen);
+      |                                ^~~~
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c platform/nucleo-n657x0-q/platform.c -o build/full/256s/ref/benchmark/platform.c.o
+In file included from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/core_cm55.h:4605,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n657xx.h:281,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n6xx.h:87,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_def.h:33,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_rcc.h:28,
+                 from /Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc/stm32n6xx_hal_conf.h:253,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal.h:29,
+                 from platform/nucleo-n657x0-q/platform.c:5:
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateICache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:48:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   48 | #define __SCB_ICACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:20: note: in expansion of macro '__SCB_ICACHE_LINE_SIZE'
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanInvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:29: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                             ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c /Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Src/system_stm32n6xx_fsbl.c -o build/full/256s/ref/benchmark/system_stm32n6xx_fsbl.c.o
+In file included from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/core_cm55.h:4605,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n657xx.h:281,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n6xx.h:87,
+                 from /Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Src/system_stm32n6xx_fsbl.c:55:
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateICache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:48:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   48 | #define __SCB_ICACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:20: note: in expansion of macro '__SCB_ICACHE_LINE_SIZE'
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanInvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:29: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                             ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal.c -o build/full/256s/ref/benchmark/stm32n6xx_hal.c.o
+In file included from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/core_cm55.h:4605,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n657xx.h:281,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n6xx.h:87,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_def.h:33,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_rcc.h:28,
+                 from /Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc/stm32n6xx_hal_conf.h:253,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal.h:29,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal.c:45:
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateICache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:48:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   48 | #define __SCB_ICACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:20: note: in expansion of macro '__SCB_ICACHE_LINE_SIZE'
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanInvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:29: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                             ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_cortex.c -o build/full/256s/ref/benchmark/stm32n6xx_hal_cortex.c.o
+In file included from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/core_cm55.h:4605,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n657xx.h:281,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n6xx.h:87,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_def.h:33,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_rcc.h:28,
+                 from /Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc/stm32n6xx_hal_conf.h:253,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal.h:29,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_cortex.c:158:
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateICache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:48:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   48 | #define __SCB_ICACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:20: note: in expansion of macro '__SCB_ICACHE_LINE_SIZE'
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanInvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:29: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                             ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_pwr.c -o build/full/256s/ref/benchmark/stm32n6xx_hal_pwr.c.o
+In file included from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/core_cm55.h:4605,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n657xx.h:281,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n6xx.h:87,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_def.h:33,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_rcc.h:28,
+                 from /Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc/stm32n6xx_hal_conf.h:253,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal.h:29,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_pwr.c:107:
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateICache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:48:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   48 | #define __SCB_ICACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:20: note: in expansion of macro '__SCB_ICACHE_LINE_SIZE'
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanInvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:29: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                             ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_pwr_ex.c -o build/full/256s/ref/benchmark/stm32n6xx_hal_pwr_ex.c.o
+In file included from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/core_cm55.h:4605,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n657xx.h:281,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n6xx.h:87,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_def.h:33,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_rcc.h:28,
+                 from /Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc/stm32n6xx_hal_conf.h:253,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal.h:29,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_pwr_ex.c:159:
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateICache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:48:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   48 | #define __SCB_ICACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:20: note: in expansion of macro '__SCB_ICACHE_LINE_SIZE'
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanInvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:29: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                             ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_rcc.c -o build/full/256s/ref/benchmark/stm32n6xx_hal_rcc.c.o
+In file included from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/core_cm55.h:4605,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n657xx.h:281,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n6xx.h:87,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_def.h:33,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_rcc.h:28,
+                 from /Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc/stm32n6xx_hal_conf.h:253,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal.h:29,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_rcc.c:73:
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateICache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:48:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   48 | #define __SCB_ICACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:20: note: in expansion of macro '__SCB_ICACHE_LINE_SIZE'
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanInvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:29: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                             ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -c /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_rcc_ex.c -o build/full/256s/ref/benchmark/stm32n6xx_hal_rcc_ex.c.o
+In file included from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/core_cm55.h:4605,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n657xx.h:281,
+                 from /Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include/stm32n6xx.h:87,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_def.h:33,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal_rcc.h:28,
+                 from /Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc/stm32n6xx_hal_conf.h:253,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal.h:29,
+                 from /Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_rcc_ex.c:24:
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateICache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:117:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  117 |        int32_t op_size = isize + (((uint32_t)addr) & (__SCB_ICACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:48:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   48 | #define __SCB_ICACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:125:20: note: in expansion of macro '__SCB_ICACHE_LINE_SIZE'
+  125 |         op_size -= __SCB_ICACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_InvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:360:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  360 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:368:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  368 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:390:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  390 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:398:20: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  398 |         op_size -= __SCB_DCACHE_LINE_SIZE;
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h: In function 'SCB_CleanInvalidateDCache_by_Addr':
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:32: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                                ^
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:420:26: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+  420 |        int32_t op_size = dsize + (((uint32_t)addr) & (__SCB_DCACHE_LINE_SIZE - 1U));
+      |                          ^~~~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:17: warning: conversion to 'long unsigned int' from 'int32_t' {aka 'long int'} may change the sign of the result [-Wsign-conversion]
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                 ^~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:44:33: warning: conversion to 'int32_t' {aka 'long int'} from 'long unsigned int' may change the sign of the result [-Wsign-conversion]
+   44 | #define __SCB_DCACHE_LINE_SIZE  32U /*!< Cortex-M7 cache line size is fixed to 32 bytes (8 words). See also register SCB_CCSIDR */
+      |                                 ^~~
+/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include/m-profile/armv7m_cachel1.h:428:29: note: in expansion of macro '__SCB_DCACHE_LINE_SIZE'
+  428 |         op_size -=          __SCB_DCACHE_LINE_SIZE;
+      |                             ^~~~~~~~~~~~~~~~~~~~~~
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc   -DAIMER_BENCHMARK -DPARAMS=256s -DAIMER_BACKEND=ref -DAIMER_MATVEC=reference -DAIMER_CONFIG=ref -DBENCH_KERNEL_SAMPLES=31 -DBENCH_E2E_SAMPLES=50 -DBENCH_KERNEL_INNER=64 -DBENCH_WARMUP=10 -DPROFILE_SAMPLES=31 -DPROFILE_KERNEL_INNER=64 -DPROFILE_COMPLEX_INNER=8 -DUSE_HAL_DRIVER -DSTM32N657xx -Iinclude -I../common/src/sig/aimer/reference/aimer-256s -I../common/src -I/Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/FSBL/Inc -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Include -I/Users/seungwon/STM32CubeN6/Drivers/CMSIS/Device/ST/STM32N6xx/Include -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc -I/Users/seungwon/STM32CubeN6/Drivers/STM32N6xx_HAL_Driver/Inc/Legacy -O3 -std=c11 -fno-common -ffunction-sections -fdata-sections -fno-tree-vectorize -fno-tree-slp-vectorize -MMD -MP --specs=nosys.specs -Wall -Wextra -Wshadow -Wconversion -Wstrict-prototypes -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -fstack-usage -x assembler-with-cpp -c /Users/seungwon/STM32CubeN6/Projects/NUCLEO-N657X0-Q/Templates/Template/STM32CubeIDE/FSBL/Application/Startup/startup_stm32n657x0hxq_fsbl.s -o build/full/256s/ref/benchmark/startup_stm32n657x0hxq_fsbl.s.o
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gcc --specs=nosys.specs -Wl,--gc-sections -Wl,--print-memory-usage -Wl,-Map,build/full/256s/ref/benchmark/aimer-m55-256s-ref-benchmark.map -Wl,--wrap=main -Wl,--wrap=_write -Wl,--wrap=_read -Tplatform/nucleo-n657x0-q/stm32n657-axi-sram.ld  -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -mcmse -Wl,--wrap=samsungsds_aimer_256s_ref_crypto_sign_signature -Wl,--wrap=samsungsds_aimer_256s_ref_crypto_sign -Wl,--wrap=samsungsds_aimer_256s_ref_crypto_sign_verify -Wl,--wrap=samsungsds_aimer_256s_ref_crypto_sign_open build/full/256s/ref/benchmark/benchmark.c.o build/full/256s/ref/benchmark/sign_low_memory.c.o build/full/256s/ref/benchmark/verify_batch.c.o build/full/256s/ref/benchmark/field_batch.c.o build/full/256s/ref/benchmark/mpc_batch.c.o build/full/256s/ref/benchmark/aim3.c.o build/full/256s/ref/benchmark/hash.c.o build/full/256s/ref/benchmark/sign.c.o build/full/256s/ref/benchmark/tree.c.o build/full/256s/ref/benchmark/field_common.c.o build/full/256s/ref/benchmark/field256.c.o build/full/256s/ref/benchmark/aes.c.o build/full/256s/ref/benchmark/fips202.c.o build/full/256s/ref/benchmark/rng.c.o build/full/256s/ref/benchmark/platform.c.o build/full/256s/ref/benchmark/system_stm32n6xx_fsbl.c.o build/full/256s/ref/benchmark/stm32n6xx_hal.c.o build/full/256s/ref/benchmark/stm32n6xx_hal_cortex.c.o build/full/256s/ref/benchmark/stm32n6xx_hal_pwr.c.o build/full/256s/ref/benchmark/stm32n6xx_hal_pwr_ex.c.o build/full/256s/ref/benchmark/stm32n6xx_hal_rcc.c.o build/full/256s/ref/benchmark/stm32n6xx_hal_rcc_ex.c.o build/full/256s/ref/benchmark/startup_stm32n657x0hxq_fsbl.s.o -lc -lm -o build/full/256s/ref/benchmark/aimer-m55-256s-ref-benchmark.elf
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-closer.o): in function `_close_r':
+(.text._close_r+0xc): warning: _close is not implemented and will always fail
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-closer.o): note: the message above does not take linker garbage collection into account
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-fstatr.o): in function `_fstat_r':
+(.text._fstat_r+0xe): warning: _fstat is not implemented and will always fail
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-fstatr.o): note: the message above does not take linker garbage collection into account
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-signalr.o): in function `_getpid_r':
+(.text._getpid_r+0x0): warning: _getpid is not implemented and will always fail
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-signalr.o): note: the message above does not take linker garbage collection into account
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-isattyr.o): in function `_isatty_r':
+(.text._isatty_r+0xc): warning: _isatty is not implemented and will always fail
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-isattyr.o): note: the message above does not take linker garbage collection into account
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-signalr.o): in function `_kill_r':
+(.text._kill_r+0xe): warning: _kill is not implemented and will always fail
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-signalr.o): note: the message above does not take linker garbage collection into account
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-lseekr.o): in function `_lseek_r':
+(.text._lseek_r+0x10): warning: _lseek is not implemented and will always fail
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/bin/ld: /Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/../lib/gcc/arm-none-eabi/15.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+dp/hard/libc.a(libc_a-lseekr.o): note: the message above does not take linker garbage collection into account
+Memory region         Used Size  Region Size  %age Used
+             ROM:       80560 B       255 KB     30.85%
+         BOOTRAM:        256 KB       256 KB    100.00%
+         HEAPRAM:          4 KB      1792 KB      0.22%
+/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-size build/full/256s/ref/benchmark/aimer-m55-256s-ref-benchmark.elf
+   text	   data	    bss	    dec	    hex	filename
+  78360	   2192	 156552	 237104	  39e30	build/full/256s/ref/benchmark/aimer-m55-256s-ref-benchmark.elf
+/Users/Shared/cortexctl run m55 -- /Users/seungwon/test/.tools/xpack-openocd-0.12.0-7/bin/openocd \
+		-s /Users/seungwon/test/.tools/xpack-openocd-0.12.0-7/openocd/scripts -s /Users/seungwon/test/.tools/openocd-scripts \
+		-f platform/nucleo-n657x0-q/openocd.cfg \
+		-c init -c 'reset halt' \
+		-c 'load_image /Users/seungwon/AIMer3_on_AVX512/m55/build/full/256s/ref/benchmark/aimer-m55-256s-ref-benchmark.elf' \
+		-c 'verify_image /Users/seungwon/AIMer3_on_AVX512/m55/build/full/256s/ref/benchmark/aimer-m55-256s-ref-benchmark.elf' \
+		-c 'set vector_msp [mrw 0x34180400]' \
+		-c 'set vector_reset [mrw 0x34180404]' \
+		-c 'arm semihosting enable' \
+		-c 'arm semihosting_resexit enable' \
+		-c 'reg msp $vector_msp' -c 'resume $vector_reset'
+xPack Open On-Chip Debugger 0.12.0+dev-02228-ge5888bda3-dirty (2025-10-04-22:45)
+Licensed under GNU GPL v2
+For bug reports, read
+	http://openocd.org/doc/doxygen/bugs.html
+adapter speed: 1000 kHz
+Info : STLINK V3J15M6 (API v3) VID:PID 0483:3754
+Info : Target voltage: 3.279840
+Info : clock speed 1000 kHz
+Info : SWD DPIDR 0x6ba02477
+Info : [stm32n6x.ap0] Examination succeed
+Info : [stm32n6x.cpu] Cortex-M55 r1p1 processor detected
+Info : [stm32n6x.cpu] target has 8 breakpoints, 8 watchpoints
+stm32n6x.cpu in Secure state
+Info : [stm32n6x.cpu] Examination succeed
+Info : [stm32n6x.ap0] gdb port disabled
+Info : [stm32n6x.cpu] starting gdb server on 3333
+Info : Listening on port 3333 for gdb connections
+[stm32n6x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x81000000 pc: 0x18003a1a msp: 0x341037a0
+79392 bytes written at address 0x34180000
+2192 bytes written at address 0x34193620
+downloaded 81584 bytes in 0.599522s (132.892 KiB/s)
+verified 81584 bytes in 0.650516s (122.475 KiB/s)
+0x34200000
+0x3418b571
+semihosting is enabled
+semihosting resumable exit is enabled
+msp (/32): 0x34200000
+Info : Listening on port 6666 for tcl connections
+Info : Listening on port 4444 for telnet connections
+AIMer v3 on NUCLEO-N657X0-Q
+Cortex-M55 @ 600000000 Hz, MVE=2, I/D-cache=on
+BENCH_CONFIG,param=256s,config=ref,backend=ref,matvec=reference,cpu_hz=600000000,long_timer_hz=600000000,kernel_samples=31,e2e_samples=50,kernel_inner=64,warmup=10
+BENCH_TIMER_CHECK,param=256s,config=ref,backend=ref,matvec=reference,pmu_cycles=916266,timer_cycles=916594,error_ppm=357
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=0,inner=64,items=1,raw_cycles=910957
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=1,inner=64,items=1,raw_cycles=910799
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=2,inner=64,items=1,raw_cycles=910703
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=3,inner=64,items=1,raw_cycles=910701
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=4,inner=64,items=1,raw_cycles=910700
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=5,inner=64,items=1,raw_cycles=910698
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=6,inner=64,items=1,raw_cycles=910700
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=7,inner=64,items=1,raw_cycles=910699
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=8,inner=64,items=1,raw_cycles=910705
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=9,inner=64,items=1,raw_cycles=910701
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=10,inner=64,items=1,raw_cycles=910700
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=11,inner=64,items=1,raw_cycles=910697
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=12,inner=64,items=1,raw_cycles=910699
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=13,inner=64,items=1,raw_cycles=910698
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=14,inner=64,items=1,raw_cycles=910699
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=15,inner=64,items=1,raw_cycles=910698
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=16,inner=64,items=1,raw_cycles=910699
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=17,inner=64,items=1,raw_cycles=910808
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=18,inner=64,items=1,raw_cycles=910704
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=19,inner=64,items=1,raw_cycles=910700
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=20,inner=64,items=1,raw_cycles=910699
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=21,inner=64,items=1,raw_cycles=910697
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=22,inner=64,items=1,raw_cycles=910699
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=23,inner=64,items=1,raw_cycles=910698
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=24,inner=64,items=1,raw_cycles=910699
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=25,inner=64,items=1,raw_cycles=910698
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=26,inner=64,items=1,raw_cycles=910699
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=27,inner=64,items=1,raw_cycles=910699
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=28,inner=64,items=1,raw_cycles=910702
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=29,inner=64,items=1,raw_cycles=910703
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,sample=30,inner=64,items=1,raw_cycles=910700
+BENCH_RESULT,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul,clock=pmu,samples=31,inner=64,items=1,min=14229.64,median=14229.67,mean=14229.92,stddev=0.80,max=14233.70,cycles_per_item_mean=14229.92
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=0,inner=64,items=1,raw_cycles=38003
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=1,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=2,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=3,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=4,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=5,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=6,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=7,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=8,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=9,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=10,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=11,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=12,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=13,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=14,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=15,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=16,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=17,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=18,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=19,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=20,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=21,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=22,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=23,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=24,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=25,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=26,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=27,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=28,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=29,inner=64,items=1,raw_cycles=36355
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,sample=30,inner=64,items=1,raw_cycles=36355
+BENCH_RESULT,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr,clock=pmu,samples=31,inner=64,items=1,min=568.05,median=568.05,mean=568.88,stddev=4.55,max=593.80,cycles_per_item_mean=568.88
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=0,inner=64,items=4,raw_cycles=152452
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=1,inner=64,items=4,raw_cycles=152002
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=2,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=3,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=4,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=5,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=6,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=7,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=8,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=9,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=10,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=11,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=12,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=13,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=14,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=15,inner=64,items=4,raw_cycles=151939
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=16,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=17,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=18,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=19,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=20,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=21,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=22,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=23,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=24,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=25,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=26,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=27,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=28,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=29,inner=64,items=4,raw_cycles=151875
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,sample=30,inner=64,items=4,raw_cycles=151875
+BENCH_RESULT,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_sqr_batch4,clock=pmu,samples=31,inner=64,items=4,min=2373.05,median=2373.05,mean=2373.43,stddev=1.62,max=2382.06,cycles_per_item_mean=593.36
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=0,inner=64,items=4,raw_cycles=3640471
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=1,inner=64,items=4,raw_cycles=3639138
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=2,inner=64,items=4,raw_cycles=3639108
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=3,inner=64,items=4,raw_cycles=3639132
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=4,inner=64,items=4,raw_cycles=3639068
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=5,inner=64,items=4,raw_cycles=3639068
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=6,inner=64,items=4,raw_cycles=3639068
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=7,inner=64,items=4,raw_cycles=3639061
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=8,inner=64,items=4,raw_cycles=3639099
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=9,inner=64,items=4,raw_cycles=3639067
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=10,inner=64,items=4,raw_cycles=3639068
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=11,inner=64,items=4,raw_cycles=3639068
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=12,inner=64,items=4,raw_cycles=3639061
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=13,inner=64,items=4,raw_cycles=3639099
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=14,inner=64,items=4,raw_cycles=3639067
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=15,inner=64,items=4,raw_cycles=3639068
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=16,inner=64,items=4,raw_cycles=3639068
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=17,inner=64,items=4,raw_cycles=3639090
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=18,inner=64,items=4,raw_cycles=3639069
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=19,inner=64,items=4,raw_cycles=3639067
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=20,inner=64,items=4,raw_cycles=3639069
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=21,inner=64,items=4,raw_cycles=3639067
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=22,inner=64,items=4,raw_cycles=3639090
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=23,inner=64,items=4,raw_cycles=3639069
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=24,inner=64,items=4,raw_cycles=3639067
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=25,inner=64,items=4,raw_cycles=3639068
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=26,inner=64,items=4,raw_cycles=3639109
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=27,inner=64,items=4,raw_cycles=3639066
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=28,inner=64,items=4,raw_cycles=3639068
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=29,inner=64,items=4,raw_cycles=3639068
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,sample=30,inner=64,items=4,raw_cycles=3639061
+BENCH_RESULT,param=256s,config=ref,backend=ref,matvec=reference,operation=gf_mul_const_batch4,clock=pmu,samples=31,inner=64,items=4,min=56860.33,median=56860.44,mean=56861.29,stddev=3.86,max=56882.36,cycles_per_item_mean=14215.32
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=0,inner=1,items=1,raw_cycles=44611397
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=1,inner=1,items=1,raw_cycles=44613247
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=2,inner=1,items=1,raw_cycles=44621451
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=3,inner=1,items=1,raw_cycles=44611036
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=4,inner=1,items=1,raw_cycles=44638546
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=5,inner=1,items=1,raw_cycles=44616407
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=6,inner=1,items=1,raw_cycles=44604694
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=7,inner=1,items=1,raw_cycles=44615698
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=8,inner=1,items=1,raw_cycles=44613469
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=9,inner=1,items=1,raw_cycles=44620911
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=10,inner=1,items=1,raw_cycles=44604810
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=11,inner=1,items=1,raw_cycles=44621804
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=12,inner=1,items=1,raw_cycles=44611544
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=13,inner=1,items=1,raw_cycles=44608764
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=14,inner=1,items=1,raw_cycles=44611926
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=15,inner=1,items=1,raw_cycles=44620745
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=16,inner=1,items=1,raw_cycles=44595160
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=17,inner=1,items=1,raw_cycles=44623331
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=18,inner=1,items=1,raw_cycles=44616020
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=19,inner=1,items=1,raw_cycles=44612275
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=20,inner=1,items=1,raw_cycles=44608264
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=21,inner=1,items=1,raw_cycles=44651201
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=22,inner=1,items=1,raw_cycles=44628454
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=23,inner=1,items=1,raw_cycles=44606754
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=24,inner=1,items=1,raw_cycles=44621942
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=25,inner=1,items=1,raw_cycles=44609312
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=26,inner=1,items=1,raw_cycles=44617633
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=27,inner=1,items=1,raw_cycles=44619307
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=28,inner=1,items=1,raw_cycles=44611816
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=29,inner=1,items=1,raw_cycles=44629870
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=30,inner=1,items=1,raw_cycles=44630742
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=31,inner=1,items=1,raw_cycles=44625152
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=32,inner=1,items=1,raw_cycles=44606366
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=33,inner=1,items=1,raw_cycles=44633188
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=34,inner=1,items=1,raw_cycles=44618056
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=35,inner=1,items=1,raw_cycles=44609117
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=36,inner=1,items=1,raw_cycles=44619021
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=37,inner=1,items=1,raw_cycles=44621698
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=38,inner=1,items=1,raw_cycles=44610546
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=39,inner=1,items=1,raw_cycles=44618668
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=40,inner=1,items=1,raw_cycles=44627207
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=41,inner=1,items=1,raw_cycles=44607574
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=42,inner=1,items=1,raw_cycles=44638136
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=43,inner=1,items=1,raw_cycles=44601450
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=44,inner=1,items=1,raw_cycles=44634654
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=45,inner=1,items=1,raw_cycles=44624668
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=46,inner=1,items=1,raw_cycles=44617122
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=47,inner=1,items=1,raw_cycles=44622386
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=48,inner=1,items=1,raw_cycles=44600139
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,sample=49,inner=1,items=1,raw_cycles=44607198
+BENCH_RESULT,param=256s,config=ref,backend=ref,matvec=reference,operation=keypair,clock=systick-extended,samples=50,inner=1,items=1,min=44595160.00,median=44616764.50,mean=44617417.52,stddev=10748.66,max=44651201.00,cycles_per_item_mean=44617417.52
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=0,inner=1,items=1,raw_cycles=7350314975
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=1,inner=1,items=1,raw_cycles=7259756294
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=2,inner=1,items=1,raw_cycles=7267526307
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=3,inner=1,items=1,raw_cycles=7252520600
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=4,inner=1,items=1,raw_cycles=7452290766
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=5,inner=1,items=1,raw_cycles=7278260385
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=6,inner=1,items=1,raw_cycles=7300455831
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=7,inner=1,items=1,raw_cycles=7141451989
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=8,inner=1,items=1,raw_cycles=7396197026
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=9,inner=1,items=1,raw_cycles=7376895975
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=10,inner=1,items=1,raw_cycles=7373707032
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=11,inner=1,items=1,raw_cycles=7315956045
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=12,inner=1,items=1,raw_cycles=7289378406
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=13,inner=1,items=1,raw_cycles=7213072327
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=14,inner=1,items=1,raw_cycles=7290639928
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=15,inner=1,items=1,raw_cycles=7269847383
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=16,inner=1,items=1,raw_cycles=7365458688
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=17,inner=1,items=1,raw_cycles=7357241943
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=18,inner=1,items=1,raw_cycles=7343149665
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=19,inner=1,items=1,raw_cycles=7257668333
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=20,inner=1,items=1,raw_cycles=7218341447
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=21,inner=1,items=1,raw_cycles=7327236012
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=22,inner=1,items=1,raw_cycles=7308767154
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=23,inner=1,items=1,raw_cycles=7276413593
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=24,inner=1,items=1,raw_cycles=7278497936
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=25,inner=1,items=1,raw_cycles=7288421949
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=26,inner=1,items=1,raw_cycles=7305764223
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=27,inner=1,items=1,raw_cycles=7276537334
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=28,inner=1,items=1,raw_cycles=7322036967
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=29,inner=1,items=1,raw_cycles=7305162929
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=30,inner=1,items=1,raw_cycles=7323455036
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=31,inner=1,items=1,raw_cycles=7422363953
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=32,inner=1,items=1,raw_cycles=7236785721
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=33,inner=1,items=1,raw_cycles=7284579483
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=34,inner=1,items=1,raw_cycles=7292139708
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=35,inner=1,items=1,raw_cycles=7168937634
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=36,inner=1,items=1,raw_cycles=7376145183
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=37,inner=1,items=1,raw_cycles=7351291512
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=38,inner=1,items=1,raw_cycles=7291414775
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=39,inner=1,items=1,raw_cycles=7229190005
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=40,inner=1,items=1,raw_cycles=7310260608
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=41,inner=1,items=1,raw_cycles=7423382127
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=42,inner=1,items=1,raw_cycles=7293312463
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=43,inner=1,items=1,raw_cycles=7282830332
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=44,inner=1,items=1,raw_cycles=7246365032
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=45,inner=1,items=1,raw_cycles=7319865932
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=46,inner=1,items=1,raw_cycles=7287829199
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=47,inner=1,items=1,raw_cycles=7386720912
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=48,inner=1,items=1,raw_cycles=7324760067
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,sample=49,inner=1,items=1,raw_cycles=7197324336
+BENCH_RESULT,param=256s,config=ref,backend=ref,matvec=reference,operation=sign,clock=systick-extended,samples=50,inner=1,items=1,min=7141451989.00,median=7292726085.50,mean=7302158469.20,stddev=62414242.08,max=7452290766.00,cycles_per_item_mean=7302158469.20
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=0,inner=1,items=1,raw_cycles=4530317598
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=1,inner=1,items=1,raw_cycles=4532955781
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=2,inner=1,items=1,raw_cycles=4534374119
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=3,inner=1,items=1,raw_cycles=4535592588
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=4,inner=1,items=1,raw_cycles=4536650749
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=5,inner=1,items=1,raw_cycles=4535978026
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=6,inner=1,items=1,raw_cycles=4534172241
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=7,inner=1,items=1,raw_cycles=4533935166
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=8,inner=1,items=1,raw_cycles=4535511843
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=9,inner=1,items=1,raw_cycles=4528665828
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=10,inner=1,items=1,raw_cycles=4536228311
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=11,inner=1,items=1,raw_cycles=4534245656
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=12,inner=1,items=1,raw_cycles=4536937788
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=13,inner=1,items=1,raw_cycles=4535094753
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=14,inner=1,items=1,raw_cycles=4536041472
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=15,inner=1,items=1,raw_cycles=4535376032
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=16,inner=1,items=1,raw_cycles=4534941813
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=17,inner=1,items=1,raw_cycles=4534511241
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=18,inner=1,items=1,raw_cycles=4535955119
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=19,inner=1,items=1,raw_cycles=4534466505
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=20,inner=1,items=1,raw_cycles=4536211808
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=21,inner=1,items=1,raw_cycles=4533790578
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=22,inner=1,items=1,raw_cycles=4536123423
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=23,inner=1,items=1,raw_cycles=4534245371
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=24,inner=1,items=1,raw_cycles=4534731387
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=25,inner=1,items=1,raw_cycles=4536331607
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=26,inner=1,items=1,raw_cycles=4537297446
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=27,inner=1,items=1,raw_cycles=4535695055
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=28,inner=1,items=1,raw_cycles=4533303880
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=29,inner=1,items=1,raw_cycles=4534047038
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=30,inner=1,items=1,raw_cycles=4535060105
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=31,inner=1,items=1,raw_cycles=4534250356
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=32,inner=1,items=1,raw_cycles=4535387045
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=33,inner=1,items=1,raw_cycles=4534376762
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=34,inner=1,items=1,raw_cycles=4534766207
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=35,inner=1,items=1,raw_cycles=4534946952
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=36,inner=1,items=1,raw_cycles=4534753167
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=37,inner=1,items=1,raw_cycles=4531939181
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=38,inner=1,items=1,raw_cycles=4533321533
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=39,inner=1,items=1,raw_cycles=4536110349
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=40,inner=1,items=1,raw_cycles=4536547506
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=41,inner=1,items=1,raw_cycles=4535887136
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=42,inner=1,items=1,raw_cycles=4529051481
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=43,inner=1,items=1,raw_cycles=4535307912
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=44,inner=1,items=1,raw_cycles=4536581868
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=45,inner=1,items=1,raw_cycles=4535522294
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=46,inner=1,items=1,raw_cycles=4536308184
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=47,inner=1,items=1,raw_cycles=4533084726
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=48,inner=1,items=1,raw_cycles=4534854623
+BENCH_SAMPLE,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,sample=49,inner=1,items=1,raw_cycles=4536041711
+BENCH_RESULT,param=256s,config=ref,backend=ref,matvec=reference,operation=verify,clock=systick-extended,samples=50,inner=1,items=1,min=4528665828.00,median=4535003528.50,mean=4534756586.40,stddev=1771966.00,max=4537297446.00,cycles_per_item_mean=4534756586.40
+BENCH_MEMORY,param=256s,config=ref,backend=ref,matvec=reference,static_ram_bytes=23576,stack_reserved_bytes=131072,stack_peak_bytes=24852,heap_capacity_bytes=1835008,heap_peak_bytes=167936
+BENCH_PASS,param=256s,config=ref,backend=ref,matvec=reference,checksum=76067d43a53dc8f1
+TEST_EXIT=0

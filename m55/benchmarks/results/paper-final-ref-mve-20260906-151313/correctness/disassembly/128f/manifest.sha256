@@ -1,0 +1,6 @@
+19c0b6a9ba095b8ed35de234995c73687d24e43e20bced2f614dc670a71127b3  ./aimer-m55-128f-mve-affine-sign.elf
+1a25e1a17ab3559f71e1493ce076bb31dc939bd4d0f131d81f14fbceede9a910  ./aimer-m55-128f-mve-affine-sign.map
+2315200dda8e5a2eee758ec5ffc82915e59a15ef3ed469e572284bf0625d7407  ./aimer-m55-128f-mve-affine-sign.dis
+a9311bba02089b8b6c9ec2d73e23f5ac6080b6e524851facd7eed3bf17b290f0  ./mpc-call.dis
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  ./manifest.sha256
+fb998d8071d52253112db0d55aaa6b47f7ea7c9d575c1dd303273508c7239904  ./aimer-m55-128f-mve-affine-sign.affine.dis

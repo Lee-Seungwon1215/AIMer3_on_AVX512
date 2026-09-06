@@ -1,0 +1,190 @@
+
+build/full/256f/mve-affine/sign/aimer-m55-256f-mve-affine-sign.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+34183fd4 <m55_gf_mat_vec_mul_add_batch4>:
+34183fd4:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+34183fd8:	ed2d 8b0c 	vpush	{d8-d13}
+34183fdc:	b0b3      	sub	sp, #204	@ 0xcc
+34183fde:	f10d 049f 	add.w	r4, sp, #159	@ 0x9f
+34183fe2:	2b04      	cmp	r3, #4
+34183fe4:	f024 040f 	bic.w	r4, r4, #15
+34183fe8:	f200 8109 	bhi.w	341841fe <m55_gf_mat_vec_mul_add_batch4+0x22a>
+34183fec:	461d      	mov	r5, r3
+34183fee:	2b00      	cmp	r3, #0
+34183ff0:	f000 8100 	beq.w	341841f4 <m55_gf_mat_vec_mul_add_batch4+0x220>
+34183ff4:	4690      	mov	r8, r2
+34183ff6:	460f      	mov	r7, r1
+34183ff8:	4682      	mov	sl, r0
+34183ffa:	2280      	movs	r2, #128	@ 0x80
+34183ffc:	2100      	movs	r1, #0
+34183ffe:	a804      	add	r0, sp, #16
+34184000:	f006 fb8e 	bl	3418a720 <memset>
+34184004:	ea4f 1e45 	mov.w	lr, r5, lsl #5
+34184008:	f1ae 0e20 	sub.w	lr, lr, #32
+3418400c:	ea4f 1e5e 	mov.w	lr, lr, lsr #5
+34184010:	f10e 0e01 	add.w	lr, lr, #1
+34184014:	ef80 c051 	vmov.i32	q6, #1	@ 0x00000001
+34184018:	f04e e001 	dls	lr, lr
+3418401c:	f10d 0c10 	add.w	ip, sp, #16
+34184020:	4666      	mov	r6, ip
+34184022:	6838      	ldr	r0, [r7, #0]
+34184024:	6879      	ldr	r1, [r7, #4]
+34184026:	68ba      	ldr	r2, [r7, #8]
+34184028:	68fb      	ldr	r3, [r7, #12]
+3418402a:	3720      	adds	r7, #32
+3418402c:	c60f      	stmia	r6!, {r0, r1, r2, r3}
+3418402e:	f857 0c10 	ldr.w	r0, [r7, #-16]
+34184032:	f857 1c0c 	ldr.w	r1, [r7, #-12]
+34184036:	f857 2c08 	ldr.w	r2, [r7, #-8]
+3418403a:	f857 3c04 	ldr.w	r3, [r7, #-4]
+3418403e:	f10c 0c20 	add.w	ip, ip, #32
+34184042:	c60f      	stmia	r6!, {r0, r1, r2, r3}
+34184044:	f00f c015 	le	lr, 34184020 <m55_gf_mat_vec_mul_add_batch4+0x4c>
+34184048:	f04f 0900 	mov.w	r9, #0
+3418404c:	f1aa 0308 	sub.w	r3, sl, #8
+34184050:	f508 6180 	add.w	r1, r8, #1024	@ 0x400
+34184054:	464f      	mov	r7, r9
+34184056:	4698      	mov	r8, r3
+34184058:	f104 0a10 	add.w	sl, r4, #16
+3418405c:	f104 0b20 	add.w	fp, r4, #32
+34184060:	f858 2f08 	ldr.w	r2, [r8, #8]!
+34184064:	2d01      	cmp	r5, #1
+34184066:	f8d8 3004 	ldr.w	r3, [r8, #4]
+3418406a:	f8cb 7000 	str.w	r7, [fp]
+3418406e:	f8ca 7000 	str.w	r7, [sl]
+34184072:	e9cb 7701 	strd	r7, r7, [fp, #4]
+34184076:	e9ca 7701 	strd	r7, r7, [sl, #4]
+3418407a:	f8cb 700c 	str.w	r7, [fp, #12]
+3418407e:	f8ca 700c 	str.w	r7, [sl, #12]
+34184082:	6222      	str	r2, [r4, #32]
+34184084:	6123      	str	r3, [r4, #16]
+34184086:	d011      	beq.n	341840ac <m55_gf_mat_vec_mul_add_batch4+0xd8>
+34184088:	e9d8 3208 	ldrd	r3, r2, [r8, #32]
+3418408c:	2d02      	cmp	r5, #2
+3418408e:	6263      	str	r3, [r4, #36]	@ 0x24
+34184090:	6162      	str	r2, [r4, #20]
+34184092:	d00b      	beq.n	341840ac <m55_gf_mat_vec_mul_add_batch4+0xd8>
+34184094:	e9d8 3210 	ldrd	r3, r2, [r8, #64]	@ 0x40
+34184098:	2d04      	cmp	r5, #4
+3418409a:	62a3      	str	r3, [r4, #40]	@ 0x28
+3418409c:	61a2      	str	r2, [r4, #24]
+3418409e:	d105      	bne.n	341840ac <m55_gf_mat_vec_mul_add_batch4+0xd8>
+341840a0:	f8d8 3060 	ldr.w	r3, [r8, #96]	@ 0x60
+341840a4:	62e3      	str	r3, [r4, #44]	@ 0x2c
+341840a6:	f8d8 3064 	ldr.w	r3, [r8, #100]	@ 0x64
+341840aa:	61e3      	str	r3, [r4, #28]
+341840ac:	468c      	mov	ip, r1
+341840ae:	2600      	movs	r6, #0
+341840b0:	ed9b bf00 	vldrw.u32	q5, [fp, #0]
+341840b4:	ed9a 9f00 	vldrw.u32	q4, [sl, #0]
+341840b8:	e9cd 9101 	strd	r9, r1, [sp, #4]
+341840bc:	f8cd 800c 	str.w	r8, [sp, #12]
+341840c0:	f006 0201 	and.w	r2, r6, #1
+341840c4:	0152      	lsls	r2, r2, #5
+341840c6:	ab32      	add	r3, sp, #200	@ 0xc8
+341840c8:	0871      	lsrs	r1, r6, #1
+341840ca:	eb03 00c1 	add.w	r0, r3, r1, lsl #3
+341840ce:	f1c2 0e20 	rsb	lr, r2, #32
+341840d2:	e950 302e 	ldrd	r3, r0, [r0, #-184]	@ 0xb8
+341840d6:	f1a2 0820 	sub.w	r8, r2, #32
+341840da:	fa00 f90e 	lsl.w	r9, r0, lr
+341840de:	40d3      	lsrs	r3, r2
+341840e0:	ea43 0309 	orr.w	r3, r3, r9
+341840e4:	fa20 f008 	lsr.w	r0, r0, r8
+341840e8:	4303      	orrs	r3, r0
+341840ea:	2d01      	cmp	r5, #1
+341840ec:	e9c4 7701 	strd	r7, r7, [r4, #4]
+341840f0:	60e7      	str	r7, [r4, #12]
+341840f2:	6023      	str	r3, [r4, #0]
+341840f4:	d032      	beq.n	3418415c <m55_gf_mat_vec_mul_add_batch4+0x188>
+341840f6:	a832      	add	r0, sp, #200	@ 0xc8
+341840f8:	1d0b      	adds	r3, r1, #4
+341840fa:	eb00 03c3 	add.w	r3, r0, r3, lsl #3
+341840fe:	e953 302e 	ldrd	r3, r0, [r3, #-184]	@ 0xb8
+34184102:	fa00 f90e 	lsl.w	r9, r0, lr
+34184106:	40d3      	lsrs	r3, r2
+34184108:	ea43 0309 	orr.w	r3, r3, r9
+3418410c:	fa20 f008 	lsr.w	r0, r0, r8
+34184110:	4303      	orrs	r3, r0
+34184112:	2d02      	cmp	r5, #2
+34184114:	6063      	str	r3, [r4, #4]
+34184116:	d021      	beq.n	3418415c <m55_gf_mat_vec_mul_add_batch4+0x188>
+34184118:	a832      	add	r0, sp, #200	@ 0xc8
+3418411a:	f101 0308 	add.w	r3, r1, #8
+3418411e:	eb00 03c3 	add.w	r3, r0, r3, lsl #3
+34184122:	e953 302e 	ldrd	r3, r0, [r3, #-184]	@ 0xb8
+34184126:	fa00 f90e 	lsl.w	r9, r0, lr
+3418412a:	40d3      	lsrs	r3, r2
+3418412c:	ea43 0309 	orr.w	r3, r3, r9
+34184130:	fa20 f008 	lsr.w	r0, r0, r8
+34184134:	4303      	orrs	r3, r0
+34184136:	2d04      	cmp	r5, #4
+34184138:	60a3      	str	r3, [r4, #8]
+3418413a:	d10f      	bne.n	3418415c <m55_gf_mat_vec_mul_add_batch4+0x188>
+3418413c:	f101 030c 	add.w	r3, r1, #12
+34184140:	a932      	add	r1, sp, #200	@ 0xc8
+34184142:	eb01 03c3 	add.w	r3, r1, r3, lsl #3
+34184146:	e953 312e 	ldrd	r3, r1, [r3, #-184]	@ 0xb8
+3418414a:	fa01 fe0e 	lsl.w	lr, r1, lr
+3418414e:	40d3      	lsrs	r3, r2
+34184150:	ea43 030e 	orr.w	r3, r3, lr
+34184154:	fa21 f108 	lsr.w	r1, r1, r8
+34184158:	430b      	orrs	r3, r1
+3418415a:	60e3      	str	r3, [r4, #12]
+3418415c:	f04f 0e20 	mov.w	lr, #32
+34184160:	ed94 1f00 	vldrw.u32	q0, [r4, #0]
+34184164:	f04e e001 	dls	lr, lr
+34184168:	f5ac 6180 	sub.w	r1, ip, #1024	@ 0x400
+3418416c:	ef00 615c 	vand	q3, q0, q6
+34184170:	e9d1 2300 	ldrd	r2, r3, [r1]
+34184174:	ffb9 63c6 	vneg.s32	q3, q3
+34184178:	eea2 2b10 	vdup.32	q1, r2
+3418417c:	eea4 3b10 	vdup.32	q2, r3
+34184180:	ef02 2156 	vand	q1, q1, q3
+34184184:	ef04 4156 	vand	q2, q2, q3
+34184188:	ffbf 0050 	vshr.u32	q0, q0, #1
+3418418c:	ff0a a152 	veor	q5, q5, q1
+34184190:	ff08 8154 	veor	q4, q4, q2
+34184194:	3120      	adds	r1, #32
+34184196:	f00f c817 	le	lr, 3418416c <m55_gf_mat_vec_mul_add_batch4+0x198>
+3418419a:	3601      	adds	r6, #1
+3418419c:	2e08      	cmp	r6, #8
+3418419e:	f50c 6c80 	add.w	ip, ip, #1024	@ 0x400
+341841a2:	d18d      	bne.n	341840c0 <m55_gf_mat_vec_mul_add_batch4+0xec>
+341841a4:	e9dd 9101 	ldrd	r9, r1, [sp, #4]
+341841a8:	f8dd 800c 	ldr.w	r8, [sp, #12]
+341841ac:	ed8b bf00 	vstrw.32	q5, [fp, #0]
+341841b0:	ed8a 9f00 	vstrw.32	q4, [sl, #0]
+341841b4:	6923      	ldr	r3, [r4, #16]
+341841b6:	6a22      	ldr	r2, [r4, #32]
+341841b8:	2d01      	cmp	r5, #1
+341841ba:	e9c8 2300 	strd	r2, r3, [r8]
+341841be:	d011      	beq.n	341841e4 <m55_gf_mat_vec_mul_add_batch4+0x210>
+341841c0:	6963      	ldr	r3, [r4, #20]
+341841c2:	6a62      	ldr	r2, [r4, #36]	@ 0x24
+341841c4:	2d02      	cmp	r5, #2
+341841c6:	e9c8 2308 	strd	r2, r3, [r8, #32]
+341841ca:	d00b      	beq.n	341841e4 <m55_gf_mat_vec_mul_add_batch4+0x210>
+341841cc:	69a3      	ldr	r3, [r4, #24]
+341841ce:	6aa2      	ldr	r2, [r4, #40]	@ 0x28
+341841d0:	2d04      	cmp	r5, #4
+341841d2:	e9c8 2310 	strd	r2, r3, [r8, #64]	@ 0x40
+341841d6:	d105      	bne.n	341841e4 <m55_gf_mat_vec_mul_add_batch4+0x210>
+341841d8:	69e3      	ldr	r3, [r4, #28]
+341841da:	f8c8 3064 	str.w	r3, [r8, #100]	@ 0x64
+341841de:	6ae3      	ldr	r3, [r4, #44]	@ 0x2c
+341841e0:	f8c8 3060 	str.w	r3, [r8, #96]	@ 0x60
+341841e4:	f109 0901 	add.w	r9, r9, #1
+341841e8:	f1b9 0f04 	cmp.w	r9, #4
+341841ec:	f101 0108 	add.w	r1, r1, #8
+341841f0:	f47f af36 	bne.w	34184060 <m55_gf_mat_vec_mul_add_batch4+0x8c>
+341841f4:	b033      	add	sp, #204	@ 0xcc
+341841f6:	ecbd 8b0c 	vpop	{d8-d13}
+341841fa:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
+341841fe:	2504      	movs	r5, #4
+34184200:	e6f8      	b.n	34183ff4 <m55_gf_mat_vec_mul_add_batch4+0x20>
+
+Disassembly of section .gnu.sgstubs:

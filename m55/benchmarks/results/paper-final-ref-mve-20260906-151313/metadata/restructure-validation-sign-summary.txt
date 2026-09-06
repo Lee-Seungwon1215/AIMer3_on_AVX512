@@ -1,0 +1,12 @@
+settings=BACKEND=mve MATVEC=mve MEMORY=full SIGN_SCHEDULE=lowmem TEST=sign
+parameters=128f 128s 192f 192s 256f 256s
+build=6/6
+check_mve_config=6/6 (__ARM_FEATURE_MVE=3)
+check_mve_disassembly=6/6 (VMULLB.P16 and VMULLT.P16)
+check_mve_affine_disassembly=6/6 (VAND and VEOR; MPC batch call connected)
+run_board=6/6
+keypair_sign_verify_tamper=6/6
+sign_test_pass_markers=6
+failure_markers=0
+test_exit_zero=6/6
+

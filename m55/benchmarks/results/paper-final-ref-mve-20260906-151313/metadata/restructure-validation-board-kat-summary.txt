@@ -1,0 +1,10 @@
+settings=BACKEND=mve MATVEC=mve MEMORY=full SIGN_SCHEDULE=lowmem TEST=kat
+parameters=128f 128s 192f 192s 256f 256s
+build=6/6
+run_board=6/6
+kat_pass_markers=6
+kat_vector_pass_markers=600
+kat_result=600/600
+kat_fail_markers=0
+test_exit_zero=6/6
+

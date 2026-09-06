@@ -1,0 +1,15 @@
+timestamp_start=2026-09-06T06:18:49Z
+runs=7
+e2e_samples_per_run=50
+e2e_warmup=10
+paired_unit=run_median
+bootstrap_resamples=10000
+outlier_removal=none
+configs=A_REF,D_MVE_AFFINE
+parameters=128f 128s 192f 192s 256f 256s
+memory=full
+sign_schedule=lowmem
+keccak_shake=portable
+cpu_hz=600000000
+cflags=-O3 -fno-tree-vectorize -fno-tree-slp-vectorize
+source_manifest_sha256=d5a9217638ee84f7d9f5243875243052c95d5d6c224578e33e0548304ef6457e
