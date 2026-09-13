@@ -1,0 +1,47 @@
+# Build outputs
+build/
+out/
+
+# Benchmark results are kept local and are not published
+**/bench/results/
+**/benchmarks/results/
+**/benchmarks/results*.csv
+**/benchmarks/RESULTS*.md
+**/benchmarks/*CAUSE_ANALYSIS*.md
+
+# Compiler, linker, and coverage outputs
+*.o
+*.a
+*.d
+*.so
+*.log
+*.gcda
+*.gcno
+*.profraw
+*.profdata
+core
+core.*
+
+# Optional generated build metadata
+CMakeFiles/
+CMakeCache.txt
+compile_commands.json
+
+# OS, editor, and tool caches
+.DS_Store
+.idea/
+.vscode/
+.codex/
+.cache/
+.clangd/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+*.orig
+
+# Local Codex session archives
+*codex-session*.zip
+
+# Local paper drafts and PDF documents (not published to GitHub)
+/AIMer3_on_AVX512_LNCS/
+*.[pP][dD][fF]
