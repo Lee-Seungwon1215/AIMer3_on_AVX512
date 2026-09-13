@@ -1,6 +1,0 @@
-src/mve/field_batch.c:93:13:m55_square_reduce_batch4	664	static
-src/mve/field_batch.c:11:6:m55_gf_mat_vec_mul_batch4	24	static
-src/mve/field_batch.c:26:6:m55_gf_mat_vec_mul_add_batch4	24	static
-src/mve/field_batch.c:140:6:m55_gf_mul_const_batch4	544	static
-src/mve/field_batch.c:220:6:m55_gf_frobenius_batch4	248	static
-src/mve/field_batch.c:238:6:m55_gf_sqr_batch4	248	static

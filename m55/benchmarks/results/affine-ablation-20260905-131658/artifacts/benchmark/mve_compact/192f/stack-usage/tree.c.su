@@ -1,3 +1,0 @@
-../src/sig/aimer/reference/aimer-192f/tree.c:9:6:samsungsds_aimer_192f_ref_expand_tree	32	static
-../src/sig/aimer/reference/aimer-192f/tree.c:34:6:samsungsds_aimer_192f_ref_reveal_all_but	16	static
-../src/sig/aimer/reference/aimer-192f/tree.c:49:6:samsungsds_aimer_192f_ref_reconstruct_tree	56	static

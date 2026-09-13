@@ -1,5 +1,0 @@
-../src/sig/aimer/reference/aimer-192f/aim3.c:11:13:squeeze_invertible_matrix	9328	static
-../src/sig/aimer/reference/aimer-192f/aim3.c:54:6:samsungsds_aimer_192f_ref_aim3_generate_linear	24	static
-../src/sig/aimer/reference/aimer-192f/aim3.c:74:5:samsungsds_aimer_192f_ref_aim3_nozeroinpsb	160	static
-../src/sig/aimer/reference/aimer-192f/aim3.c:146:6:samsungsds_aimer_192f_ref_aim3_sbox_outputs	72	static
-../src/sig/aimer/reference/aimer-192f/aim3.c:169:6:samsungsds_aimer_192f_ref_aim3_mpc	56	static

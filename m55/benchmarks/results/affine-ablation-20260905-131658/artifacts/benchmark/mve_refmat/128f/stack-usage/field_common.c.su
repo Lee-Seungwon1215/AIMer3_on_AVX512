@@ -1,9 +1,0 @@
-../src/sig/aimer/reference/aimer-128f/field_common.c:8:6:samsungsds_aimer_128f_ref_gf_to_bytes	16	static
-../src/sig/aimer/reference/aimer-128f/field_common.c:21:6:samsungsds_aimer_128f_ref_gf_from_bytes	0	static
-../src/sig/aimer/reference/aimer-128f/field_common.c:34:6:samsungsds_aimer_128f_ref_gf_set0	0	static
-../src/sig/aimer/reference/aimer-128f/field_common.c:42:6:samsungsds_aimer_128f_ref_gf_is0	0	static
-../src/sig/aimer/reference/aimer-128f/field_common.c:52:6:samsungsds_aimer_128f_ref_gf_copy	0	static
-../src/sig/aimer/reference/aimer-128f/field_common.c:60:6:samsungsds_aimer_128f_ref_gf_add	12	static
-../src/sig/aimer/reference/aimer-128f/field_common.c:68:6:samsungsds_aimer_128f_ref_gf_inv	40	static
-../src/sig/aimer/reference/aimer-128f/field_common.c:85:6:samsungsds_aimer_128f_ref_gf_mul_add	32	static
-../src/sig/aimer/reference/aimer-128f/field_common.c:93:6:samsungsds_aimer_128f_ref_gf_mat_vec_mul_add	32	static

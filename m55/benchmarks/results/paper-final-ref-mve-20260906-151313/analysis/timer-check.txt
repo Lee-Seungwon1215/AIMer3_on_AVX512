@@ -1,3 +1,0 @@
-checks=84
-max_error_ppm=7438
-max_error_percent=0.743800

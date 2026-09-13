@@ -1,2 +1,0 @@
-   text	   data	    bss	    dec	    hex	filename
-  65244	   2192	 145752	 213188	  340c4	/Users/seungwon/AIMer3_on_AVX512/AIMer_v3/m55/build/full/128s/mve-refmat/profile/aimer-m55-128s-mve-refmat-profile.elf

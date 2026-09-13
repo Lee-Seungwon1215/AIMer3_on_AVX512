@@ -1,12 +1,23 @@
 # AIMer v3 x86 backend
 
-This directory contains the independent x86 implementation. It builds without
-AIMer v2 or Cortex-M55 sources and uses shared portable/reference material only
-through `../common/`.
+This directory contains the independent x86-64 implementation. It does not
+build against AIMer v2 or Cortex-M55 sources; shared portable and reference
+material is used only through `../common/`.
 
 All six parameter sets (`128f`, `128s`, `192f`, `192s`, `256f`,
-`256s`) are exposed through a minimal OQS-compatible API with runtime
+`256s`) are available through a minimal OQS-compatible API with runtime
 selection among reference, AVX2, and AVX-512 backends.
+
+## Requirements
+
+- a Linux x86-64 host;
+- GNU Make, a C11 compiler, and an archiver;
+- AVX2, PCLMULQDQ, BMI2, POPCNT, and AES-NI for the AVX2 backend;
+- AVX-512F/VL/BW/DQ and VPCLMULQDQ in addition to the AVX2 requirements for
+  the AVX-512 backend.
+
+The runtime dispatcher checks CPU support before selecting an optimized
+backend. Unsupported forced selections are rejected.
 
 ## Layout
 
@@ -21,14 +32,23 @@ selection among reference, AVX2, and AVX-512 backends.
 
 ## Optimization boundary
 
-| Backend | SHAKE/Keccak | GF, affine, and party processing |
-|---|---|---|
-| reference | portable scalar x1 | reference equations |
-| AVX2 | AVX2 x1 and four-way SIMD256 | PCLMUL GF, XMM/YMM party batching, AND/XOR affine accumulation |
-| AVX-512 | AVX-512VL x1/x4 | PCLMUL/VPCLMUL GF, ZMM party batching, ternary-logic affine accumulation |
+| Backend | SHAKE/Keccak | GF arithmetic | Party/MPC and affine processing |
+|---|---|---|---|
+| reference | scalar x1 | reference equations and inversion loop | reference equations |
+| AVX2 | AVX2 x1 and four-way SIMD256 | PCLMULQDQ kernels and fixed inversion chains | XMM/YMM grouping and separate AND/XOR affine accumulation |
+| AVX-512 | AVX-512VL x1/x4 | PCLMULQDQ/VPCLMULQDQ kernels and fixed inversion chains | ZMM grouping and VPTERNLOGQ affine accumulation |
 
-The optimized implementations change data representation and execution
-schedule, not AIMer v3 mathematics or serialization.
+For inversion in GF(2^n), the optimized backends retain `n - 1` squarings
+but reuse intermediate powers to reduce general multiplication:
+
+| Field | Reference multiplications | AVX2/AVX-512 multiplications |
+|---|---:|---:|
+| GF(2^128) | 127 | 10 |
+| GF(2^192) | 191 | 11 |
+| GF(2^256) | 255 | 10 |
+
+These implementations change data representation and execution order, not the
+AIMer v3 equations, serialization, or public API.
 
 ## Build and verify
 
@@ -39,20 +59,48 @@ make x86
 make x86-test
 make x86-kat
 make x86-check
-make x86-bench
 ```
 
-Or run the same targets directly with `make -C x86`. The library is
-`x86/build/lib/liboqs.a`. The KAT target checks
-6 parameter sets x 3 backends x 100 vectors, totaling 1,800 byte-exact
-responses.
+The same operations can be run directly with `make -C x86`. The complete
+check covers six parameter sets, three backends, and 100 official vectors per
+backend, totaling 1,800 byte-exact KAT responses. It also runs GF differential,
+registry, forced-dispatch, sign/verify, and tamper tests.
 
-Runtime dispatch prefers AVX-512, then AVX2, then reference. Force a backend
-with `AIMER_V3_IMPL=ref`, `AIMER_V3_IMPL=avx2`, or
-`AIMER_V3_IMPL=avx512`.
+The generated library is:
 
-See [benchmarks/README.md](benchmarks/README.md) before producing measurements.
-Paper-grade runs additionally require the recorded CPU governor, Turbo Boost,
-core-affinity, compiler, and binary-hash metadata.
+```text
+x86/build/lib/liboqs.a
+```
 
-This is a minimal OQS-compatible library, not a full upstream liboqs checkout.
+## Runtime backend selection
+
+Automatic dispatch prefers AVX-512, then AVX2, then reference. A backend can
+be selected explicitly:
+
+```sh
+AIMER_V3_IMPL=ref     ./program
+AIMER_V3_IMPL=avx2    ./program
+AIMER_V3_IMPL=avx512  ./program
+```
+
+## Benchmarks
+
+```sh
+make -C x86 bench
+make -C x86 bench-run BENCH_ITERS=100 BENCH_WARMUP=10 BENCH_CORE=2
+```
+
+Read [benchmarks/README.md](benchmarks/README.md) before reporting results.
+Paper-grade runs require a fixed performance governor, disabled Turbo Boost,
+CPU affinity, sufficient warm-up, repeated runs, and recorded compiler,
+revision, and binary hashes.
+
+Generated benchmark outputs and logs are intentionally excluded from this
+repository. Since the current fixed inversion-chain changes postdate earlier
+local measurements, rerun the benchmark before reporting performance for this
+source revision.
+
+## Limitations
+
+This directory provides a minimal OQS-compatible research library. It is not a
+complete upstream liboqs checkout or an upstream-ready patch.

@@ -1,6 +1,0 @@
-src/mve/matvec_mve.c:114:6:m55_gf_mat_vec_mul_add	80	static
-src/mve/matvec_mve.c:169:6:m55_gf_mat_vec_mul	48	static
-src/mve/matvec_mve.c:182:6:m55_gf_mat_vec_mul_add_batch4	288	static
-src/mve/matvec_mve.c:253:6:m55_gf_mat_vec_mul_batch4	160	static
-src/mve/matvec_mve.c:274:6:samsungsds_aimer_256s_ref_gf_mat_vec_mul	48	static
-src/mve/matvec_mve.c:288:6:__wrap_samsungsds_aimer_256s_ref_gf_mat_vec_mul_add	0	static

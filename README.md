@@ -1,13 +1,30 @@
 # AIMer v3 SIMD implementations
 
-This repository contains one AIMer v3 codebase with two independent hardware
-backends. The x86 implementation provides reference, AVX2, and AVX-512
-selection through a minimal OQS-compatible API. The Cortex-M55 implementation
-uses Arm MVE for GF arithmetic, four-party execution, and affine processing.
+This repository provides one AIMer v3 codebase with independent x86 and
+Cortex-M55 backends. The x86 implementation exposes reference, AVX2, and
+AVX-512 implementations through a minimal OQS-compatible API. The Cortex-M55
+implementation uses Arm MVE for field arithmetic, four-party execution, and
+affine processing.
 
 The optimized backends preserve the AIMer v3 parameters, equations, byte
 encoding, random-byte consumption, and SHAKE domain separation. An official
-KAT mismatch is a stop condition.
+known-answer test (KAT) mismatch is a stop condition.
+
+## Supported implementations
+
+| Target | Backends | Optimized components | Interface |
+|---|---|---|---|
+| x86-64 | reference, AVX2, AVX-512 | GF arithmetic, fixed inversion chains, party/MPC processing, affine operations, SHAKE | minimal OQS-compatible API |
+| Cortex-M55 | reference, MVE | GF arithmetic, fixed inversion chains, four-party processing, affine operations | standalone embedded implementation |
+
+The fixed inversion chains retain the required number of field squarings but
+reduce the number of general field multiplications:
+
+| Field | Reference multiplications | Fixed-chain multiplications |
+|---|---:|---:|
+| GF(2^128) | 127 | 10 |
+| GF(2^192) | 191 | 11 |
+| GF(2^256) | 255 | 10 |
 
 ## Repository layout
 
@@ -15,8 +32,8 @@ KAT mismatch is a stop condition.
 .
 ├── common/   portable primitives, six reference namespaces, official KATs,
 │             and the untouched upstream reference snapshot
-├── x86/      OQS glue, AVX2/AVX-512 sources, tests, benchmarks, and results
-└── m55/      Cortex-M55 MVE sources, platform support, tests, and results
+├── x86/      OQS glue, AVX2/AVX-512 sources, tests, and benchmark tools
+└── m55/      Cortex-M55 MVE sources, platform support, tests, and benchmark tools
 ```
 
 The dependency direction is deliberately one-way:
@@ -27,7 +44,9 @@ x86 ──> common <── m55
 
 The x86 and M55 directories do not link to or include one another.
 
-## Quick start: x86
+## Quick start
+
+Build and verify the x86 implementation:
 
 ```sh
 make x86
@@ -36,44 +55,52 @@ make x86-kat
 make x86-check
 ```
 
-The library is written to `x86/build/lib/liboqs.a`. Runtime dispatch can be
-forced with `AIMER_V3_IMPL=ref`, `AIMER_V3_IMPL=avx2`, or
-`AIMER_V3_IMPL=avx512`.
-
-This is a self-contained, minimal OQS-compatible research library. It is not
-yet a patch against the complete upstream liboqs repository.
-
-## Quick start: Cortex-M55
-
-Host-side differential and KAT checks for the final MVE-affine backend:
+Run the host-side MVE field and KAT checks for all six parameter sets:
 
 ```sh
 make m55-host-check
 ```
 
-A board build is performed inside `m55/`:
+The x86 library is written to `x86/build/lib/liboqs.a`. See
+[x86/README.md](x86/README.md) and [m55/README.md](m55/README.md) for ISA,
+toolchain, board, and backend-specific instructions.
 
-```sh
-make -C m55 -B PARAM=128f BACKEND=mve MATVEC=mve \
-  TEST=benchmark MEMORY=full SIGN_SCHEDULE=lowmem build
-```
+## Validation status
 
-For `BACKEND=mve`, the public default is the final
-`MATVEC=mve` configuration. The reference and compact matrix variants remain
-available only for controlled ablation.
+The current x86 source passes all 1,800 official responses: six parameter sets,
+three backends, and 100 vectors per backend. The current Cortex-M55 source
+passes 600 reference and 600 host-portable MVE responses, as well as the MVE
+field differential tests. The modified MVE field source also cross-compiles
+for all six Cortex-M55 parameter sets.
 
-See [x86/README.md](x86/README.md) and [m55/README.md](m55/README.md) for
-backend-specific requirements and commands. The completed x86 measurements
-are under `x86/benchmarks/results/`; the completed Cortex-M55 affine
-ablation is under
-`m55/benchmarks/results/affine-ablation-20260905-131658/`.
+Benchmark outputs and logs are intentionally excluded from this repository.
+Performance results for the current source must therefore be regenerated
+locally. In particular, the fixed M55 inversion chains have not yet been
+rerun on the physical board.
+
+## Benchmark reproduction
+
+- [x86 benchmark protocol](x86/benchmarks/README.md)
+- [Cortex-M55 benchmark protocol](m55/benchmarks/README.md)
+
+Same-platform speedup ratios are the primary comparison. Absolute x86 and
+Cortex-M55 cycle counts are not directly comparable because the processors,
+cycle counters, clocks, and execution environments differ.
+
+## Limitations
+
+- The x86 tree is a self-contained, minimal OQS-compatible research library,
+  not a patch against the complete upstream liboqs repository.
+- Cortex-M55 uses the shared scalar Keccak/SHAKE implementation.
+- Current Cortex-M55 performance claims require post-inversion-change board
+  remeasurement.
 
 ## Recovery point
 
-The repository state before this directory-only reorganization is preserved
-by the annotated tag `pre-restructure-validated-20260906` and the branch
+The repository state before the directory-only reorganization is preserved by
+the annotated tag `pre-restructure-validated-20260906` and the branch
 `backup/pre-restructure-20260906`.
 
-## License
+## License and attribution
 
 See [LICENSE](LICENSE) and [Open Source Notice.txt](Open%20Source%20Notice.txt).

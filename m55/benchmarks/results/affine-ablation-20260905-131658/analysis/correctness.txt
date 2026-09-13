@@ -1,9 +1,0 @@
-공식 reference matrix 함수 128/192/256-bit 소스 일치
-host low-memory byte exact 6/6
-A/B/C/D host field differential 24/24
-D host affine edge/alias/active-lane differential 6/6
-A/B/C/D host 공식 KAT 2,400/2,400
-D actual-board MVE affine differential 6/6 (MVE=2)
-A/B/C/D board keypair/sign/verify/tamper 24/24 및 checksum 일치
-D board 공식 KAT 600/600
-D VAND/VEOR 및 MPC affine 호출 연결 disassembly 6/6

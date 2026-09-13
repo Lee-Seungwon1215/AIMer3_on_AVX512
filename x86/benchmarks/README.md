@@ -65,10 +65,8 @@ kernel protocol, see [`PAPER_BENCHMARK.md`](PAPER_BENCHMARK.md).
 
 ## AVX-512 causal decomposition
 
-[`AVX512_CAUSE_ANALYSIS.md`](AVX512_CAUSE_ANALYSIS.md) records the decomposition
-that can be established from the checked-in E2E medians and static work counts.
-For the missing component cycles, build the separate diagnostic and run it on
-an AVX-512 Linux host:
+To generate a local decomposition of the end-to-end cost, build the separate
+diagnostic and run it on an AVX-512 Linux host:
 
 ```bash
 make -C x86 bench-causes

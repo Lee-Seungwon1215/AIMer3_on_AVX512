@@ -1,2 +1,0 @@
-src/ref/sign_low_memory.c:484:5:__wrap_samsungsds_aimer_192s_ref_crypto_sign_signature	3720	static
-src/ref/sign_low_memory.c:512:5:__wrap_samsungsds_aimer_192s_ref_crypto_sign	48	static

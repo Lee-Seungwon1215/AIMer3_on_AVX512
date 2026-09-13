@@ -17,10 +17,20 @@ RUNS=${RUNS:-7}
 PARAMS_FORWARD="128f 128s 192f 192s 256f 256s"
 PARAMS_REVERSE="256s 256f 192s 192f 128s 128f"
 CONFIGS="ref mve_refmat mve_compact mve_affine"
-TOOLCHAIN_BIN=${TOOLCHAIN_BIN:-/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin}
-SIZE="$TOOLCHAIN_BIN/arm-none-eabi-size"
-NM="$TOOLCHAIN_BIN/arm-none-eabi-nm"
-OBJDUMP="$TOOLCHAIN_BIN/arm-none-eabi-objdump"
+TOOLCHAIN_BIN=${TOOLCHAIN_BIN:-${ARM_GCC_DIR:-}}
+if test -n "$TOOLCHAIN_BIN"; then
+  TOOLCHAIN_BIN=${TOOLCHAIN_BIN%/}
+  ARM_GCC_DIR=$TOOLCHAIN_BIN
+  export ARM_GCC_DIR
+  TOOLCHAIN_PREFIX=$TOOLCHAIN_BIN/
+else
+  TOOLCHAIN_PREFIX=
+fi
+CC=${TOOLCHAIN_PREFIX}arm-none-eabi-gcc
+SIZE=${TOOLCHAIN_PREFIX}arm-none-eabi-size
+NM=${TOOLCHAIN_PREFIX}arm-none-eabi-nm
+OBJDUMP=${TOOLCHAIN_PREFIX}arm-none-eabi-objdump
+CORTEXCTL=${CORTEXCTL:-cortexctl}
 
 mkdir -p "$RESULT_DIR/metadata" "$RESULT_DIR/partial" \
   "$RESULT_DIR/correctness/host" "$RESULT_DIR/correctness/board" \
@@ -260,12 +270,12 @@ capture_metadata()
   ) >>"$RESULT_DIR/metadata/source.patch"
   (cd "$REPO_ROOT" && git diff --check) \
     >"$RESULT_DIR/metadata/diff-check.txt"
-  "$TOOLCHAIN_BIN/arm-none-eabi-gcc" --version \
+  "$CC" --version \
     >"$RESULT_DIR/metadata/compiler.txt"
-  "$TOOLCHAIN_BIN/arm-none-eabi-gcc" -Q -O3 --help=optimizers \
+  "$CC" -Q -O3 --help=optimizers \
     >>"$RESULT_DIR/metadata/compiler.txt" 2>&1 || true
-  /Users/Shared/cortexctl list >"$RESULT_DIR/metadata/boards.txt" 2>&1
-  /Users/Shared/cortexctl port m55 >>"$RESULT_DIR/metadata/boards.txt" 2>&1
+  "$CORTEXCTL" list >"$RESULT_DIR/metadata/boards.txt" 2>&1
+  "$CORTEXCTL" port m55 >>"$RESULT_DIR/metadata/boards.txt" 2>&1
   cp "$0" "$RESULT_DIR/metadata/"
   cp "$SCRIPT_DIR/analyze_affine_ablation.py" "$RESULT_DIR/metadata/"
   : >"$RESULT_DIR/metadata/CAPTURED"

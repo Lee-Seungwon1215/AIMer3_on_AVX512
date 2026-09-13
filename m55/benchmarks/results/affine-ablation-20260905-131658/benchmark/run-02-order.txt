@@ -1,1 +1,0 @@
-run=2 config_order=mve_refmat mve_compact mve_affine ref param_order=256s 256f 192s 192f 128s 128f

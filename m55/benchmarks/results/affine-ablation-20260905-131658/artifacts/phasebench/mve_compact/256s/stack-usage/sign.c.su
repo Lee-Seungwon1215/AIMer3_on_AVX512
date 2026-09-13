@@ -1,6 +1,0 @@
-../src/sig/aimer/reference/aimer-256s/sign.c:494:12:crypto_sign_verify_internal	1456	static
-../src/sig/aimer/reference/aimer-256s/sign.c:255:5:samsungsds_aimer_256s_ref_crypto_sign_keypair	128	static
-../src/sig/aimer/reference/aimer-256s/sign.c:397:5:samsungsds_aimer_256s_ref_crypto_sign_signature	2328	static
-../src/sig/aimer/reference/aimer-256s/sign.c:432:5:samsungsds_aimer_256s_ref_crypto_sign	48	static
-../src/sig/aimer/reference/aimer-256s/sign.c:664:5:samsungsds_aimer_256s_ref_crypto_sign_verify	304	static
-../src/sig/aimer/reference/aimer-256s/sign.c:685:5:samsungsds_aimer_256s_ref_crypto_sign_open	304	static

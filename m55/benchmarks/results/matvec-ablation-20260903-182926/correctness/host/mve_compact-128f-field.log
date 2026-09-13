@@ -1,6 +1,0 @@
-ABLATION_CONTEXT,result_dir=/Users/seungwon/AIMer3_on_AVX512/AIMer_v3/m55/benchmarks/results/matvec-ablation-20260903-182926,command=make PARAM=128f BACKEND=mve MATVEC=compact check-mve-field-host
-cc -DAIMER_MVE_PORTABLE_TEST  \
-		-DPARAMS=128f -DAIMER_MATVEC=compact \
-		-Iinclude -I../src/sig/aimer/reference/aimer-128f -I../src -O2 -std=c11 tests/test_reference.c src/mve/field_mve.c src/mve/field_batch.c ../src/sig/aimer/reference/aimer-128f/field_common.c -o build/host/128f/test-mve-field-128f
-build/host/128f/test-mve-field-128f
-REF_GF_PASS param=128f cases=259

@@ -1,5 +1,0 @@
-AFFINE_CONTEXT,result_dir=/Users/seungwon/AIMer3_on_AVX512/AIMer_v3/m55/benchmarks/results/affine-ablation-20260905-131658,source_sha256=2401098821284c320032ca8f57fd0fd1dca293ccde43f9a8af2b8c4e0e6875d8,command=make -B PARAM=128s BACKEND=ref MATVEC=reference SIGN_SCHEDULE=lowmem check-low-memory 
-cc -DPARAMS=128s -Iinclude -I../src/sig/aimer/reference/aimer-128s -I../src \
-		-O2 -std=c11 tests/test_low_memory_host.c src/ref/sign_low_memory.c src/ref/verify_batch.c src/mve/field_batch.c src/mve/mpc_batch.c ../src/sig/aimer/reference/aimer-128s/aim3.c ../src/sig/aimer/reference/aimer-128s/hash.c ../src/sig/aimer/reference/aimer-128s/sign.c ../src/sig/aimer/reference/aimer-128s/tree.c ../src/sig/aimer/reference/aimer-128s/field_common.c ../src/sig/aimer/reference/aimer-128s/field128.c ../src/common/aes.c ../src/common/fips202.c ../src/common/rng.c -o build/host/128s/test-low-memory-128s
-build/host/128s/test-low-memory-128s
-LOW_MEMORY_DIFF_PASS param=128s bytes=4704

@@ -1,3 +1,0 @@
-../src/sig/aimer/reference/aimer-256s/tree.c:9:6:samsungsds_aimer_256s_ref_expand_tree	32	static
-../src/sig/aimer/reference/aimer-256s/tree.c:34:6:samsungsds_aimer_256s_ref_reveal_all_but	20	static
-../src/sig/aimer/reference/aimer-256s/tree.c:49:6:samsungsds_aimer_256s_ref_reconstruct_tree	56	static

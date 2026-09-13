@@ -1,3 +1,0 @@
-src/ref/verify_batch.c:134:12:m55_crypto_sign_verify_internal	1856	static
-src/ref/verify_batch.c:423:5:__wrap_samsungsds_aimer_128s_ref_crypto_sign_verify	304	static
-src/ref/verify_batch.c:443:5:__wrap_samsungsds_aimer_128s_ref_crypto_sign_open	304	static

@@ -1,8 +1,0 @@
-exit_status=0
-gf_differential=6/6
-affine_differential=6/6
-mve_kat=600/600
-kat_pass_markers=6
-kat_vector_pass_markers=600
-failure_markers=0
-

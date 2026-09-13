@@ -1,3 +1,0 @@
-src/ref/sign_low_memory.c:374:12:m55_sign_signature_internal	6856	static
-src/ref/sign_low_memory.c:484:5:__wrap_samsungsds_aimer_256f_ref_crypto_sign_signature	336	static
-src/ref/sign_low_memory.c:512:5:__wrap_samsungsds_aimer_256f_ref_crypto_sign	48	static

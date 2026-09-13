@@ -1,10 +1,9 @@
 # Cortex-M55 benchmarks
 
-The original benchmark gate opened after all six parameter sets passed the
+Before measurement, the runners verify all six parameter sets with the
 reference and MVE KATs on the NUCLEO-N657X0-Q (1,200 official vectors total),
 the host differential tests, the independent field oracle, and the MVE
-disassembly checks.  The later MPC squaring/reduction measurements document
-their own post-change correctness gates in `RESULTS_MPC_SQUARING.md`.
+disassembly checks.
 
 Both backends use the same Cortex-M55 flags, 600 MHz clock configuration,
 SRAM layout, low-memory signing schedule, portable Keccak/SHAKE code, and
@@ -83,8 +82,8 @@ analysis, and Korean Markdown report) is:
 ./benchmarks/run_matvec_ablation.sh
 ```
 
-The corresponding four-way affine experiment remeasures A/B/C together with
-D and never combines the archived A/B/C samples with a new D result:
+The corresponding four-way affine experiment measures A/B/C/D together and
+never combines samples from separate runs:
 
 ```sh
 ./benchmarks/run_affine_ablation.sh
@@ -95,13 +94,10 @@ ELF checksum before accepting an existing PASS log. Partial or mismatched
 runs are retained below `partial/`. The official speedup is always baseline
 cycles divided by target cycles and includes affine packing/unpacking.
 
-Set `RESULT_DIR` to the existing timestamped result directory to resume an
-interrupted run.  Results are written under
-`benchmarks/results/matvec-ablation-<timestamp>/`; a `COMPLETE` file is added
-only after every gate and the analyzer have passed.
-
-The completed STM32N657 controlled-ablation dataset and report are archived
-in [`results/matvec-ablation-20260903-182926/`](results/matvec-ablation-20260903-182926/REPORT.md).
+Set `RESULT_DIR` to an existing result directory to resume an interrupted run.
+Outputs are written under the ignored `benchmarks/results/<experiment>-<timestamp>/`
+tree and are not distributed. A `COMPLETE` file is added only after every gate
+and the analyzer have passed.
 
 For causal analysis, `TEST=profile` measures inversion, matrix-vector,
 real-exponent Frobenius, complete MPC, and scalar MPC kernels and prints the
@@ -110,4 +106,5 @@ one sign/verify test.  `TEST=phasebench` applies the same phase counters to the
 complete benchmark program so code-footprint-sensitive effects can be
 checked.  These are diagnostic images; their counters and `printf` calls mean
 their end-to-end values must not replace the official `TEST=benchmark`
-results.  See [`CAUSE_ANALYSIS.md`](CAUSE_ANALYSIS.md) for the findings.
+results. Generated profiles and analyzer reports remain in the ignored local
+result directory.

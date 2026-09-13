@@ -1,2 +1,0 @@
-AIM2=/home/leeseungwon/AIMerV3/AIMer_v2/bench/results/paper-final-locked-20260901-134620
-AIM3=/home/leeseungwon/AIMerV3/AIMer_v3/benchmarks/results/paper-final-locked-isolated-20260830-v2-tuned

@@ -1,4 +1,0 @@
-../src/sig/aimer/reference/aimer-256s/field_internal.h:8:20:poly64_mul	312	static
-../src/sig/aimer/reference/aimer-256s/field256.c:33:6:samsungsds_aimer_256s_ref_gf_mul	256	static
-../src/sig/aimer/reference/aimer-256s/field256.c:89:6:samsungsds_aimer_256s_ref_gf_sqr	144	static
-../src/sig/aimer/reference/aimer-256s/field256.c:101:6:samsungsds_aimer_256s_ref_gf_mat_vec_mul	192	static

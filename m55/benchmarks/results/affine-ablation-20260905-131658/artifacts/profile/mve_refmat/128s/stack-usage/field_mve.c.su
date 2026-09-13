@@ -1,4 +1,0 @@
-src/mve/field_mve.c:115:13:m55_gf_reduce_words	28	static
-src/mve/field_mve.c:50:13:m55_clmul_convolution	88	static
-src/mve/field_mve.c:160:6:samsungsds_aimer_128s_ref_gf_mul	168	static
-src/mve/field_mve.c:174:6:samsungsds_aimer_128s_ref_gf_sqr	96	static

@@ -137,16 +137,39 @@ void gf_sqr(gf c, const gf a) {
 	gf256_reduce_store(c, z0, z1, z2, z3);
 }
 
-void gf_inv(gf c, const gf a) {
-	gf power;
-	gf_copy(power, a);
-	gf_set0(c);
-	c[0] = 1;
-	/* AIM3 requires a^(2^256-2), not an AIM2-specific inversion chain. */
-	for (size_t i = 1; i < AIM3_NUM_BITS_FIELD; i++) {
-		gf_sqr(power, power);
-		gf_mul(c, c, power);
+/* Compute x^(2^s) * y.  Local temporaries keep aliasing behavior independent
+ * of the multiplication and squaring kernels used by this backend. */
+static inline void gf_sqr_n_mul(gf out, const gf x, size_t s, const gf y) {
+	gf squared;
+	gf product;
+	gf_copy(squared, x);
+	for (size_t i = 0; i < s; i++) {
+		gf_sqr(squared, squared);
 	}
+	gf_mul(product, squared, y);
+	gf_copy(out, product);
+}
+
+void gf_inv(gf c, const gf a) {
+	gf a2;
+	gf a3;
+	gf t;
+
+	/* Let A_k = a^(2^k - 1).  Preserve A_5 in a2 and A_15 in a3 for
+	 * the two non-doubling links in the fixed chain. */
+	gf_sqr_n_mul(a2, a, 1, a);     /* A_2   = A_1^(2^1)   * A_1 */
+	gf_sqr_n_mul(a3, a2, 1, a);    /* A_3   = A_2^(2^1)   * A_1 */
+	gf_sqr_n_mul(a2, a3, 2, a2);   /* A_5   = A_3^(2^2)   * A_2 */
+	gf_sqr_n_mul(t, a2, 5, a2);    /* A_10  = A_5^(2^5)   * A_5 */
+	gf_sqr_n_mul(a3, t, 5, a2);    /* A_15  = A_10^(2^5)  * A_5 */
+	gf_sqr_n_mul(t, a3, 15, a3);   /* A_30  = A_15^(2^15) * A_15 */
+	gf_sqr_n_mul(t, t, 30, t);     /* A_60  = A_30^(2^30) * A_30 */
+	gf_sqr_n_mul(t, t, 60, t);     /* A_120 = A_60^(2^60) * A_60 */
+	gf_sqr_n_mul(t, t, 120, t);    /* A_240 = A_120^(2^120) * A_120 */
+	gf_sqr_n_mul(t, t, 15, a3);    /* A_255 = A_240^(2^15) * A_15 */
+
+	/* A_255^2 = a^(2^256 - 2). */
+	gf_sqr(c, t);
 }
 
 void gf_mat_vec_mul(gf c, const gf a,

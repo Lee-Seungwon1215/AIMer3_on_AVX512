@@ -73,7 +73,7 @@ SCHEME_DIR := $(SRC_ROOT)/sig/aimer/reference/aimer-$(PARAM)
 
 ifeq ($(BACKEND),mve)
 FIELD_SOURCE := src/mve/field_mve.c
-BACKEND_CPPFLAGS := -DAIMER_MVE_BATCH
+BACKEND_CPPFLAGS := -DAIMER_MVE_BATCH -DAIMER_CUSTOM_GF_INV
 CONFIG_TAG := mve_compact
 BUILD_BACKEND := mve
 MVE_MATVEC_SUFFIX :=
@@ -128,11 +128,14 @@ else
 TEST_CPPFLAGS :=
 endif
 
-CUBE_N6_DIR ?= /Users/seungwon/STM32CubeN6
-CORTEXCTL ?= /Users/Shared/cortexctl
-OPENOCD ?= /Users/seungwon/test/.tools/xpack-openocd-0.12.0-7/bin/openocd
-OPENOCD_SCRIPTS ?= /Users/seungwon/test/.tools/xpack-openocd-0.12.0-7/openocd/scripts
-OPENOCD_TARGET_SCRIPTS ?= /Users/seungwon/test/.tools/openocd-scripts
+CUBE_N6_DIR ?=
+CORTEXCTL ?= cortexctl
+OPENOCD ?= openocd
+OPENOCD_SCRIPTS ?=
+OPENOCD_TARGET_SCRIPTS ?=
+OPENOCD_SEARCH_PATHS := \
+	$(if $(strip $(OPENOCD_SCRIPTS)),-s $(OPENOCD_SCRIPTS)) \
+	$(if $(strip $(OPENOCD_TARGET_SCRIPTS)),-s $(OPENOCD_TARGET_SCRIPTS))
 CMSIS_CORE := $(CUBE_N6_DIR)/Drivers/CMSIS/Include
 CMSIS_DEVICE := $(CUBE_N6_DIR)/Drivers/CMSIS/Device/ST/STM32N6xx
 HAL_DRIVER := $(CUBE_N6_DIR)/Drivers/STM32N6xx_HAL_Driver
@@ -368,7 +371,7 @@ check-mve-config:
 
 run-board: $(ELF)
 	$(CORTEXCTL) run m55 -- $(OPENOCD) \
-		-s $(OPENOCD_SCRIPTS) -s $(OPENOCD_TARGET_SCRIPTS) \
+		$(OPENOCD_SEARCH_PATHS) \
 		-f $(BOARD_DIR)/openocd.cfg \
 		-c init -c 'reset halt' \
 		-c 'load_image $(abspath $(ELF))' \
@@ -396,7 +399,8 @@ check-low-memory: $(HOST_TEST)
 $(HOST_MVE_FIELD_TEST): tests/test_reference.c src/mve/field_mve.c \
 	src/mve/field_batch.c $(SCHEME_DIR)/field_common.c $(MATVEC_SOURCE)
 	@mkdir -p $(@D)
-	$(HOST_CC) -DAIMER_MVE_PORTABLE_TEST $(MATVEC_CPPFLAGS) \
+	$(HOST_CC) -DAIMER_MVE_PORTABLE_TEST -DAIMER_CUSTOM_GF_INV \
+		$(MATVEC_CPPFLAGS) \
 		-DPARAMS=$(PARAM) -DAIMER_MATVEC=$(MATVEC) \
 		-Iinclude -I$(SCHEME_DIR) -I$(SRC_ROOT) -O2 -std=c11 $^ -o $@
 
@@ -429,6 +433,7 @@ $(HOST_MVE_KAT_TEST): tests/kat_runner.c tests/host_platform.c \
 	$(SRC_ROOT)/common/rng.c
 	@mkdir -p $(@D)
 	$(HOST_CC) -DAIMER_KAT_LOW_MEMORY -DAIMER_MVE_PORTABLE_TEST \
+		-DAIMER_CUSTOM_GF_INV \
 		$(MATVEC_CPPFLAGS) -DAIMER_MATVEC=$(MATVEC) \
 		-DPARAMS=$(PARAM) -Iinclude -I$(SCHEME_DIR) -I$(SRC_ROOT) \
 		-O2 -std=c11 $^ -o $@

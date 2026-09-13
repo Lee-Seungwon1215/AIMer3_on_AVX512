@@ -182,6 +182,84 @@ void gf_sqr(gf c, const gf a)
   m55_gf_reduce_words(c, product);
 }
 
+#if defined(AIMER_CUSTOM_GF_INV)
+/* Compute x^(2^s) * y.  Separate temporaries make the helper safe when the
+ * output aliases either input, as required by the fixed inversion chains. */
+static void gf_sqr_n_mul(gf out, const gf x, size_t s, const gf y)
+{
+  gf squared;
+  gf product;
+
+  gf_copy(squared, x);
+  for (size_t i = 0; i < s; ++i)
+  {
+    gf_sqr(squared, squared);
+  }
+  gf_mul(product, squared, y);
+  gf_copy(out, product);
+}
+
+void gf_inv(gf c, const gf a)
+{
+#if SECURITY_BITS == 128
+  gf a3;
+  gf a7;
+  gf t;
+
+  /* Let A_k = a^(2^k - 1).  The final square maps A_127 to
+   * a^(2^128 - 2). */
+  gf_sqr_n_mul(t, a, 1, a);      /* A_2   = A_1^(2^1)   * A_1 */
+  gf_sqr_n_mul(a3, t, 1, a);     /* A_3   = A_2^(2^1)   * A_1 */
+  gf_sqr_n_mul(t, a3, 3, a3);    /* A_6   = A_3^(2^3)   * A_3 */
+  gf_sqr_n_mul(a7, t, 1, a);     /* A_7   = A_6^(2^1)   * A_1 */
+  gf_sqr_n_mul(t, a7, 7, a7);    /* A_14  = A_7^(2^7)   * A_7 */
+  gf_sqr_n_mul(t, t, 1, a);      /* A_15  = A_14^(2^1)  * A_1 */
+  gf_sqr_n_mul(t, t, 15, t);     /* A_30  = A_15^(2^15) * A_15 */
+  gf_sqr_n_mul(t, t, 30, t);     /* A_60  = A_30^(2^30) * A_30 */
+  gf_sqr_n_mul(t, t, 60, t);     /* A_120 = A_60^(2^60) * A_60 */
+  gf_sqr_n_mul(t, t, 7, a7);     /* A_127 = A_120^(2^7) * A_7 */
+#elif SECURITY_BITS == 192
+  gf a2;
+  gf a3;
+  gf t;
+
+  /* Build A_191 with eleven general multiplications, then square once to
+   * obtain a^(2^192 - 2). */
+  gf_sqr_n_mul(a2, a, 1, a);     /* A_2   = A_1^(2^1)   * A_1 */
+  gf_sqr_n_mul(a3, a2, 1, a);    /* A_3   = A_2^(2^1)   * A_1 */
+  gf_sqr_n_mul(t, a3, 2, a2);    /* A_5   = A_3^(2^2)   * A_2 */
+  gf_sqr_n_mul(t, t, 5, t);      /* A_10  = A_5^(2^5)   * A_5 */
+  gf_sqr_n_mul(t, t, 10, t);     /* A_20  = A_10^(2^10) * A_10 */
+  gf_sqr_n_mul(t, t, 3, a3);     /* A_23  = A_20^(2^3)  * A_3 */
+  gf_sqr_n_mul(t, t, 23, t);     /* A_46  = A_23^(2^23) * A_23 */
+  gf_sqr_n_mul(t, t, 1, a);      /* A_47  = A_46^(2^1)  * A_1 */
+  gf_sqr_n_mul(t, t, 47, t);     /* A_94  = A_47^(2^47) * A_47 */
+  gf_sqr_n_mul(t, t, 94, t);     /* A_188 = A_94^(2^94) * A_94 */
+  gf_sqr_n_mul(t, t, 3, a3);     /* A_191 = A_188^(2^3) * A_3 */
+#elif SECURITY_BITS == 256
+  gf a2;
+  gf a3;
+  gf t;
+
+  /* Preserve A_5 and A_15 for the non-doubling links in the chain. */
+  gf_sqr_n_mul(a2, a, 1, a);     /* A_2   = A_1^(2^1)   * A_1 */
+  gf_sqr_n_mul(a3, a2, 1, a);    /* A_3   = A_2^(2^1)   * A_1 */
+  gf_sqr_n_mul(a2, a3, 2, a2);   /* A_5   = A_3^(2^2)   * A_2 */
+  gf_sqr_n_mul(t, a2, 5, a2);    /* A_10  = A_5^(2^5)   * A_5 */
+  gf_sqr_n_mul(a3, t, 5, a2);    /* A_15  = A_10^(2^5)  * A_5 */
+  gf_sqr_n_mul(t, a3, 15, a3);   /* A_30  = A_15^(2^15) * A_15 */
+  gf_sqr_n_mul(t, t, 30, t);     /* A_60  = A_30^(2^30) * A_30 */
+  gf_sqr_n_mul(t, t, 60, t);     /* A_120 = A_60^(2^60) * A_60 */
+  gf_sqr_n_mul(t, t, 120, t);    /* A_240 = A_120^(2^120) * A_120 */
+  gf_sqr_n_mul(t, t, 15, a3);    /* A_255 = A_240^(2^15) * A_15 */
+#else
+#error "Unsupported AIMer field size"
+#endif
+
+  gf_sqr(c, t);
+}
+#endif
+
 #if !defined(AIMER_M55_REFERENCE_MATVEC) && \
     !defined(AIMER_M55_MVE_MATVEC)
 void gf_mat_vec_mul(gf c, const gf a,

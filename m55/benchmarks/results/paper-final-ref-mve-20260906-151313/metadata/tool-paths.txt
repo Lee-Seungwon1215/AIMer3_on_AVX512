@@ -1,6 +1,0 @@
-ARM_GCC_DIR=/Users/seungwon/test/.tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin
-CUBE_N6_DIR=/Users/seungwon/STM32CubeN6
-CORTEXCTL=/Users/Shared/cortexctl
-OPENOCD=/Users/seungwon/test/.tools/xpack-openocd-0.12.0-7/bin/openocd
-OPENOCD_SCRIPTS=/Users/seungwon/test/.tools/xpack-openocd-0.12.0-7/openocd/scripts
-OPENOCD_TARGET_SCRIPTS=/Users/seungwon/test/.tools/openocd-scripts

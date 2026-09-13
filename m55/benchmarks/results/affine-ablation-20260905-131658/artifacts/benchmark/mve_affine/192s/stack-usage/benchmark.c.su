@@ -1,5 +1,0 @@
-benchmarks/benchmark.c:58:13:fill_field	20	static
-benchmarks/benchmark.c:81:13:print_stats	416	static
-benchmarks/benchmark.c:252:12:run_e2e	104	static
-benchmarks/benchmark.c:171:13:benchmark_field_kernels	1432	static
-benchmarks/benchmark.c:337:5:main	296	static

@@ -1,7 +1,0 @@
-../src/common/rng.c:25:1:seedexpander_init	20	static
-../src/common/rng.c:60:1:seedexpander	40	static
-../src/common/rng.c:103:6:handleErrors	8	static
-../src/common/rng.c:115:1:AES256_ECB	24	static
-../src/common/rng.c:142:1:randombytes	104	static
-../src/common/rng.c:175:1:AES256_CTR_DRBG_Update	80	static
-../src/common/rng.c:125:1:randombytes_init	64	static

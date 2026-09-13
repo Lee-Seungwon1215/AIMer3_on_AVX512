@@ -65,6 +65,7 @@ void gf_add(gf c, const gf a, const gf b)
   }
 }
 
+#if !defined(AIMER_CUSTOM_GF_INV)
 void gf_inv(gf c, const gf a)
 {
   gf temp;
@@ -80,6 +81,7 @@ void gf_inv(gf c, const gf a)
     gf_mul(c, c, temp);
   }
 }
+#endif
 
 // c += a * b
 void gf_mul_add(gf c, const gf a, const gf b)

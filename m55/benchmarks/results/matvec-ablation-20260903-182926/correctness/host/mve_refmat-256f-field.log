@@ -1,6 +1,0 @@
-ABLATION_CONTEXT,result_dir=/Users/seungwon/AIMer3_on_AVX512/AIMer_v3/m55/benchmarks/results/matvec-ablation-20260903-182926,command=make PARAM=256f BACKEND=mve MATVEC=reference check-mve-field-host
-cc -DAIMER_MVE_PORTABLE_TEST -DAIMER_M55_REFERENCE_MATVEC \
-		-DPARAMS=256f -DAIMER_MATVEC=reference \
-		-Iinclude -I../src/sig/aimer/reference/aimer-256f -I../src -O2 -std=c11 tests/test_reference.c src/mve/field_mve.c src/mve/field_batch.c ../src/sig/aimer/reference/aimer-256f/field_common.c src/ref/matvec_reference.c -o build/host/256f/test-mve-field-256f-refmat
-build/host/256f/test-mve-field-256f-refmat
-REF_GF_PASS param=256f cases=387

@@ -1,4 +1,0 @@
-../src/sig/aimer/reference/aimer-128s/field_internal.h:8:20:poly64_mul	312	static
-../src/sig/aimer/reference/aimer-128s/field128.c:23:6:samsungsds_aimer_128s_ref_gf_mul	104	static
-../src/sig/aimer/reference/aimer-128s/field128.c:38:6:samsungsds_aimer_128s_ref_gf_sqr	56	static
-../src/sig/aimer/reference/aimer-128s/field128.c:49:6:samsungsds_aimer_128s_ref_gf_mat_vec_mul	160	static

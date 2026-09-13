@@ -1,2 +1,0 @@
-   text	   data	    bss	    dec	    hex	filename
-  75840	   2192	 146608	 224640	  36d80	/Users/seungwon/AIMer3_on_AVX512/m55/build/full/192s/ref/benchmark/aimer-m55-192s-ref-benchmark.elf

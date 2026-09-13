@@ -1,9 +1,0 @@
-started_at=2026-09-06T13:43:34+0900
-completed_at=2026-09-06T14:29:20+0900
-validated_head=352b33156210dd4f373a799330541b9a3b82e5fc
-result=PASS
-build_directory_removed=yes
-results_preserved=yes
-performance_tuning_performed=no
-performance_benchmarks_remeasured=no
-

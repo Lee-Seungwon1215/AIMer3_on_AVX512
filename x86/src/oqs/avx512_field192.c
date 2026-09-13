@@ -110,17 +110,39 @@ void gf_sqr(gf c, const gf a) {
 	gf192_reduce_store(c, z0, z1, z2);
 }
 
-void gf_inv(gf c, const gf a) {
-	gf power;
-	gf_copy(power, a);
-	gf_set0(c);
-	c[0] = 1;
-
-	/* AIM3 requires a^(2^192-2), not an AIM2-specific inversion chain. */
-	for (size_t i = 1; i < AIM3_NUM_BITS_FIELD; i++) {
-		gf_sqr(power, power);
-		gf_mul(c, c, power);
+/* Compute x^(2^s) * y.  Local temporaries keep aliasing behavior independent
+ * of the multiplication and squaring kernels used by this backend. */
+static inline void gf_sqr_n_mul(gf out, const gf x, size_t s, const gf y) {
+	gf squared;
+	gf product;
+	gf_copy(squared, x);
+	for (size_t i = 0; i < s; i++) {
+		gf_sqr(squared, squared);
 	}
+	gf_mul(product, squared, y);
+	gf_copy(out, product);
+}
+
+void gf_inv(gf c, const gf a) {
+	gf a2;
+	gf a3;
+	gf t;
+
+	/* Let A_k = a^(2^k - 1).  The final square maps A_191 to the
+	 * required a^(2^192 - 2). */
+	gf_sqr_n_mul(a2, a, 1, a);     /* A_2   = A_1^(2^1)   * A_1 */
+	gf_sqr_n_mul(a3, a2, 1, a);    /* A_3   = A_2^(2^1)   * A_1 */
+	gf_sqr_n_mul(t, a3, 2, a2);    /* A_5   = A_3^(2^2)   * A_2 */
+	gf_sqr_n_mul(t, t, 5, t);      /* A_10  = A_5^(2^5)   * A_5 */
+	gf_sqr_n_mul(t, t, 10, t);     /* A_20  = A_10^(2^10) * A_10 */
+	gf_sqr_n_mul(t, t, 3, a3);     /* A_23  = A_20^(2^3)  * A_3 */
+	gf_sqr_n_mul(t, t, 23, t);     /* A_46  = A_23^(2^23) * A_23 */
+	gf_sqr_n_mul(t, t, 1, a);      /* A_47  = A_46^(2^1)  * A_1 */
+	gf_sqr_n_mul(t, t, 47, t);     /* A_94  = A_47^(2^47) * A_47 */
+	gf_sqr_n_mul(t, t, 94, t);     /* A_188 = A_94^(2^94) * A_94 */
+	gf_sqr_n_mul(t, t, 3, a3);     /* A_191 = A_188^(2^3) * A_3 */
+
+	gf_sqr(c, t);
 }
 
 void gf_mat_vec_mul(gf c, const gf a,

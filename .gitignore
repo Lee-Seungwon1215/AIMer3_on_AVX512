@@ -2,9 +2,12 @@
 build/
 out/
 
-# Locally generated benchmark runs
-bench/results/
-benchmarks/results/
+# Benchmark results are kept local and are not published
+**/bench/results/
+**/benchmarks/results/
+**/benchmarks/results*.csv
+**/benchmarks/RESULTS*.md
+**/benchmarks/*CAUSE_ANALYSIS*.md
 
 # Compiler, linker, and coverage outputs
 *.o
@@ -28,12 +31,16 @@ compile_commands.json
 .DS_Store
 .idea/
 .vscode/
+.codex/
 .cache/
 .clangd/
 .pytest_cache/
 __pycache__/
 *.py[cod]
 *.orig
+
+# Local Codex session archives
+*codex-session*.zip
 
 # Local paper drafts and PDF documents (not published to GitHub)
 /AIMer3_on_AVX512_LNCS/

@@ -1,4 +1,0 @@
-src/mve/field_mve.c:50:13:m55_clmul_convolution	88	static
-src/mve/field_mve.c:160:6:samsungsds_aimer_256s_ref_gf_mul	280	static
-src/mve/field_mve.c:174:6:samsungsds_aimer_256s_ref_gf_sqr	136	static
-src/mve/field_mve.c:187:6:samsungsds_aimer_256s_ref_gf_mat_vec_mul	80	static

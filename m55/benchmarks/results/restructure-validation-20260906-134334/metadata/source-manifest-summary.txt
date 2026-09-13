@@ -1,7 +1,0 @@
-scope=common/ x86/ m55/src/ m55/include/ m55/platform/ m55/tests/ Makefile m55/Makefile
-tracked_files=473
-before_after_cmp=identical
-git_diff_bytes=0
-source_changed=no
-m55_x86_build_source_dependency=no
-

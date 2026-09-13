@@ -88,18 +88,39 @@ void gf_sqr(gf c, const gf a) {
 	_mm_storeu_si128((__m128i *)c, gf128_reduce(low, high));
 }
 
-void gf_inv(gf c, const gf a) {
-	gf power;
-	gf_copy(power, a);
-	gf_set0(c);
-	c[0] = 1;
-
-	/* AIM3 requires the general a^(2^128-2) inverse. This deliberately keeps
-	 * the AIM3 exponent instead of importing AIM2's specialized chain. */
-	for (size_t i = 1; i < AIM3_NUM_BITS_FIELD; i++) {
-		gf_sqr(power, power);
-		gf_mul(c, c, power);
+/* Compute x^(2^s) * y.  Local temporaries make the helper safe when out
+ * aliases either input, as required by the fixed inversion chain below. */
+static inline void gf_sqr_n_mul(gf out, const gf x, size_t s, const gf y) {
+	gf squared;
+	gf product;
+	gf_copy(squared, x);
+	for (size_t i = 0; i < s; i++) {
+		gf_sqr(squared, squared);
 	}
+	gf_mul(product, squared, y);
+	gf_copy(out, product);
+}
+
+void gf_inv(gf c, const gf a) {
+	gf a3;
+	gf a7;
+	gf t;
+
+	/* Let A_k = a^(2^k - 1).  This fixed Itoh--Tsujii-style chain computes
+	 * A_127 with ten general multiplications and 126 squarings. */
+	gf_sqr_n_mul(t, a, 1, a);      /* A_2   = A_1^(2^1)   * A_1 */
+	gf_sqr_n_mul(a3, t, 1, a);     /* A_3   = A_2^(2^1)   * A_1 */
+	gf_sqr_n_mul(t, a3, 3, a3);    /* A_6   = A_3^(2^3)   * A_3 */
+	gf_sqr_n_mul(a7, t, 1, a);     /* A_7   = A_6^(2^1)   * A_1 */
+	gf_sqr_n_mul(t, a7, 7, a7);    /* A_14  = A_7^(2^7)   * A_7 */
+	gf_sqr_n_mul(t, t, 1, a);      /* A_15  = A_14^(2^1)  * A_1 */
+	gf_sqr_n_mul(t, t, 15, t);     /* A_30  = A_15^(2^15) * A_15 */
+	gf_sqr_n_mul(t, t, 30, t);     /* A_60  = A_30^(2^30) * A_30 */
+	gf_sqr_n_mul(t, t, 60, t);     /* A_120 = A_60^(2^60) * A_60 */
+	gf_sqr_n_mul(t, t, 7, a7);     /* A_127 = A_120^(2^7) * A_7 */
+
+	/* A_127^2 = a^(2^128 - 2). */
+	gf_sqr(c, t);
 }
 
 void gf_mat_vec_mul(gf c, const gf a,
